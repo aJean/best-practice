@@ -2,8 +2,13 @@
     "compilerOptions": {
       "outDir": "./dist/",
       "noImplicitAny": false,
-      "module": "commonjs",
+      "module": "es6",
       "target": "es5",
-      "allowJs": true
-    }
+      "allowJs": true,
+      "jsx": "react"
+    },
+
+    "exclude": [
+        "node_modules"
+    ]
   }

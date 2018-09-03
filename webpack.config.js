@@ -17,8 +17,7 @@ module.exports = {
         minimize: false
     },
     entry: {
-        lib: './src/index.ts',
-        test: './src/test.ts'
+        app: './src/redux/app.tsx'
     },
     output: {
         filename: '[name].js',
@@ -32,7 +31,7 @@ module.exports = {
             test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/,
             loader: 'url-loader?limit=30000&name=[name].[ext]'
         }, {
-            test: /\.ts/,
+            test: /\.(ts|tsx)/,
             use: 'ts-loader',
             exclude: /dist|node_modules/
         }, {
@@ -46,6 +45,6 @@ module.exports = {
     },
     plugins: [extractLess],
     resolve: {
-        extensions: ['.js', '.json', '.ts']
+        extensions: ['.js', '.json', '.ts', '.tsx']
     }
 };
