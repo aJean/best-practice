@@ -1,0 +1,25 @@
+{
+  "name": "reactss",
+  "version": "1.0.0",
+  "description": "react examples",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aJean/reactss.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aJean/reactss/issues"
+  },
+  "homepage": "https://github.com/aJean/reactss#readme",
+  "dependencies": {
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0"
+  }
+}
