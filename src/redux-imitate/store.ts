@@ -1,5 +1,5 @@
 /**
- * @file store
+ * @file 创建 state 和 reducer
  */
 
 function createStore(state, stateChanger) {

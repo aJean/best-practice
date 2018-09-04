@@ -1,21 +1,17 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import Provider from './provider';
-import Header from './header';
-import Main from './main';
-import store from './store';
+import {Provider} from 'react-redux';
+import store from './reducer';
+import List from './list';
 
 class App extends React.Component {
-    state: any;
-
-
     render() {
-        return (
-            <Provider store={store}>
-                <Header />
-                <Main />
-            </Provider>
-        )
+        return (<Provider store={store}>
+            <div>
+                <h2>welcome hello world</h2>
+                <List></List>
+            </div>
+        </Provider>)
     }
 }
 

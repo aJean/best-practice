@@ -17,7 +17,8 @@ module.exports = {
         minimize: false
     },
     entry: {
-        app: './src/redux/app.tsx'
+        imitate: './src/redux-imitate/app.tsx',
+        redux: './src/redux/app.tsx',
     },
     output: {
         filename: '[name].js',
