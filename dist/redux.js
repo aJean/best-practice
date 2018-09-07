@@ -28204,6 +28204,83 @@ function IT() {
 }
 var it = IT();
 exports.default = {};
+var ch = function channel() {
+    var fn;
+    function take(cb) {
+        fn = cb;
+    }
+    function put(input) {
+        if (fn) {
+            fn(input);
+        }
+    }
+    return { put: put, take: take };
+}();
+function take() {
+    return {
+        type: 'take'
+    };
+}
+function fetch() {
+    var p = new Promise(function (resolve, reject) {
+    });
+    p['type'] = 'async';
+    return p;
+}
+function mySaga() {
+    var action;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, take()];
+            case 1:
+                action = _a.sent();
+                console.log(action);
+                return [2 /*return*/];
+        }
+    });
+}
+function asyncSaga() {
+    var action;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, fetch()];
+            case 1:
+                action = _a.sent();
+                console.log(action);
+                return [2 /*return*/];
+        }
+    });
+}
+// push channel
+function runTakeEffect(effect, cb) {
+    ch.take(function (input) { return cb(input); });
+}
+function runAsyncEffect(effect, cb) {
+    effect.then(function (ret) { return cb(ret); });
+}
+function task(iterator) {
+    var it = iterator();
+    function next(args) {
+        var result = it.next(args);
+        if (!result.done) {
+            var effect = result.value;
+            switch (effect.type) {
+                case 'take':
+                    return runTakeEffect(result.value, next);
+                case 'async':
+                    return runAsyncEffect(result, next);
+            }
+            if (effect == 'take') {
+                runTakeEffect(result.value, next);
+            }
+        }
+    }
+    next();
+}
+task(mySaga);
+document.body.addEventListener('click', function (e) {
+    ch.put(e);
+});
 
 
 /***/ }),
@@ -28397,8 +28474,7 @@ var reducers = redux_1.combineReducers({
 });
 var store = redux_1.createStore(reducers, redux_1.applyMiddleware(sagaMiddleware));
 // listen action
-sagaMiddleware.run(sagas_1.watchFetchData);
-sagaMiddleware.run(sagas_1.watchUserData);
+sagaMiddleware.run(sagas_1.default);
 exports.default = store;
 
 
@@ -28517,6 +28593,20 @@ exports.watchUserData = watchUserData;
 function fetch(data) {
     return data.url ? Promise.resolve(Date.now() + 'redux') : Promise.resolve('ajean');
 }
+function rootSaga() {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, effects_1.all([
+                    watchFetchData(),
+                    watchUserData()
+                ])];
+            case 1:
+                _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}
+exports.default = rootSaga;
 
 
 /***/ })

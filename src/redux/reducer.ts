@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import {watchFetchData, watchUserData} from './sagas'
+import rootSaga from './sagas'
 
 /**
  * @file reducers
@@ -46,7 +46,6 @@ const reducers = combineReducers({
 const store = createStore(reducers,  applyMiddleware(sagaMiddleware));
 
 // listen action
-sagaMiddleware.run(watchFetchData);
-sagaMiddleware.run(watchUserData);
+sagaMiddleware.run(rootSaga);
 
 export default store;

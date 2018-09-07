@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { call, put, takeEvery, all } from 'redux-saga/effects'
 import * as actions from './actions';
 
 
@@ -16,7 +16,7 @@ function* fetchData(action) {
 }
 
 export function* watchFetchData() {
-    yield takeEvery('FETCH_DATA', fetchData)
+    yield takeEvery('FETCH_DATA', fetchData);
 }
 
 function* fetchUser(action) {
@@ -29,9 +29,17 @@ function* fetchUser(action) {
 }
 
 export function* watchUserData() {
-    yield takeEvery('FETCH_USER', fetchUser)
+    yield takeEvery('FETCH_USER', fetchUser);
 }
 
 function fetch(data) {
     return data.url ? Promise.resolve(Date.now() + 'redux') : Promise.resolve('ajean');
+}
+
+
+export default function* rootSaga() {
+    yield all([
+        watchFetchData(),
+        watchUserData()
+    ]);
 }
