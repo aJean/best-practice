@@ -4,13 +4,24 @@ const { buildSchema } = require('graphql');
 
 const schema = buildSchema(`
     type Query {
-        hello: String
+        hello: String,
+        msg: Message
+    }
+
+    type Message {
+        id: ID!
     }
 `);
 
 const root = {
     hello: () => {
         return 'Hello world!';
+    },
+
+    msg: () => {
+        return {
+            id: 2
+        };
     }
 };
 
