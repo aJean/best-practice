@@ -13,19 +13,25 @@ const extractLess = new ExtractTextPlugin({
 module.exports = {
     mode: 'development',
     devtool: 'none',
+    node: {
+        fs: "empty",
+        net: 'empty'
+    },
     optimization: {
         minimize: false
     },
     entry: {
         imitate: './src/redux-imitate/app.tsx',
         redux: './src/redux/app.tsx',
+        gclient: './src/graphql/app.ts'
     },
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist'),
         library: 'r',
         libraryTarget: 'umd',
-        libraryExport: 'default'
+        libraryExport: 'default',
+        globalObject: 'this',
     },
     module: {
         rules: [{
@@ -46,6 +52,6 @@ module.exports = {
     },
     plugins: [extractLess],
     resolve: {
-        extensions: ['.js', '.json', '.ts', '.tsx']
+        extensions: ['.mjs', '.js', '.json', '.ts', '.tsx']
     }
 };
