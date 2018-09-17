@@ -1,6 +1,7 @@
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
 const { buildSchema } = require('graphql');
+const { MongoClient } = require('mongodb');
 const data = require('./data.json');
 
 /**
@@ -50,14 +51,33 @@ app.use(function(req, res, next) {
     }
 });
 
+app.use('/', graphqlHTTP({
+    schema: schema,
+    rootValue: root,
+    graphiql: true
+}));
+
 app.post('/graphql', graphqlHTTP({
     schema: schema,
     rootValue: root,
-    graphiql: false
+    graphiql: true
 }));
 
-app.post('/test', function(req, res) {
-    res.send('2222222');
+app.get('/test', function(req, res) {
+    return res.send('111111111');
+
+    MongoClient.connect('mongodb://localhost:27017',function (err, db) {
+        console.log(err)
+        const person = db.db('person');
+        const student = person.collection('student');
+
+        student.insertOne({
+            "name": "insert in nodejs"
+        },function (error, result) {
+            res.send(result);
+            db.close();
+        });
+    });
 });
 
 app.listen(4000);

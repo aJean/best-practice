@@ -15,3 +15,9 @@ export const fetchUser = createAction('FETCH_USER');
 export const fetchUserSucced = createAction('FETCH_USER_SUCCEEDED');
 
 export const fetchUserFailed = createAction('FETCH_USER_FAILED');
+
+export const fetchDb = createAction('FETCH_DB');
+
+export const fetchDbSucced = createAction('FETCH_DB_SUCCEEDED');
+
+export const fetchUDbFailed = createAction('FETCH_DB_FAILED');

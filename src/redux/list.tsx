@@ -9,7 +9,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onAddList: () => dispatch(actions.fetchData({url: true})),
-        onAddUser: () => dispatch(actions.fetchUser({user: true}))
+        onAddUser: () => dispatch(actions.fetchUser({user: true})),
+        onAddDb: () => dispatch(actions.fetchDb({}))
     };
 };
 
@@ -23,7 +24,7 @@ class List extends React.PureComponent<any, any> {
                 {list}<br/>
                 <button onClick={this.props.onAddList}>添加 item</button>
                 <button onClick={this.props.onAddUser}>添加 user</button>
-
+                <button onClick={this.props.onAddDb}>测试 db</button>
             </div>
         );
     }

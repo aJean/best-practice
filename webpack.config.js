@@ -15,7 +15,10 @@ module.exports = {
     devtool: 'none',
     node: {
         fs: "empty",
-        net: 'empty'
+        net: 'empty',
+        tls: 'empty',
+        dns: 'empty',
+        module: 'empty'
     },
     optimization: {
         minimize: false

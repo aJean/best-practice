@@ -73,10 +73,6 @@ function task(iterator) {
                 case 'async':
                     return runAsyncEffect(result, next);
             }
-
-            if (effect == 'take') {
-                runTakeEffect(result.value, next);
-            }
         }
     }
 

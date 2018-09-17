@@ -30,6 +30,9 @@ function userReducer(state = 'kenzoss', action) {
     switch (action.type) {
         case 'FETCH_USER_SUCCEEDED':
             return action.payload;
+        // 数据库查询成功
+        case 'FETCH_DB_SUCCEEDED':
+            return action.payload;
         default:
             return state;
     }

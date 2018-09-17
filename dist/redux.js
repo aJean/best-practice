@@ -28173,6 +28173,9 @@ exports.fetchDataFailed = redux_actions_1.createAction('FETCH_DATA_FAILED');
 exports.fetchUser = redux_actions_1.createAction('FETCH_USER');
 exports.fetchUserSucced = redux_actions_1.createAction('FETCH_USER_SUCCEEDED');
 exports.fetchUserFailed = redux_actions_1.createAction('FETCH_USER_FAILED');
+exports.fetchDb = redux_actions_1.createAction('FETCH_DB');
+exports.fetchDbSucced = redux_actions_1.createAction('FETCH_DB_SUCCEEDED');
+exports.fetchUDbFailed = redux_actions_1.createAction('FETCH_DB_FAILED');
 
 
 /***/ }),
@@ -28260,7 +28263,8 @@ var mapStateToProps = function (state) {
 var mapDispatchToProps = function (dispatch) {
     return {
         onAddList: function () { return dispatch(actions.fetchData({ url: true })); },
-        onAddUser: function () { return dispatch(actions.fetchUser({ user: true })); }
+        onAddUser: function () { return dispatch(actions.fetchUser({ user: true })); },
+        onAddDb: function () { return dispatch(actions.fetchDb({})); }
     };
 };
 var List = /** @class */ (function (_super) {
@@ -28279,7 +28283,8 @@ var List = /** @class */ (function (_super) {
             list,
             React.createElement("br", null),
             React.createElement("button", { onClick: this.props.onAddList }, "\u6DFB\u52A0 item"),
-            React.createElement("button", { onClick: this.props.onAddUser }, "\u6DFB\u52A0 user")));
+            React.createElement("button", { onClick: this.props.onAddUser }, "\u6DFB\u52A0 user"),
+            React.createElement("button", { onClick: this.props.onAddDb }, "\u6D4B\u8BD5 db")));
     };
     return List;
 }(React.PureComponent));
@@ -28328,6 +28333,9 @@ function userReducer(state, action) {
     if (state === void 0) { state = 'kenzoss'; }
     switch (action.type) {
         case 'FETCH_USER_SUCCEEDED':
+            return action.payload;
+        case 'FETCH_DB_SUCCEEDED':
+            console.log(action.payload);
             return action.payload;
         default:
             return state;
@@ -28395,7 +28403,7 @@ function fetchData(action) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 3, , 5]);
-                return [4 /*yield*/, effects_1.call(fetch, action.payload)];
+                return [4 /*yield*/, effects_1.call(get, action.payload)];
             case 1:
                 data = _a.sent();
                 return [4 /*yield*/, effects_1.put(actions.fetchDataSucced(data))];
@@ -28405,6 +28413,52 @@ function fetchData(action) {
             case 3:
                 error_1 = _a.sent();
                 return [4 /*yield*/, effects_1.put(actions.fetchDataFailed(error_1))];
+            case 4:
+                _a.sent();
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
+        }
+    });
+}
+function fetchUser(action) {
+    var data, error_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 3, , 5]);
+                return [4 /*yield*/, effects_1.call(get, action.payload)];
+            case 1:
+                data = _a.sent();
+                return [4 /*yield*/, effects_1.put(actions.fetchUserSucced(data))];
+            case 2:
+                _a.sent();
+                return [3 /*break*/, 5];
+            case 3:
+                error_2 = _a.sent();
+                return [4 /*yield*/, effects_1.put(actions.fetchUserFailed(error_2))];
+            case 4:
+                _a.sent();
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
+        }
+    });
+}
+function fetchDb(action) {
+    var data, error_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 3, , 5]);
+                return [4 /*yield*/, effects_1.call(query, action.payload)];
+            case 1:
+                data = _a.sent();
+                return [4 /*yield*/, effects_1.put(actions.fetchDbSucced(data))];
+            case 2:
+                _a.sent();
+                return [3 /*break*/, 5];
+            case 3:
+                error_3 = _a.sent();
+                return [4 /*yield*/, effects_1.put(actions.fetchUDbFailed(error_3))];
             case 4:
                 _a.sent();
                 return [3 /*break*/, 5];
@@ -28423,29 +28477,6 @@ function watchFetchData() {
     });
 }
 exports.watchFetchData = watchFetchData;
-function fetchUser(action) {
-    var data, error_2;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 3, , 5]);
-                return [4 /*yield*/, effects_1.call(fetch, action.payload)];
-            case 1:
-                data = _a.sent();
-                return [4 /*yield*/, effects_1.put(actions.fetchUserSucced(data))];
-            case 2:
-                _a.sent();
-                return [3 /*break*/, 5];
-            case 3:
-                error_2 = _a.sent();
-                return [4 /*yield*/, effects_1.put(actions.fetchUserFailed(error_2))];
-            case 4:
-                _a.sent();
-                return [3 /*break*/, 5];
-            case 5: return [2 /*return*/];
-        }
-    });
-}
 function watchUserData() {
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -28457,15 +28488,30 @@ function watchUserData() {
     });
 }
 exports.watchUserData = watchUserData;
-function fetch(data) {
+function watchDb() {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, effects_1.takeEvery('FETCH_DB', fetchDb)];
+            case 1:
+                _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}
+exports.watchDb = watchDb;
+function get(data) {
     return data.url ? Promise.resolve(Date.now() + 'redux') : Promise.resolve('ajean');
+}
+function query() {
+    return fetch('http://test.baidu.com:4000/test').then(function (r) { return r.json(); });
 }
 function rootSaga() {
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, effects_1.all([
                     watchFetchData(),
-                    watchUserData()
+                    watchUserData(),
+                    watchDb()
                 ])];
             case 1:
                 _a.sent();
