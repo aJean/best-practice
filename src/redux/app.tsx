@@ -5,7 +5,7 @@ import store from './reducer';
 import List from './list';
 import sync from '../generator/sync';
 
-sync;
+// sync;
 class App extends React.Component {
     render() {
         return (<Provider store={store}>

@@ -1,12 +1,13 @@
-document.getElementById('gbtn').addEventListener('client', function () {
-    fetch('/graphql', {
+document.getElementById('gbtn').addEventListener('click', function () {
+    fetch('http://test.baidu.com:4000/graphql', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
-        body: JSON.stringify({query: "{ hello }"})
+        body: JSON.stringify({query: "{ getUser(index:2){name, id} }"})
     })
         .then(r => r.json())
-        .then(data => console.log('data returned:', data));
+        .then(res => console.log('data returned:', res.data));
 });
