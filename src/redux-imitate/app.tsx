@@ -8,7 +8,6 @@ import store from './store';
 class App extends React.Component {
     state: any;
 
-
     render() {
         return (
             <Provider store={store}>
