@@ -46,7 +46,7 @@ const reducers = combineReducers({
     user: userReducer
 });
 
-const store = createStore(reducers,  applyMiddleware(sagaMiddleware));
+const store = createStore(reducers, applyMiddleware(sagaMiddleware));
 
 // listen action
 sagaMiddleware.run(rootSaga);

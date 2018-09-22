@@ -1,18 +1,19 @@
-import dva, { connect } from 'dva';
-import * as React from 'react';
+import Polymer from './polymer';
+import HomePage from './count';
 
 /**
  * @file 封装 router, redux, saga 工程细节
  */
 
-const app = dva();
+const app = new Polymer();
 
-app.model({
-    namespace: 'count',
+app.add({
+    ns: 'count',
     state: {
       record : 0,
       current: 0
     },
+    component: HomePage,
     reducers: {
         add(state) {
             const newCurrent = state.current + 1;
@@ -23,25 +24,6 @@ app.model({
         }
     }
 });
-
-function mapStateToProps(state) {
-    return { count: state.count };
-}
-
-const CountApp = ({count, dispatch}) => {
-    return (
-        <div>
-            <div>Highest Record: {count.record}</div>
-            <div>{count.current}</div>
-            <div>
-                <button onClick={() => { dispatch({type: 'count/add'}); }}>+</button>
-            </div>
-        </div>
-    );
-};
-const HomePage = connect(mapStateToProps)(CountApp);
-
-app.router(() => <HomePage/>);
 
 export default {
     init(el) {
