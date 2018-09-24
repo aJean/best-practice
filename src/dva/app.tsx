@@ -1,5 +1,6 @@
 import Polymer from './polymer';
 import HomePage from './count';
+import ListPage from './list';
 
 /**
  * @file 封装 router, redux, saga 工程细节
@@ -13,6 +14,7 @@ app.add({
       record : 0,
       current: 0
     },
+    path: '/count',
     component: HomePage,
     reducers: {
         add(state) {
@@ -23,6 +25,13 @@ app.add({
             };
         }
     }
+});
+
+app.add({
+    ns: 'list',
+    state: ['wwwwwwww', 'aaaaaaaaa', 'aaaaaaaaaaa'],
+    path: '/list',
+    component: ListPage
 });
 
 export default {
