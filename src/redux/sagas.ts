@@ -42,7 +42,7 @@ export function* watchUserData() {
     yield takeEvery('FETCH_USER', fetchUser);
 }
 
-export function * watchDb() {
+export function* watchDb() {
     yield takeEvery('FETCH_DB', fetchDb);
 }
 

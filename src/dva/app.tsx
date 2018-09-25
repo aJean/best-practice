@@ -31,8 +31,25 @@ app.add({
     ns: 'list',
     state: ['wwwwwwww', 'aaaaaaaaa', 'aaaaaaaaaaa'],
     path: '/list',
-    component: ListPage
+    component: ListPage,
+    effects: {
+        *add(action, { call, put }) {
+            yield call(delay, 1000);
+            yield put({ type: 'list/success' });
+        }
+    },
+    reducers: {
+        success: function(state) {
+            return [...state, 'newsnewsnews'];
+        }
+    }
 });
+
+function delay(timeout){
+    return new Promise(resolve => {
+        setTimeout(resolve, timeout);
+    });
+}
 
 export default {
     init(el) {

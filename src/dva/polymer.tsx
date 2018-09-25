@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
+import * as sagaEffects from 'redux-saga/effects';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
@@ -34,6 +35,30 @@ function initReducers(models) {
     return combineReducers(mapTo);
 }
 
+/**
+ * 绑定 sagas, 这里嵌套的 fn 有点多
+ */
+function initSagas(models) {
+    const sagas = [];
+    
+    models.forEach(model => {
+        const ns = model.ns;
+        const effects = model.effects;
+
+        if (effects) {
+            const keys = Object.keys(effects);
+            keys.forEach(key => {
+                const fn = effects[key];
+                sagas.push(function* () {
+                    yield sagaEffects.takeEvery(`${ns}/${key}`, action => fn(action, sagaEffects));
+                }());
+            });
+        }
+    });
+
+    return sagas;
+}
+
 function initRouter(models) {
     const routes = models.map((model, i) => {
         return (<Route key={i} path={model.path} component={model.component} />);
@@ -63,7 +88,12 @@ export default class Polymer {
         const reducers = initReducers(this.models);
         // test reducers
         const store = createStore(reducers, applyMiddleware(sagaMiddleware));
+        const sagas = initSagas(this.models);
         const router = initRouter(this.models);
+
+        sagaMiddleware.run(function *() {
+            yield sagaEffects.all(sagas);
+        });
 
         ReactDOM.render(<Provider store={store}>{router}</Provider>, el);
     }

@@ -13,6 +13,7 @@ const ListApp = ({list, dispatch}) => {
     return (
         <div>
             <h2>level 2 列表页</h2>
+            <button onClick={() => { dispatch({type: 'list/add'}); }}>测试saga</button>
             <div>
                 {list.map((text, i) => <div key={i}>{text}</div>)}
             </div>
