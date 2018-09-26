@@ -27,7 +27,8 @@ module.exports = {
         imitate: './src/redux-imitate/app.tsx',
         redux: './src/redux/app.tsx',
         gclient: './src/graphql/app.ts',
-        dva: './src/dva/app.tsx'
+        dva: './src/dva/app.tsx',
+        vis: './src/vis/draw.ts'
     },
     output: {
         filename: '[name].js',
