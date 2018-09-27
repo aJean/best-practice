@@ -1,5 +1,5 @@
-import * as React from 'react'
-import * as PropTypes from 'prop-types'
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
 
 /**
  * @file redux connext
@@ -25,6 +25,7 @@ const connect = (mapStateToProps, mapDispatchToProps) => (WrappedComponent) => {
 
         /**
          * 将改变的内容作为属性传给 wrapped component
+         * 以及 dispatch
          */
         update(data, staticProps) {
             const props = mapStateToProps(data);

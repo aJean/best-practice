@@ -1,7 +1,6 @@
 import { call, put, takeEvery, all } from 'redux-saga/effects';
 import * as actions from './actions';
 
-
 /**
  * @file async effects
  */
