@@ -5,7 +5,7 @@ import * as PropTypes from 'prop-types';
  * @file
  */
 
-export default function initDrag(WrappedComponent) {
+export default function makeComponentDrag(WrappedComponent) {
     return class Draggable extends React.Component<any, any> {
         root: any;
         

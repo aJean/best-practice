@@ -1,5 +1,5 @@
 import * as React from 'react';
-import initDrag from './drag';
+import makeComponentDrag from './drag';
 
 /**
  * @file 消息对话单元
@@ -38,4 +38,4 @@ class Message extends React.Component<any, any> {
     }
 }
 
-export default initDrag(Message);
+export default makeComponentDrag(Message);
