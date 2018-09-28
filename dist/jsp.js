@@ -35477,10 +35477,10 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./src/jsplumb/app.tsx":
-/*!*****************************!*\
-  !*** ./src/jsplumb/app.tsx ***!
-  \*****************************/
+/***/ "./src/jsplumb/ask.cell.tsx":
+/*!**********************************!*\
+  !*** ./src/jsplumb/ask.cell.tsx ***!
+  \**********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -35501,38 +35501,239 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-var PropTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-var App = /** @class */ (function (_super) {
-    __extends(App, _super);
-    function App() {
+var drag_hoc_1 = __webpack_require__(/*! ./hoc/drag.hoc */ "./src/jsplumb/hoc/drag.hoc.tsx");
+var option_1 = __webpack_require__(/*! ./option */ "./src/jsplumb/option.tsx");
+/**
+ * @file 问题单元
+ */
+var Askcell = /** @class */ (function (_super) {
+    __extends(Askcell, _super);
+    function Askcell() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    App.prototype.getChildContext = function () {
-        return {
-            jsp: this.props.jsp
-        };
+    Askcell.prototype.render = function () {
+        var props = this.props;
+        return (React.createElement("section", { className: "react-cell" },
+            React.createElement("h4", null, props.title),
+            React.createElement(option_1.default, { text: "\u62D6\u62FD\u6DFB\u52A0\u7EC4\u4EF6\u6D4B\u8BD5" })));
     };
-    App.prototype.render = function () {
-        return (React.createElement("div", { className: "react-canvas" }, this.props.children));
-    };
-    App.propTypes = {
-        jsp: PropTypes.object,
-        children: PropTypes.any
-    };
-    App.childContextTypes = {
-        jsp: PropTypes.object
-    };
-    return App;
+    return Askcell;
 }(React.Component));
-exports.default = App;
+exports.default = drag_hoc_1.default(Askcell);
 
 
 /***/ }),
 
-/***/ "./src/jsplumb/drag.tsx":
+/***/ "./src/jsplumb/canvas.tsx":
+/*!********************************!*\
+  !*** ./src/jsplumb/canvas.tsx ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var PropTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+var msg_cell_1 = __webpack_require__(/*! ./msg.cell */ "./src/jsplumb/msg.cell.tsx");
+var ask_cell_1 = __webpack_require__(/*! ./ask.cell */ "./src/jsplumb/ask.cell.tsx");
+/**
+ * @file 作为 provider 和 drop 容器
+ */
+var Canvas = /** @class */ (function (_super) {
+    __extends(Canvas, _super);
+    function Canvas(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            list: []
+        };
+        return _this;
+    }
+    Canvas.prototype.getChildContext = function () {
+        return {
+            jsp: this.props.jsp
+        };
+    };
+    Canvas.prototype.generateCell = function () {
+        return this.state.list.map(function (data, i) { return React.createElement(ask_cell_1.default, __assign({ key: i }, data)); });
+    };
+    Canvas.prototype.ondragoverHandle = function (data) {
+        data.nativeEvent.preventDefault();
+        data.nativeEvent.dataTransfer.dropEffect = 'copy';
+    };
+    Canvas.prototype.ondropHandle = function (data) {
+        var event = data.nativeEvent;
+        var text = event.dataTransfer.getData('text');
+        var list = this.state.list;
+        event.preventDefault();
+        list.push({
+            title: text + " - \u5355\u5143",
+            top: event.layerY,
+            left: event.layerX
+        });
+        this.setState({ list: list });
+    };
+    Canvas.prototype.render = function () {
+        return (React.createElement("div", { className: "react-canvas", onDrop: this.ondropHandle.bind(this), onDragOver: this.ondragoverHandle.bind(this) },
+            this.props.children,
+            React.createElement(msg_cell_1.default, { left: 120 }),
+            React.createElement(msg_cell_1.default, { left: 400 }),
+            this.generateCell()));
+    };
+    Canvas.propTypes = {
+        jsp: PropTypes.object,
+        children: PropTypes.any
+    };
+    Canvas.childContextTypes = {
+        jsp: PropTypes.object
+    };
+    return Canvas;
+}(React.Component));
+exports.default = Canvas;
+
+
+/***/ }),
+
+/***/ "./src/jsplumb/draw.tsx":
 /*!******************************!*\
-  !*** ./src/jsplumb/drag.tsx ***!
+  !*** ./src/jsplumb/draw.tsx ***!
   \******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var jsplumb_1 = __webpack_require__(/*! jsplumb */ "./node_modules/jsplumb/dist/js/jsplumb.js");
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+var canvas_1 = __webpack_require__(/*! ./canvas */ "./src/jsplumb/canvas.tsx");
+var menulist_1 = __webpack_require__(/*! ./menulist */ "./src/jsplumb/menulist.tsx");
+/**
+ * @file react 结合 jsplumb 绘制流程图
+ */
+exports.default = {
+    init: function (el) {
+        var jsp = jsplumb_1.jsPlumb.getInstance();
+        jsp.ready(function () {
+            jsp.setContainer(el);
+            jsp.bind('click', function (conn, originalEvent) {
+                jsp.deleteConnection(conn);
+            });
+            ReactDOM.render(React.createElement("main", null,
+                React.createElement(menulist_1.default, null),
+                React.createElement(canvas_1.default, { jsp: jsp })), el);
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ "./src/jsplumb/hoc/drag.hoc.tsx":
+/*!**************************************!*\
+  !*** ./src/jsplumb/hoc/drag.hoc.tsx ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var PropTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+;
+var endpoint_hoc_1 = __webpack_require__(/*! ./endpoint.hoc */ "./src/jsplumb/hoc/endpoint.hoc.tsx");
+/**
+ * @file 赋予组件拖动能力
+ */
+function makeDragComponent(WrappedComponent) {
+    var _a;
+    return _a = /** @class */ (function (_super) {
+            __extends(Draggable, _super);
+            function Draggable(props) {
+                var _this = _super.call(this, props) || this;
+                _this.root = React.createRef();
+                return _this;
+            }
+            Draggable.prototype.componentDidMount = function () {
+                var jsp = this.context.jsp;
+                var node = this.root.current;
+                jsp.draggable(node);
+                jsp.addEndpoint(node, { anchor: 'Left' }, endpoint_hoc_1.endpointOptions);
+            };
+            Draggable.prototype.render = function () {
+                var jsp = this.context.jsp;
+                var props = this.props;
+                var style = { left: props.left, top: props.top };
+                return (React.createElement("div", { ref: this.root, className: "react-drag", style: style },
+                    React.createElement(WrappedComponent, __assign({ jsp: jsp }, props))));
+            };
+            return Draggable;
+        }(React.Component)),
+        _a.contextTypes = {
+            jsp: PropTypes.object
+        },
+        _a;
+}
+exports.default = makeDragComponent;
+
+
+/***/ }),
+
+/***/ "./src/jsplumb/hoc/endpoint.hoc.tsx":
+/*!******************************************!*\
+  !*** ./src/jsplumb/hoc/endpoint.hoc.tsx ***!
+  \******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -35566,82 +35767,56 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var PropTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /**
- * @file
+ * @file 赋予组件端点能力
  */
-function initDrag(WrappedComponent) {
+exports.endpointOptions = {
+    endpoint: 'Dot',
+    paintStyle: { radius: 5, fill: '#fff', outlineStroke: 'blue' },
+    isSource: true,
+    isTarget: true,
+    connector: ['Bezier'],
+    connectorStyle: { stroke: 'red' },
+    connectorOverlays: [
+        ['Label', { label: 'delete', id: 'label' }]
+    ],
+    maxConnections: 1
+};
+function makeComponentEndpoint(WrappedComponent) {
     var _a;
     return _a = /** @class */ (function (_super) {
-            __extends(Draggable, _super);
-            function Draggable(props) {
+            __extends(Endpoint, _super);
+            function Endpoint(props) {
                 var _this = _super.call(this, props) || this;
                 _this.root = React.createRef();
                 return _this;
             }
-            Draggable.prototype.componentDidMount = function () {
+            Endpoint.prototype.componentDidMount = function () {
+                console.log(this.root);
                 var jsp = this.context.jsp;
                 var node = this.root.current;
-                jsp.draggable(node);
-                jsp.addEndpoint(node, { anchor: 'Right', endpoint: 'Blank' });
+                jsp.addEndpoint(node, { anchor: 'Right' }, exports.endpointOptions);
             };
-            Draggable.prototype.render = function () {
-                var jsp = this.context.jsp;
+            Endpoint.prototype.render = function () {
                 var props = this.props;
-                var style = { left: props.left };
-                return (React.createElement("div", { ref: this.root, className: "react-drag", style: style },
-                    React.createElement(WrappedComponent, __assign({ jsp: jsp }, props))));
+                return (React.createElement("div", { ref: this.root, className: "react-endpoint" },
+                    React.createElement(WrappedComponent, __assign({}, props))));
             };
-            return Draggable;
+            return Endpoint;
         }(React.Component)),
         _a.contextTypes = {
             jsp: PropTypes.object
         },
         _a;
 }
-exports.default = initDrag;
+exports.default = makeComponentEndpoint;
 
 
 /***/ }),
 
-/***/ "./src/jsplumb/draw.tsx":
-/*!******************************!*\
-  !*** ./src/jsplumb/draw.tsx ***!
-  \******************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var jsplumb_1 = __webpack_require__(/*! jsplumb */ "./node_modules/jsplumb/dist/js/jsplumb.js");
-var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-var app_1 = __webpack_require__(/*! ./app */ "./src/jsplumb/app.tsx");
-var message_1 = __webpack_require__(/*! ./message */ "./src/jsplumb/message.tsx");
-/**
- * @file react 结合 jsplumb 绘制流程图
- */
-exports.default = {
-    init: function (el) {
-        var jsp = jsplumb_1.jsPlumb.getInstance();
-        jsp.ready(function () {
-            jsp.setContainer(el);
-            ReactDOM.render(React.createElement(app_1.default, { jsp: jsp },
-                React.createElement(message_1.default, { left: 200 }),
-                React.createElement(message_1.default, { left: 400 })), el);
-            jsp.bind('click', function (conn, originalEvent) {
-                jsp.deleteConnection(conn);
-            });
-        });
-    }
-};
-
-
-/***/ }),
-
-/***/ "./src/jsplumb/message.tsx":
-/*!*********************************!*\
-  !*** ./src/jsplumb/message.tsx ***!
-  \*********************************/
+/***/ "./src/jsplumb/menulist.tsx":
+/*!**********************************!*\
+  !*** ./src/jsplumb/menulist.tsx ***!
+  \**********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -35662,44 +35837,122 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-var drag_1 = __webpack_require__(/*! ./drag */ "./src/jsplumb/drag.tsx");
+var Menulist = /** @class */ (function (_super) {
+    __extends(Menulist, _super);
+    function Menulist() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Menulist.prototype.ondragHandle = function (type, data) {
+        data.nativeEvent.dataTransfer.setData("text/plain", type);
+    };
+    Menulist.prototype.render = function () {
+        return (React.createElement("section", { className: "react-controls" },
+            React.createElement("div", { draggable: true, onDragStart: this.ondragHandle.bind(this, 'tigger') }, "\u89E6\u53D1\u5668"),
+            React.createElement("div", { draggable: true, onDragStart: this.ondragHandle.bind(this, 'message') }, "\u6D88\u606F\u5355\u5143"),
+            React.createElement("div", { draggable: true, onDragStart: this.ondragHandle.bind(this, 'chat') }, "\u5BF9\u8BDD\u5355\u5143"),
+            React.createElement("div", { draggable: true, onDragStart: this.ondragHandle.bind(this, 'hidden') }, "\u9690\u85CF\u5355\u5143")));
+    };
+    return Menulist;
+}(React.Component));
+exports.default = Menulist;
+
+
+/***/ }),
+
+/***/ "./src/jsplumb/msg.cell.tsx":
+/*!**********************************!*\
+  !*** ./src/jsplumb/msg.cell.tsx ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var drag_hoc_1 = __webpack_require__(/*! ./hoc/drag.hoc */ "./src/jsplumb/hoc/drag.hoc.tsx");
+var option_1 = __webpack_require__(/*! ./option */ "./src/jsplumb/option.tsx");
 /**
  * @file 消息对话单元
  */
-var Message = /** @class */ (function (_super) {
-    __extends(Message, _super);
-    function Message() {
+var Msgcell = /** @class */ (function (_super) {
+    __extends(Msgcell, _super);
+    function Msgcell() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    Message.prototype.componentDidMount = function () {
+    Msgcell.prototype.componentDidMount = function () {
         var jsp = this.props.jsp;
-        var endpointOptions = {
-            endpoint: 'Rectangle',
-            paintStyle: { width: 10, height: 10, fill: '#666', visibility: 'hidden' },
-            isSource: true,
-            isTarget: true,
-            connector: ['Bezier'],
-            connectorStyle: { stroke: 'red' },
-            connectorOverlays: [
-                ['Label', { label: 'delete', id: 'label' }]
-            ],
-            maxConnections: 1
-        };
-        jsp.addEndpoint(this.refs.p1, { anchor: 'Right' }, endpointOptions);
-        jsp.addEndpoint(this.refs.p1, { anchor: 'Left' }, endpointOptions);
-        jsp.addEndpoint(this.refs.p2, { anchor: 'Left' }, endpointOptions);
-        jsp.addEndpoint(this.refs.p2, { anchor: 'Right' }, endpointOptions);
     };
-    Message.prototype.render = function () {
+    Msgcell.prototype.render = function () {
         var props = this.props;
         return (React.createElement("section", { className: "react-message" },
             React.createElement("h4", null, "\u6D88\u606F\u5BF9\u8BDD\u5355\u5143"),
-            React.createElement("p", { ref: "p1" }, "\u6D4B\u8BD5\u6D88\u606F1"),
-            React.createElement("p", { ref: "p2" }, "\u6D4B\u8BD5\u6D88\u606F2")));
+            React.createElement(option_1.default, { text: "\u6D4B\u8BD5\u6D88\u606F1" }),
+            React.createElement(option_1.default, { text: "\u6D4B\u8BD5\u6D88\u606F2" })));
     };
-    return Message;
+    return Msgcell;
 }(React.Component));
-exports.default = drag_1.default(Message);
+exports.default = drag_hoc_1.default(Msgcell);
+
+
+/***/ }),
+
+/***/ "./src/jsplumb/option.tsx":
+/*!********************************!*\
+  !*** ./src/jsplumb/option.tsx ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var endpoint_hoc_1 = __webpack_require__(/*! ./hoc/endpoint.hoc */ "./src/jsplumb/hoc/endpoint.hoc.tsx");
+var style = {
+    margin: 0,
+    padding: 5,
+    minWidth: 120,
+    color: '#1e7bd3',
+    textAlign: 'center'
+};
+var Option = /** @class */ (function (_super) {
+    __extends(Option, _super);
+    function Option() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Option.prototype.render = function () {
+        return (React.createElement("div", { className: "react-option", style: style }, this.props.text));
+    };
+    return Option;
+}(React.Component));
+exports.default = endpoint_hoc_1.default(Option);
 
 
 /***/ })

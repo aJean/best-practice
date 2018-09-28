@@ -1,8 +1,8 @@
 import { jsPlumb } from 'jsplumb';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import App from './app';
-import Message from './message';
+import Canvas from './canvas';
+import MenuList from './menulist';
 
 /**
  * @file react 结合 jsplumb 绘制流程图
@@ -15,14 +15,14 @@ export default {
         jsp.ready(function () {
             jsp.setContainer(el);
 
-            ReactDOM.render(<App jsp={jsp}>
-                <Message left={200} />
-                <Message left={400} />
-            </App>, el);
-
             jsp.bind('click', function (conn, originalEvent) {
                 jsp.deleteConnection(conn);
             });
+
+            ReactDOM.render(<main>
+                <MenuList />
+                <Canvas jsp={jsp} />
+            </main>, el);
         });
     }
 }

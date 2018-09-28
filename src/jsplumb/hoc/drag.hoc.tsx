@@ -1,11 +1,12 @@
 import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';;
+import {endpointOptions} from './endpoint.hoc'
 
 /**
- * @file
+ * @file 赋予组件拖动能力
  */
 
-export default function makeComponentDrag(WrappedComponent) {
+export default function makeDragComponent(WrappedComponent) {
     return class Draggable extends React.Component<any, any> {
         root: any;
         
@@ -23,13 +24,13 @@ export default function makeComponentDrag(WrappedComponent) {
             const node = this.root.current;
 
             jsp.draggable(node);
-            jsp.addEndpoint(node, { anchor: 'Right', endpoint: 'Blank' });
+            jsp.addEndpoint(node, { anchor: 'Left' }, endpointOptions);
         }
         
         render() {
             const jsp = this.context.jsp;
             const props = this.props;
-            const style = {left: props.left};
+            const style = {left: props.left, top: props.top};
 
             return (<div ref={this.root} className="react-drag" style={style}>
                 <WrappedComponent jsp={jsp} {...props} />
