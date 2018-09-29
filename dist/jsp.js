@@ -35499,10 +35499,22 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var drag_hoc_1 = __webpack_require__(/*! ./hoc/drag.hoc */ "./src/jsplumb/hoc/drag.hoc.tsx");
 var option_1 = __webpack_require__(/*! ./option */ "./src/jsplumb/option.tsx");
+var topbar_1 = __webpack_require__(/*! ./common/topbar */ "./src/jsplumb/common/topbar.tsx");
 /**
  * @file 问题单元
  */
@@ -35514,7 +35526,7 @@ var Askcell = /** @class */ (function (_super) {
     Askcell.prototype.render = function () {
         var props = this.props;
         return (React.createElement("section", { className: "react-cell" },
-            React.createElement("h4", null, props.title),
+            React.createElement(topbar_1.default, __assign({}, props)),
             React.createElement(option_1.default, { text: "\u62D6\u62FD\u6DFB\u52A0\u7EC4\u4EF6\u6D4B\u8BD5" })));
     };
     return Askcell;
@@ -35601,8 +35613,8 @@ var Canvas = /** @class */ (function (_super) {
     Canvas.prototype.render = function () {
         return (React.createElement("div", { className: "react-canvas", onDrop: this.ondropHandle.bind(this), onDragOver: this.ondragoverHandle.bind(this) },
             this.props.children,
-            React.createElement(msg_cell_1.default, { left: 120 }),
-            React.createElement(msg_cell_1.default, { left: 400 }),
+            React.createElement(msg_cell_1.default, { title: "\u6D88\u606F\u5355\u5143", left: 120, top: 200 }),
+            React.createElement(msg_cell_1.default, { title: "\u6D88\u606F\u5355\u5143", left: 400, top: 200 }),
             this.generateCell()));
     };
     Canvas.propTypes = {
@@ -35619,6 +35631,61 @@ exports.default = Canvas;
 
 /***/ }),
 
+/***/ "./src/jsplumb/common/topbar.tsx":
+/*!***************************************!*\
+  !*** ./src/jsplumb/common/topbar.tsx ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/**
+ * @file 实体顶部工具栏
+ */
+var Topbar = /** @class */ (function (_super) {
+    __extends(Topbar, _super);
+    function Topbar() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Topbar.prototype.render = function () {
+        var props = this.props;
+        return (React.createElement("div", { className: "react-entity-topbar" },
+            React.createElement("span", { className: "react-entity-topbar-icon react-entity-topbar-sign" },
+                React.createElement("img", { src: props.icon })),
+            props.title,
+            React.createElement("span", { className: "react-entity-topbar-icon react-entity-topbar-edit" },
+                React.createElement("img", { src: props.edit })),
+            React.createElement("span", { className: "react-entity-topbar-icon react-entity-topbar-close" },
+                React.createElement("img", { src: props.close }))));
+    };
+    Topbar.defaultProps = {
+        icon: './imgs/topbar-icon.png',
+        edit: './imgs/topbar-icon-edit.png',
+        close: './imgs/topbar-icon-close.png'
+    };
+    return Topbar;
+}(React.Component));
+exports.default = Topbar;
+
+
+/***/ }),
+
 /***/ "./src/jsplumb/draw.tsx":
 /*!******************************!*\
   !*** ./src/jsplumb/draw.tsx ***!
@@ -35629,6 +35696,7 @@ exports.default = Canvas;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+__webpack_require__(/*! ./style.less */ "./src/jsplumb/style.less");
 var jsplumb_1 = __webpack_require__(/*! jsplumb */ "./node_modules/jsplumb/dist/js/jsplumb.js");
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
@@ -35639,7 +35707,9 @@ var menulist_1 = __webpack_require__(/*! ./menulist */ "./src/jsplumb/menulist.t
  */
 exports.default = {
     init: function (el) {
-        var jsp = jsplumb_1.jsPlumb.getInstance();
+        var jsp = jsplumb_1.jsPlumb.getInstance({
+            ConnectionsDetachable: false
+        });
         jsp.ready(function () {
             jsp.setContainer(el);
             jsp.bind('click', function (conn, originalEvent) {
@@ -35715,7 +35785,7 @@ function makeDragComponent(WrappedComponent) {
                 var jsp = this.context.jsp;
                 var props = this.props;
                 var style = { left: props.left, top: props.top };
-                return (React.createElement("div", { ref: this.root, className: "react-drag", style: style },
+                return (React.createElement("div", { ref: this.root, className: "react-entity-wrap", style: style },
                     React.createElement(WrappedComponent, __assign({ jsp: jsp }, props))));
             };
             return Draggable;
@@ -35881,10 +35951,22 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var drag_hoc_1 = __webpack_require__(/*! ./hoc/drag.hoc */ "./src/jsplumb/hoc/drag.hoc.tsx");
 var option_1 = __webpack_require__(/*! ./option */ "./src/jsplumb/option.tsx");
+var topbar_1 = __webpack_require__(/*! ./common/topbar */ "./src/jsplumb/common/topbar.tsx");
 /**
  * @file 消息对话单元
  */
@@ -35898,8 +35980,11 @@ var Msgcell = /** @class */ (function (_super) {
     };
     Msgcell.prototype.render = function () {
         var props = this.props;
-        return (React.createElement("section", { className: "react-message" },
-            React.createElement("h4", null, "\u6D88\u606F\u5BF9\u8BDD\u5355\u5143"),
+        return (React.createElement("section", { className: "react-entity" },
+            React.createElement(topbar_1.default, __assign({}, props)),
+            React.createElement("div", { className: "react-entity-words" },
+                React.createElement("span", { className: "react-entity-light" }, "\u5458\u5DE5\u7C7B\u578B"),
+                "\u4F60\u60F3\u8BF7\u4EC0\u4E48\u6837\u7684\u5047?"),
             React.createElement(option_1.default, { text: "\u6D4B\u8BD5\u6D88\u606F1" }),
             React.createElement(option_1.default, { text: "\u6D4B\u8BD5\u6D88\u606F2" })));
     };
@@ -35935,25 +36020,36 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var endpoint_hoc_1 = __webpack_require__(/*! ./hoc/endpoint.hoc */ "./src/jsplumb/hoc/endpoint.hoc.tsx");
-var style = {
-    margin: 0,
-    padding: 5,
-    minWidth: 120,
-    color: '#1e7bd3',
-    textAlign: 'center'
-};
 var Option = /** @class */ (function (_super) {
     __extends(Option, _super);
     function Option() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Option.prototype.render = function () {
-        return (React.createElement("div", { className: "react-option", style: style }, this.props.text));
+        var props = this.props;
+        return (React.createElement("div", { className: "react-option" },
+            React.createElement("span", { className: "react-entity-option-icon" },
+                React.createElement("img", { src: props.icon })),
+            props.text));
+    };
+    Option.defaultProps = {
+        icon: './imgs/option-icon.png'
     };
     return Option;
 }(React.Component));
 exports.default = endpoint_hoc_1.default(Option);
 
+
+/***/ }),
+
+/***/ "./src/jsplumb/style.less":
+/*!********************************!*\
+  !*** ./src/jsplumb/style.less ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 

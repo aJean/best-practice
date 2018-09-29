@@ -59,8 +59,8 @@ export default class Canvas extends React.Component<any, any> {
         return (
             <div className="react-canvas" onDrop={this.ondropHandle.bind(this)} onDragOver={this.ondragoverHandle.bind(this)}>
                 {this.props.children}
-                <Msgcell left={120} />
-                <Msgcell left={400} />
+                <Msgcell title="消息单元" left={120} top={200} />
+                <Msgcell title="消息单元" left={400} top={200} />
                 {this.generateCell()}
             </div>
         );

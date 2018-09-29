@@ -32,7 +32,7 @@ export default function makeDragComponent(WrappedComponent) {
             const props = this.props;
             const style = {left: props.left, top: props.top};
 
-            return (<div ref={this.root} className="react-drag" style={style}>
+            return (<div ref={this.root} className="react-entity-wrap" style={style}>
                 <WrappedComponent jsp={jsp} {...props} />
             </div>);
         }

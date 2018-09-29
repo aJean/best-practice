@@ -1,3 +1,4 @@
+import './style.less';
 import { jsPlumb } from 'jsplumb';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
@@ -10,7 +11,9 @@ import MenuList from './menulist';
 
 export default {
     init(el) {
-        const jsp = jsPlumb.getInstance();
+        const jsp = jsPlumb.getInstance({
+            ConnectionsDetachable: false
+        });
 
         jsp.ready(function () {
             jsp.setContainer(el);
