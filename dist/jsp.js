@@ -35686,6 +35686,57 @@ exports.default = Topbar;
 
 /***/ }),
 
+/***/ "./src/jsplumb/config/jsplumb.config.ts":
+/*!**********************************************!*\
+  !*** ./src/jsplumb/config/jsplumb.config.ts ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/**
+ * @file 画布相关配置
+ */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.connectorStyle = {
+    strokeWidth: 4,
+    stroke: '#687c8a'
+};
+exports.connectorHoverStyle = {
+    strokeWidth: 4,
+    stroke: '#1f77f3'
+};
+exports.endpointConfig = {
+    endpoint: 'Dot',
+    paintStyle: {
+        strokeWidth: 3,
+        stroke: '#8e9ca8',
+        fill: 'transparent',
+        radius: 6,
+        lineWidth: 2
+    },
+    hoverPaintStyle: { stroke: '#1f77f3' },
+    isSource: true,
+    isTarget: true,
+    connector: ['Flowchart', {
+            stub: [40, 60],
+            gap: 5,
+            cornerRadius: 5,
+            alwaysRespectStubs: true
+        }],
+    connectorStyle: exports.connectorStyle,
+    connectorHoverStyle: exports.connectorHoverStyle,
+    connectorOverlays: [
+        ['Label', { label: 'del', id: 'label' }],
+        ["Arrow", { location: 1, width: 8, length: 6 }]
+    ],
+    maxConnections: 1
+};
+
+
+/***/ }),
+
 /***/ "./src/jsplumb/draw.tsx":
 /*!******************************!*\
   !*** ./src/jsplumb/draw.tsx ***!
@@ -35761,8 +35812,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var PropTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-;
-var endpoint_hoc_1 = __webpack_require__(/*! ./endpoint.hoc */ "./src/jsplumb/hoc/endpoint.hoc.tsx");
+var jsplumb_config_1 = __webpack_require__(/*! ../config/jsplumb.config */ "./src/jsplumb/config/jsplumb.config.ts");
 /**
  * @file 赋予组件拖动能力
  */
@@ -35779,7 +35829,7 @@ function makeDragComponent(WrappedComponent) {
                 var jsp = this.context.jsp;
                 var node = this.root.current;
                 jsp.draggable(node);
-                jsp.addEndpoint(node, { anchor: 'Left' }, endpoint_hoc_1.endpointOptions);
+                jsp.addEndpoint(node, { anchor: 'Left' }, jsplumb_config_1.endpointConfig);
             };
             Draggable.prototype.render = function () {
                 var jsp = this.context.jsp;
@@ -35836,21 +35886,10 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var PropTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+var jsplumb_config_1 = __webpack_require__(/*! ../config/jsplumb.config */ "./src/jsplumb/config/jsplumb.config.ts");
 /**
  * @file 赋予组件端点能力
  */
-exports.endpointOptions = {
-    endpoint: 'Dot',
-    paintStyle: { radius: 5, fill: '#fff', outlineStroke: 'blue' },
-    isSource: true,
-    isTarget: true,
-    connector: ['Bezier'],
-    connectorStyle: { stroke: 'red' },
-    connectorOverlays: [
-        ['Label', { label: 'delete', id: 'label' }]
-    ],
-    maxConnections: 1
-};
 function makeComponentEndpoint(WrappedComponent) {
     var _a;
     return _a = /** @class */ (function (_super) {
@@ -35864,7 +35903,7 @@ function makeComponentEndpoint(WrappedComponent) {
                 console.log(this.root);
                 var jsp = this.context.jsp;
                 var node = this.root.current;
-                jsp.addEndpoint(node, { anchor: 'Right' }, exports.endpointOptions);
+                jsp.addEndpoint(node, { anchor: 'Right' }, jsplumb_config_1.endpointConfig);
             };
             Endpoint.prototype.render = function () {
                 var props = this.props;

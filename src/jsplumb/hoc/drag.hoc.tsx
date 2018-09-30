@@ -1,6 +1,6 @@
 import * as React from 'react';
-import * as PropTypes from 'prop-types';;
-import {endpointOptions} from './endpoint.hoc'
+import * as PropTypes from 'prop-types';
+import {endpointConfig} from '../config/jsplumb.config';
 
 /**
  * @file 赋予组件拖动能力
@@ -24,7 +24,7 @@ export default function makeDragComponent(WrappedComponent) {
             const node = this.root.current;
 
             jsp.draggable(node);
-            jsp.addEndpoint(node, { anchor: 'Left' }, endpointOptions);
+            jsp.addEndpoint(node, { anchor: 'Left' }, endpointConfig);
         }
         
         render() {

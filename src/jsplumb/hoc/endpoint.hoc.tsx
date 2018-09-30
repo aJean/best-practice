@@ -1,22 +1,10 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+import {endpointConfig} from '../config/jsplumb.config';
 
 /**
  * @file 赋予组件端点能力
  */
-
-export const endpointOptions = {
-    endpoint: 'Dot',
-    paintStyle: { radius: 5, fill: '#fff', outlineStroke: 'blue'},
-    isSource: true,
-    isTarget: true,
-    connector: ['Bezier'],
-    connectorStyle: { stroke: 'red' },
-    connectorOverlays: [
-        ['Label', { label: 'delete', id: 'label' }]
-    ],
-    maxConnections: 1
-};
 
 export default function makeComponentEndpoint(WrappedComponent) {
     return class Endpoint extends React.Component<any, any> {
@@ -36,7 +24,7 @@ export default function makeComponentEndpoint(WrappedComponent) {
             const jsp = this.context.jsp;
             const node = this.root.current;
 
-            jsp.addEndpoint(node, { anchor: 'Right' }, endpointOptions);
+            jsp.addEndpoint(node, { anchor: 'Right' }, endpointConfig);
         }
 
         render() {
