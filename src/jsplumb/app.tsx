@@ -2,8 +2,8 @@ import './style.less';
 import { jsPlumb } from 'jsplumb';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import Canvas from './canvas';
-import MenuList from './menulist';
+import CanvasView from './canvas.view';
+import ControlsView from './controls.view';
 
 /**
  * @file react 结合 jsplumb 绘制流程图
@@ -23,8 +23,8 @@ export default {
             });
 
             ReactDOM.render(<main>
-                <MenuList />
-                <Canvas jsp={jsp} />
+                <ControlsView />
+                <CanvasView jsp={jsp} />
             </main>, el);
         });
     }

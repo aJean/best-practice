@@ -1,5 +1,5 @@
 import * as React from 'react';
-import makeEndpointComponent from './hoc/endpoint.hoc';
+import makeEndpointComponent from '../hoc/endpoint.hoc';
 
 class Option extends React.Component<any, any> {
     static defaultProps = {

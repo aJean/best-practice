@@ -8,23 +8,18 @@ import {endpointConfig} from '../config/jsplumb.config';
 
 export default function makeDragComponent(WrappedComponent) {
     return class Draggable extends React.Component<any, any> {
-        root: any;
-        
         static contextTypes = {
-            jsp: PropTypes.object
-        }
-
-        constructor(props) {
-            super(props);
-            this.root = React.createRef();
+            jsp: PropTypes.object,
+            containment: PropTypes.string
         }
 
         componentDidMount() {
-            const jsp = this.context.jsp;
-            const node = this.root.current;
+            const context = this.context;
+            const jsp = context.jsp;
+            const node = this.refs.element;
 
-            jsp.draggable(node);
-            jsp.addEndpoint(node, { anchor: 'Left' }, endpointConfig);
+            jsp.draggable(node, {containment: context.containment});
+            jsp.addEndpoint(node, {anchor: 'Left'}, endpointConfig);
         }
         
         render() {
@@ -32,7 +27,7 @@ export default function makeDragComponent(WrappedComponent) {
             const props = this.props;
             const style = {left: props.left, top: props.top};
 
-            return (<div ref={this.root} className="react-entity-wrap" style={style}>
+            return (<div ref="element" className="react-entity-wrap" style={style}>
                 <WrappedComponent jsp={jsp} {...props} />
             </div>);
         }

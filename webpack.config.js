@@ -29,7 +29,7 @@ module.exports = {
         gclient: './src/graphql/app.ts',
         dva: './src/dva/app.tsx',
         vis: './src/vis/draw.ts',
-        jsp: './src/jsplumb/draw.tsx'
+        jsp: './src/jsplumb/app.tsx'
     },
     output: {
         filename: '[name].js',

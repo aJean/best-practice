@@ -46,32 +46,17 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
 /******/ 		}
 /******/ 	};
 /******/
 /******/ 	// define __esModule on exports
 /******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
 /******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -91,7 +76,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/jsplumb/draw.tsx");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/jsplumb/app.tsx");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -35477,69 +35462,49 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./src/jsplumb/ask.cell.tsx":
-/*!**********************************!*\
-  !*** ./src/jsplumb/ask.cell.tsx ***!
-  \**********************************/
+/***/ "./src/jsplumb/app.tsx":
+/*!*****************************!*\
+  !*** ./src/jsplumb/app.tsx ***!
+  \*****************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    }
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
+__webpack_require__(/*! ./style.less */ "./src/jsplumb/style.less");
+var jsplumb_1 = __webpack_require__(/*! jsplumb */ "./node_modules/jsplumb/dist/js/jsplumb.js");
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-var drag_hoc_1 = __webpack_require__(/*! ./hoc/drag.hoc */ "./src/jsplumb/hoc/drag.hoc.tsx");
-var option_1 = __webpack_require__(/*! ./option */ "./src/jsplumb/option.tsx");
-var topbar_1 = __webpack_require__(/*! ./common/topbar */ "./src/jsplumb/common/topbar.tsx");
+var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+var canvas_view_1 = __webpack_require__(/*! ./canvas.view */ "./src/jsplumb/canvas.view.tsx");
+var controls_view_1 = __webpack_require__(/*! ./controls.view */ "./src/jsplumb/controls.view.tsx");
 /**
- * @file 问题单元
+ * @file react 结合 jsplumb 绘制流程图
  */
-var Askcell = /** @class */ (function (_super) {
-    __extends(Askcell, _super);
-    function Askcell() {
-        return _super !== null && _super.apply(this, arguments) || this;
+exports.default = {
+    init: function (el) {
+        var jsp = jsplumb_1.jsPlumb.getInstance({
+            ConnectionsDetachable: false
+        });
+        jsp.ready(function () {
+            jsp.setContainer(el);
+            jsp.bind('click', function (conn, originalEvent) {
+                jsp.deleteConnection(conn);
+            });
+            ReactDOM.render(React.createElement("main", null,
+                React.createElement(controls_view_1.default, null),
+                React.createElement(canvas_view_1.default, { jsp: jsp })), el);
+        });
     }
-    Askcell.prototype.render = function () {
-        var props = this.props;
-        return (React.createElement("section", { className: "react-cell" },
-            React.createElement(topbar_1.default, __assign({}, props)),
-            React.createElement(option_1.default, { text: "\u62D6\u62FD\u6DFB\u52A0\u7EC4\u4EF6\u6D4B\u8BD5" })));
-    };
-    return Askcell;
-}(React.Component));
-exports.default = drag_hoc_1.default(Askcell);
+};
 
 
 /***/ }),
 
-/***/ "./src/jsplumb/canvas.tsx":
-/*!********************************!*\
-  !*** ./src/jsplumb/canvas.tsx ***!
-  \********************************/
+/***/ "./src/jsplumb/canvas.view.tsx":
+/*!*************************************!*\
+  !*** ./src/jsplumb/canvas.view.tsx ***!
+  \*************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -35572,61 +35537,169 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var PropTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-var msg_cell_1 = __webpack_require__(/*! ./msg.cell */ "./src/jsplumb/msg.cell.tsx");
-var ask_cell_1 = __webpack_require__(/*! ./ask.cell */ "./src/jsplumb/ask.cell.tsx");
+var entity_config_1 = __webpack_require__(/*! ./config/entity.config */ "./src/jsplumb/config/entity.config.ts");
 /**
  * @file 作为 provider 和 drop 容器
  */
-var Canvas = /** @class */ (function (_super) {
-    __extends(Canvas, _super);
-    function Canvas(props) {
+var CanvasView = /** @class */ (function (_super) {
+    __extends(CanvasView, _super);
+    function CanvasView(props) {
         var _this = _super.call(this, props) || this;
         _this.state = {
             list: []
         };
         return _this;
     }
-    Canvas.prototype.getChildContext = function () {
+    CanvasView.prototype.getChildContext = function () {
         return {
-            jsp: this.props.jsp
+            jsp: this.props.jsp,
+            containment: '_canvas'
         };
     };
-    Canvas.prototype.generateCell = function () {
-        return this.state.list.map(function (data, i) { return React.createElement(ask_cell_1.default, __assign({ key: i }, data)); });
+    /**
+     * 根据 controls 类型创建实体
+     *
+     * @returns
+     * @memberof CanvasView
+     */
+    CanvasView.prototype.generateEntity = function () {
+        return this.state.list.map(function (data, i) {
+            var Entity = entity_config_1.getEntity(data.type);
+            return React.createElement(Entity, __assign({ key: i }, data));
+        });
     };
-    Canvas.prototype.ondragoverHandle = function (data) {
+    CanvasView.prototype.dragoverHandle = function (data) {
         data.nativeEvent.preventDefault();
         data.nativeEvent.dataTransfer.dropEffect = 'copy';
     };
-    Canvas.prototype.ondropHandle = function (data) {
+    CanvasView.prototype.dropHandle = function (data) {
         var event = data.nativeEvent;
         var text = event.dataTransfer.getData('text');
         var list = this.state.list;
         event.preventDefault();
         list.push({
-            title: text + " - \u5355\u5143",
+            type: "" + text,
+            title: text + " \u5355\u5143",
             top: event.layerY,
             left: event.layerX
         });
         this.setState({ list: list });
     };
-    Canvas.prototype.render = function () {
-        return (React.createElement("div", { className: "react-canvas", onDrop: this.ondropHandle.bind(this), onDragOver: this.ondragoverHandle.bind(this) },
-            this.props.children,
-            React.createElement(msg_cell_1.default, { title: "\u6D88\u606F\u5355\u5143", left: 120, top: 200 }),
-            React.createElement(msg_cell_1.default, { title: "\u6D88\u606F\u5355\u5143", left: 400, top: 200 }),
-            this.generateCell()));
+    CanvasView.prototype.render = function () {
+        var Entity = entity_config_1.getEntity();
+        return (React.createElement("div", { id: "_canvas", className: "react-canvas", onDrop: this.dropHandle.bind(this), onDragOver: this.dragoverHandle.bind(this) },
+            React.createElement(Entity, { title: "\u6D88\u606F\u5355\u5143", left: 120, top: 200 }),
+            React.createElement(Entity, { title: "\u6D88\u606F\u5355\u5143", left: 400, top: 200 }),
+            this.generateEntity()));
     };
-    Canvas.propTypes = {
+    CanvasView.propTypes = {
         jsp: PropTypes.object,
         children: PropTypes.any
     };
-    Canvas.childContextTypes = {
-        jsp: PropTypes.object
+    CanvasView.childContextTypes = {
+        jsp: PropTypes.object,
+        containment: PropTypes.string
     };
-    return Canvas;
+    return CanvasView;
 }(React.Component));
-exports.default = Canvas;
+exports.default = CanvasView;
+
+
+/***/ }),
+
+/***/ "./src/jsplumb/common/lemma.tsx":
+/*!**************************************!*\
+  !*** ./src/jsplumb/common/lemma.tsx ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var PropTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/**
+ * @file 词条组件
+ */
+var Lemma = /** @class */ (function (_super) {
+    __extends(Lemma, _super);
+    function Lemma() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Lemma.prototype.render = function () {
+        var props = this.props;
+        return (React.createElement("div", { className: "lamma" },
+            React.createElement("strong", { className: "lamma-word" }, props.word),
+            props.text));
+    };
+    Lemma.propTypes = {
+        word: PropTypes.string,
+        text: PropTypes.string
+    };
+    return Lemma;
+}(React.Component));
+exports.default = Lemma;
+
+
+/***/ }),
+
+/***/ "./src/jsplumb/common/option.tsx":
+/*!***************************************!*\
+  !*** ./src/jsplumb/common/option.tsx ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var endpoint_hoc_1 = __webpack_require__(/*! ../hoc/endpoint.hoc */ "./src/jsplumb/hoc/endpoint.hoc.tsx");
+var Option = /** @class */ (function (_super) {
+    __extends(Option, _super);
+    function Option() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Option.prototype.render = function () {
+        var props = this.props;
+        return (React.createElement("div", { className: "react-option" },
+            React.createElement("span", { className: "react-entity-option-icon" },
+                React.createElement("img", { src: props.icon })),
+            props.text));
+    };
+    Option.defaultProps = {
+        icon: './imgs/option-icon.png'
+    };
+    return Option;
+}(React.Component));
+exports.default = endpoint_hoc_1.default(Option);
 
 
 /***/ }),
@@ -35686,6 +35759,50 @@ exports.default = Topbar;
 
 /***/ }),
 
+/***/ "./src/jsplumb/config/entity.config.ts":
+/*!*********************************************!*\
+  !*** ./src/jsplumb/config/entity.config.ts ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var ask_entity_1 = __webpack_require__(/*! ../entity/ask.entity */ "./src/jsplumb/entity/ask.entity.tsx");
+var msg_entity_1 = __webpack_require__(/*! ../entity/msg.entity */ "./src/jsplumb/entity/msg.entity.tsx");
+/**
+ * @file 实体类型
+ */
+var EntityType;
+(function (EntityType) {
+    EntityType["tigger"] = "ENTITY-TRIGGER";
+    EntityType["ask"] = "ENTITY-ASK";
+    EntityType["message"] = "ENTITY-MESSAGE";
+    EntityType["chat"] = "ENTITY-CHAT";
+    EntityType["hidden"] = "ENTITY-HIDDEN";
+})(EntityType = exports.EntityType || (exports.EntityType = {}));
+function getEntity(type) {
+    switch (type) {
+        case 'ENTITY-TRIGGER':
+            return;
+        case 'ENTITY-MESSAGE':
+            return msg_entity_1.default;
+        case 'ENTITY-ASK':
+            return ask_entity_1.default;
+        case 'ENTITY-CHAT':
+            return ask_entity_1.default;
+        case 'ENTITY-HIDDEN':
+            return ask_entity_1.default;
+        default:
+            return msg_entity_1.default;
+    }
+}
+exports.getEntity = getEntity;
+
+
+/***/ }),
+
 /***/ "./src/jsplumb/config/jsplumb.config.ts":
 /*!**********************************************!*\
   !*** ./src/jsplumb/config/jsplumb.config.ts ***!
@@ -35737,41 +35854,186 @@ exports.endpointConfig = {
 
 /***/ }),
 
-/***/ "./src/jsplumb/draw.tsx":
-/*!******************************!*\
-  !*** ./src/jsplumb/draw.tsx ***!
-  \******************************/
+/***/ "./src/jsplumb/controls.view.tsx":
+/*!***************************************!*\
+  !*** ./src/jsplumb/controls.view.tsx ***!
+  \***************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
-__webpack_require__(/*! ./style.less */ "./src/jsplumb/style.less");
-var jsplumb_1 = __webpack_require__(/*! jsplumb */ "./node_modules/jsplumb/dist/js/jsplumb.js");
-var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-var canvas_1 = __webpack_require__(/*! ./canvas */ "./src/jsplumb/canvas.tsx");
-var menulist_1 = __webpack_require__(/*! ./menulist */ "./src/jsplumb/menulist.tsx");
-/**
- * @file react 结合 jsplumb 绘制流程图
- */
-exports.default = {
-    init: function (el) {
-        var jsp = jsplumb_1.jsPlumb.getInstance({
-            ConnectionsDetachable: false
-        });
-        jsp.ready(function () {
-            jsp.setContainer(el);
-            jsp.bind('click', function (conn, originalEvent) {
-                jsp.deleteConnection(conn);
-            });
-            ReactDOM.render(React.createElement("main", null,
-                React.createElement(menulist_1.default, null),
-                React.createElement(canvas_1.default, { jsp: jsp })), el);
-        });
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
     }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var entity_config_1 = __webpack_require__(/*! ./config/entity.config */ "./src/jsplumb/config/entity.config.ts");
+/**
+ * @file 实体选择面板
+ */
+var ControlsView = /** @class */ (function (_super) {
+    __extends(ControlsView, _super);
+    function ControlsView() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    ControlsView.prototype.dragHandle = function (data) {
+        var event = data.nativeEvent;
+        var type = event.target.getAttribute('data-type');
+        event.dataTransfer.setData("text/plain", type);
+    };
+    /**
+     * 点击添加实体, redux action
+     */
+    ControlsView.prototype.clickHandle = function (data) {
+        var event = data.nativeEvent;
+        console.log(event);
+    };
+    ControlsView.prototype.render = function () {
+        return (React.createElement("section", { className: "react-controls" },
+            React.createElement("div", { draggable: true, onDragStart: this.dragHandle, onClick: this.clickHandle, "data-type": entity_config_1.EntityType.tigger }, "\u89E6\u53D1\u5668"),
+            React.createElement("div", { draggable: true, onDragStart: this.dragHandle, onClick: this.clickHandle, "data-type": entity_config_1.EntityType.ask }, "\u5BF9\u8BDD\u5355\u5143"),
+            React.createElement("div", { draggable: true, onDragStart: this.dragHandle, onClick: this.clickHandle, "data-type": entity_config_1.EntityType.message }, "\u6D88\u606F\u5355\u5143"),
+            React.createElement("div", { draggable: true, onDragStart: this.dragHandle, onClick: this.clickHandle, "data-type": entity_config_1.EntityType.chat }, "\u5BF9\u8BDD\u5355\u5143"),
+            React.createElement("div", { draggable: true, onDragStart: this.dragHandle, onClick: this.clickHandle, "data-type": entity_config_1.EntityType.hidden }, "\u9690\u85CF\u5355\u5143")));
+    };
+    return ControlsView;
+}(React.Component));
+exports.default = ControlsView;
+
+
+/***/ }),
+
+/***/ "./src/jsplumb/entity/ask.entity.tsx":
+/*!*******************************************!*\
+  !*** ./src/jsplumb/entity/ask.entity.tsx ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var drag_hoc_1 = __webpack_require__(/*! ../hoc/drag.hoc */ "./src/jsplumb/hoc/drag.hoc.tsx");
+var option_1 = __webpack_require__(/*! ../common/option */ "./src/jsplumb/common/option.tsx");
+var topbar_1 = __webpack_require__(/*! ../common/topbar */ "./src/jsplumb/common/topbar.tsx");
+/**
+ * @file 问题单元
+ */
+var AskEntity = /** @class */ (function (_super) {
+    __extends(AskEntity, _super);
+    function AskEntity() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    AskEntity.prototype.render = function () {
+        var props = this.props;
+        return (React.createElement("section", { className: "react-entity" },
+            React.createElement(topbar_1.default, __assign({}, props)),
+            React.createElement(option_1.default, { text: "\u62D6\u62FD\u6DFB\u52A0\u7EC4\u4EF6\u6D4B\u8BD5" })));
+    };
+    return AskEntity;
+}(React.Component));
+exports.default = drag_hoc_1.default(AskEntity);
+
+
+/***/ }),
+
+/***/ "./src/jsplumb/entity/msg.entity.tsx":
+/*!*******************************************!*\
+  !*** ./src/jsplumb/entity/msg.entity.tsx ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var drag_hoc_1 = __webpack_require__(/*! ../hoc/drag.hoc */ "./src/jsplumb/hoc/drag.hoc.tsx");
+var lemma_1 = __webpack_require__(/*! ../common/lemma */ "./src/jsplumb/common/lemma.tsx");
+var option_1 = __webpack_require__(/*! ../common/option */ "./src/jsplumb/common/option.tsx");
+var topbar_1 = __webpack_require__(/*! ../common/topbar */ "./src/jsplumb/common/topbar.tsx");
+/**
+ * @file 消息对话单元
+ */
+var MsgEntity = /** @class */ (function (_super) {
+    __extends(MsgEntity, _super);
+    function MsgEntity() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    MsgEntity.prototype.componentDidMount = function () {
+        var jsp = this.props.jsp;
+    };
+    MsgEntity.prototype.render = function () {
+        var props = this.props;
+        return (React.createElement("section", { className: "react-entity" },
+            React.createElement(topbar_1.default, __assign({}, props)),
+            React.createElement(lemma_1.default, { word: "\u5458\u5DE5\u7C7B\u578B", text: "\u4F60\u60F3\u8BF7\u4EC0\u4E48\u6837\u7684\u5047?" }),
+            React.createElement(option_1.default, { text: "\u6D4B\u8BD5\u6D88\u606F1" }),
+            React.createElement(option_1.default, { text: "\u6D4B\u8BD5\u6D88\u606F2" })));
+    };
+    return MsgEntity;
+}(React.Component));
+exports.default = drag_hoc_1.default(MsgEntity);
 
 
 /***/ }),
@@ -35820,28 +36082,28 @@ function makeDragComponent(WrappedComponent) {
     var _a;
     return _a = /** @class */ (function (_super) {
             __extends(Draggable, _super);
-            function Draggable(props) {
-                var _this = _super.call(this, props) || this;
-                _this.root = React.createRef();
-                return _this;
+            function Draggable() {
+                return _super !== null && _super.apply(this, arguments) || this;
             }
             Draggable.prototype.componentDidMount = function () {
-                var jsp = this.context.jsp;
-                var node = this.root.current;
-                jsp.draggable(node);
+                var context = this.context;
+                var jsp = context.jsp;
+                var node = this.refs.element;
+                jsp.draggable(node, { containment: context.containment });
                 jsp.addEndpoint(node, { anchor: 'Left' }, jsplumb_config_1.endpointConfig);
             };
             Draggable.prototype.render = function () {
                 var jsp = this.context.jsp;
                 var props = this.props;
                 var style = { left: props.left, top: props.top };
-                return (React.createElement("div", { ref: this.root, className: "react-entity-wrap", style: style },
+                return (React.createElement("div", { ref: "element", className: "react-entity-wrap", style: style },
                     React.createElement(WrappedComponent, __assign({ jsp: jsp }, props))));
             };
             return Draggable;
         }(React.Component)),
         _a.contextTypes = {
-            jsp: PropTypes.object
+            jsp: PropTypes.object,
+            containment: PropTypes.string
         },
         _a;
 }
@@ -35895,19 +36157,16 @@ function makeComponentEndpoint(WrappedComponent) {
     return _a = /** @class */ (function (_super) {
             __extends(Endpoint, _super);
             function Endpoint(props) {
-                var _this = _super.call(this, props) || this;
-                _this.root = React.createRef();
-                return _this;
+                return _super.call(this, props) || this;
             }
             Endpoint.prototype.componentDidMount = function () {
-                console.log(this.root);
                 var jsp = this.context.jsp;
-                var node = this.root.current;
+                var node = this.refs.element;
                 jsp.addEndpoint(node, { anchor: 'Right' }, jsplumb_config_1.endpointConfig);
             };
             Endpoint.prototype.render = function () {
                 var props = this.props;
-                return (React.createElement("div", { ref: this.root, className: "react-endpoint" },
+                return (React.createElement("div", { ref: "element", className: "react-endpoint" },
                     React.createElement(WrappedComponent, __assign({}, props))));
             };
             return Endpoint;
@@ -35918,165 +36177,6 @@ function makeComponentEndpoint(WrappedComponent) {
         _a;
 }
 exports.default = makeComponentEndpoint;
-
-
-/***/ }),
-
-/***/ "./src/jsplumb/menulist.tsx":
-/*!**********************************!*\
-  !*** ./src/jsplumb/menulist.tsx ***!
-  \**********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    }
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-var Menulist = /** @class */ (function (_super) {
-    __extends(Menulist, _super);
-    function Menulist() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Menulist.prototype.ondragHandle = function (type, data) {
-        data.nativeEvent.dataTransfer.setData("text/plain", type);
-    };
-    Menulist.prototype.render = function () {
-        return (React.createElement("section", { className: "react-controls" },
-            React.createElement("div", { draggable: true, onDragStart: this.ondragHandle.bind(this, 'tigger') }, "\u89E6\u53D1\u5668"),
-            React.createElement("div", { draggable: true, onDragStart: this.ondragHandle.bind(this, 'message') }, "\u6D88\u606F\u5355\u5143"),
-            React.createElement("div", { draggable: true, onDragStart: this.ondragHandle.bind(this, 'chat') }, "\u5BF9\u8BDD\u5355\u5143"),
-            React.createElement("div", { draggable: true, onDragStart: this.ondragHandle.bind(this, 'hidden') }, "\u9690\u85CF\u5355\u5143")));
-    };
-    return Menulist;
-}(React.Component));
-exports.default = Menulist;
-
-
-/***/ }),
-
-/***/ "./src/jsplumb/msg.cell.tsx":
-/*!**********************************!*\
-  !*** ./src/jsplumb/msg.cell.tsx ***!
-  \**********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    }
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-var drag_hoc_1 = __webpack_require__(/*! ./hoc/drag.hoc */ "./src/jsplumb/hoc/drag.hoc.tsx");
-var option_1 = __webpack_require__(/*! ./option */ "./src/jsplumb/option.tsx");
-var topbar_1 = __webpack_require__(/*! ./common/topbar */ "./src/jsplumb/common/topbar.tsx");
-/**
- * @file 消息对话单元
- */
-var Msgcell = /** @class */ (function (_super) {
-    __extends(Msgcell, _super);
-    function Msgcell() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Msgcell.prototype.componentDidMount = function () {
-        var jsp = this.props.jsp;
-    };
-    Msgcell.prototype.render = function () {
-        var props = this.props;
-        return (React.createElement("section", { className: "react-entity" },
-            React.createElement(topbar_1.default, __assign({}, props)),
-            React.createElement("div", { className: "react-entity-words" },
-                React.createElement("span", { className: "react-entity-light" }, "\u5458\u5DE5\u7C7B\u578B"),
-                "\u4F60\u60F3\u8BF7\u4EC0\u4E48\u6837\u7684\u5047?"),
-            React.createElement(option_1.default, { text: "\u6D4B\u8BD5\u6D88\u606F1" }),
-            React.createElement(option_1.default, { text: "\u6D4B\u8BD5\u6D88\u606F2" })));
-    };
-    return Msgcell;
-}(React.Component));
-exports.default = drag_hoc_1.default(Msgcell);
-
-
-/***/ }),
-
-/***/ "./src/jsplumb/option.tsx":
-/*!********************************!*\
-  !*** ./src/jsplumb/option.tsx ***!
-  \********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    }
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-var endpoint_hoc_1 = __webpack_require__(/*! ./hoc/endpoint.hoc */ "./src/jsplumb/hoc/endpoint.hoc.tsx");
-var Option = /** @class */ (function (_super) {
-    __extends(Option, _super);
-    function Option() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Option.prototype.render = function () {
-        var props = this.props;
-        return (React.createElement("div", { className: "react-option" },
-            React.createElement("span", { className: "react-entity-option-icon" },
-                React.createElement("img", { src: props.icon })),
-            props.text));
-    };
-    Option.defaultProps = {
-        icon: './imgs/option-icon.png'
-    };
-    return Option;
-}(React.Component));
-exports.default = endpoint_hoc_1.default(Option);
 
 
 /***/ }),

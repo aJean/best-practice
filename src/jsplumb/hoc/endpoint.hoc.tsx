@@ -8,21 +8,17 @@ import {endpointConfig} from '../config/jsplumb.config';
 
 export default function makeComponentEndpoint(WrappedComponent) {
     return class Endpoint extends React.Component<any, any> {
-        root: any;
-        
         static contextTypes = {
             jsp: PropTypes.object
         }
 
         constructor(props) {
             super(props);
-            this.root = React.createRef();
         }
 
         componentDidMount() {
-            console.log(this.root)
             const jsp = this.context.jsp;
-            const node = this.root.current;
+            const node = this.refs.element;
 
             jsp.addEndpoint(node, { anchor: 'Right' }, endpointConfig);
         }
@@ -30,7 +26,7 @@ export default function makeComponentEndpoint(WrappedComponent) {
         render() {
             const props = this.props;
 
-            return (<div ref={this.root} className="react-endpoint">
+            return (<div ref="element" className="react-endpoint">
                 <WrappedComponent {...props} />
             </div>);
         }
