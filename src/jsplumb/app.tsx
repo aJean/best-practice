@@ -1,7 +1,8 @@
 import './style.less';
-import { jsPlumb } from 'jsplumb';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import {Provider} from 'react-redux';
+import store from './config/reducers';
 import CanvasView from './canvas.view';
 import ControlsView from './controls.view';
 
@@ -11,9 +12,7 @@ import ControlsView from './controls.view';
 
 export default {
     init(el) {
-        const jsp = jsPlumb.getInstance({
-            ConnectionsDetachable: false
-        });
+        const jsp = store.jsp;
 
         jsp.ready(function () {
             jsp.setContainer(el);
@@ -22,10 +21,10 @@ export default {
                 jsp.deleteConnection(conn);
             });
 
-            ReactDOM.render(<main>
+            ReactDOM.render(<Provider store={store}><main>
                 <ControlsView />
-                <CanvasView jsp={jsp} />
-            </main>, el);
+                <CanvasView />
+            </main></Provider>, el);
         });
     }
 }

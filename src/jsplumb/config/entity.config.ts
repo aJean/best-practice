@@ -16,7 +16,7 @@ export enum EntityType {
 export function getEntity(type?) {
     switch (type) {
         case 'ENTITY-TRIGGER':
-            return;
+            return MsgEntity;
         case 'ENTITY-MESSAGE':
             return MsgEntity;
         case 'ENTITY-ASK':
@@ -28,4 +28,9 @@ export function getEntity(type?) {
         default:
             return MsgEntity;
     }
+}
+
+let uid = 0;
+export function createUid() {
+    return `entity_id_${uid++}`;
 }

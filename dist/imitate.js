@@ -20684,6 +20684,7 @@ var connect = function (mapStateToProps, mapDispatchToProps) { return function (
                 var _this = this;
                 var store = this.context.store;
                 var staticProps = mapDispatchToProps ? mapDispatchToProps(store.dispatch) : {};
+                // setState 不会触发 rerender, 而是相当于 init
                 this.update(store.getState(), staticProps);
                 store.subscribe(function (data) { return _this.update(data, staticProps); });
             };

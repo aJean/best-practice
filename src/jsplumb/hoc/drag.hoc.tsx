@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import store from '../config/reducers';
 import {endpointConfig} from '../config/jsplumb.config';
 
 /**
@@ -8,17 +8,11 @@ import {endpointConfig} from '../config/jsplumb.config';
 
 export default function makeDragComponent(WrappedComponent) {
     return class Draggable extends React.Component<any, any> {
-        static contextTypes = {
-            jsp: PropTypes.object,
-            containment: PropTypes.string
-        }
-
         componentDidMount() {
-            const context = this.context;
-            const jsp = context.jsp;
+            const jsp: any = store.jsp;
             const node = this.refs.element;
 
-            jsp.draggable(node, {containment: context.containment});
+            jsp.draggable(node, {containment: store.containment});
             jsp.addEndpoint(node, {anchor: 'Left'}, endpointConfig);
         }
         

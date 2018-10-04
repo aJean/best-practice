@@ -1,11 +1,23 @@
 import * as React from 'react';
 import {EntityType} from './config/entity.config';
+import { connect } from 'react-redux';
+import * as actions from './config/actions';
 
 /**
  * @file 实体选择面板
  */
 
-export default class ControlsView extends React.Component {
+const mapDispatchToProps = dispatch => {
+    return {
+        onAddControl: data => dispatch(actions.addControl(data))
+    };
+};
+
+class ControlsView extends React.Component<any, any> {
+    constructor(props) {
+        super(props);
+        this.clickHandle = this.clickHandle.bind(this);
+    }
 
     dragHandle(data) {
         const event = data.nativeEvent;
@@ -19,8 +31,14 @@ export default class ControlsView extends React.Component {
      */
     clickHandle(data) {
         const event = data.nativeEvent;
+        const type = event.target.getAttribute('data-type');
 
-        console.log(event)
+        this.props.onAddControl({
+            type,
+            title: `${type} 单元`,
+            top: 500,
+            left: 500
+        });
     }
 
     render() {
@@ -33,4 +51,6 @@ export default class ControlsView extends React.Component {
         </section>);
     }
 }
+
+export default connect(null, mapDispatchToProps)(ControlsView);
 

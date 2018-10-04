@@ -1,37 +1,23 @@
 import * as React from 'react';
-import * as PropTypes from 'prop-types';
 import {getEntity} from './config/entity.config';
+import { connect } from 'react-redux';
+import * as actions from './config/actions';
 
 /**
  * @file 作为 provider 和 drop 容器
  */
 
-export default class CanvasView extends React.Component<any, any> {
-    static propTypes = {
-        jsp: PropTypes.object,
-        children: PropTypes.any
-    }
+const mapStateToProps = state => {
+    return {list: state.controlsList};
+};
 
-    static childContextTypes = {
-        jsp: PropTypes.object,
-        containment: PropTypes.string
-    }
+const mapDispatchToProps = dispatch => {
+    return {
+        onAddControl: data => dispatch(actions.addControl(data))
+    };
+};
 
-    getChildContext() {
-        return {
-            jsp: this.props.jsp,
-            containment: '_canvas'
-        };
-    }
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            list: []
-        };
-    }
-
+class CanvasView extends React.Component<any, any> {
     /**
      * 根据 controls 类型创建实体
      *
@@ -39,7 +25,7 @@ export default class CanvasView extends React.Component<any, any> {
      * @memberof CanvasView
      */
     generateEntity() {
-        return this.state.list.map((data, i) => {
+        return this.props.list.map((data, i) => {
             const Entity = getEntity(data.type);
             return <Entity  key={i} {...data} />
         });
@@ -53,29 +39,24 @@ export default class CanvasView extends React.Component<any, any> {
     dropHandle(data) {
         const event = data.nativeEvent;
         const text = event.dataTransfer.getData('text');
-        const list = this.state.list;
 
         event.preventDefault();
-        list.push({
+        this.props.onAddControl({
             type: `${text}`,
             title: `${text} 单元`,
             top: event.layerY,
             left: event.layerX
         });
-
-        this.setState({list});
     }
 
     render() {
-        const Entity = getEntity();
-
         return (
             <div id="_canvas" className="react-canvas" onDrop={this.dropHandle.bind(this)}
                 onDragOver={this.dragoverHandle.bind(this)}>
-                <Entity title="消息单元" left={120} top={200} />
-                <Entity title="消息单元" left={400} top={200} />
                 {this.generateEntity()}
             </div>
         );
     }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(CanvasView);

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import store from '../config/reducers';
 import {endpointConfig} from '../config/jsplumb.config';
 
 /**
@@ -8,16 +8,12 @@ import {endpointConfig} from '../config/jsplumb.config';
 
 export default function makeComponentEndpoint(WrappedComponent) {
     return class Endpoint extends React.Component<any, any> {
-        static contextTypes = {
-            jsp: PropTypes.object
-        }
-
         constructor(props) {
             super(props);
         }
 
         componentDidMount() {
-            const jsp = this.context.jsp;
+            const jsp: any = store.jsp;
             const node = this.refs.element;
 
             jsp.addEndpoint(node, { anchor: 'Right' }, endpointConfig);
