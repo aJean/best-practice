@@ -27,6 +27,7 @@ class CanvasView extends React.Component<any, any> {
     generateEntity() {
         return this.props.list.map((data, i) => {
             const Entity = getEntity(data.type);
+            // make sure id is unique
             return <Entity  key={data.id} {...data} />
         });
     }
