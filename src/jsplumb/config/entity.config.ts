@@ -30,7 +30,8 @@ export function getEntity(type?) {
     }
 }
 
+// TODO: 生成为画布实体唯一id
 let uid = 0;
-export function createUid() {
+export function getEntityId() {
     return `entity_id_${uid++}`;
 }

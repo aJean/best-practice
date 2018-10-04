@@ -40713,7 +40713,7 @@ var CanvasView = /** @class */ (function (_super) {
     CanvasView.prototype.generateEntity = function () {
         return this.props.list.map(function (data, i) {
             var Entity = entity_config_1.getEntity(data.type);
-            return React.createElement(Entity, __assign({ key: i }, data));
+            return React.createElement(Entity, __assign({ key: data.id }, data));
         });
     };
     CanvasView.prototype.dragoverHandle = function (data) {
@@ -40725,6 +40725,7 @@ var CanvasView = /** @class */ (function (_super) {
         var text = event.dataTransfer.getData('text');
         event.preventDefault();
         this.props.onAddControl({
+            id: entity_config_1.getEntityId(),
             type: "" + text,
             title: text + " \u5355\u5143",
             top: event.layerY,
@@ -40964,11 +40965,12 @@ function getEntity(type) {
     }
 }
 exports.getEntity = getEntity;
+// TODO: 生成为画布实体唯一id
 var uid = 0;
-function createUid() {
+function getEntityId() {
     return "entity_id_" + uid++;
 }
-exports.createUid = createUid;
+exports.getEntityId = getEntityId;
 
 
 /***/ }),
@@ -41144,7 +41146,7 @@ var ControlsView = /** @class */ (function (_super) {
     ControlsView.prototype.render = function () {
         return (React.createElement("section", { className: "react-controls" },
             React.createElement("div", { draggable: true, onDragStart: this.dragHandle, onClick: this.clickHandle, "data-type": entity_config_1.EntityType.tigger }, "\u89E6\u53D1\u5668"),
-            React.createElement("div", { draggable: true, onDragStart: this.dragHandle, onClick: this.clickHandle, "data-type": entity_config_1.EntityType.ask }, "\u5BF9\u8BDD\u5355\u5143"),
+            React.createElement("div", { draggable: true, onDragStart: this.dragHandle, onClick: this.clickHandle, "data-type": entity_config_1.EntityType.ask }, "\u95EE\u7B54\u5355\u5143"),
             React.createElement("div", { draggable: true, onDragStart: this.dragHandle, onClick: this.clickHandle, "data-type": entity_config_1.EntityType.message }, "\u6D88\u606F\u5355\u5143"),
             React.createElement("div", { draggable: true, onDragStart: this.dragHandle, onClick: this.clickHandle, "data-type": entity_config_1.EntityType.chat }, "\u5BF9\u8BDD\u5355\u5143"),
             React.createElement("div", { draggable: true, onDragStart: this.dragHandle, onClick: this.clickHandle, "data-type": entity_config_1.EntityType.hidden }, "\u9690\u85CF\u5355\u5143")));
@@ -41262,9 +41264,6 @@ var MsgEntity = /** @class */ (function (_super) {
     function MsgEntity() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    MsgEntity.prototype.componentDidMount = function () {
-        var jsp = this.props.jsp;
-    };
     MsgEntity.prototype.render = function () {
         var props = this.props;
         return (React.createElement("section", { className: "react-entity" },
@@ -41332,12 +41331,17 @@ function makeDragComponent(WrappedComponent) {
             jsp.draggable(node, { containment: reducers_1.default.containment });
             jsp.addEndpoint(node, { anchor: 'Left' }, jsplumb_config_1.endpointConfig);
         };
+        Draggable.prototype.componentWillUnmount = function () {
+            var jsp = reducers_1.default.jsp;
+            var node = this.refs.element;
+            jsp.empty(node);
+            jsp.removeAllEndpoints(node);
+        };
         Draggable.prototype.render = function () {
-            var jsp = this.context.jsp;
             var props = this.props;
             var style = { left: props.left, top: props.top };
-            return (React.createElement("div", { ref: "element", className: "react-entity-wrap", style: style },
-                React.createElement(WrappedComponent, __assign({ jsp: jsp }, props))));
+            return (React.createElement("div", { id: props.id, ref: "element", className: "react-entity-wrap", style: style },
+                React.createElement(WrappedComponent, __assign({}, props))));
         };
         return Draggable;
     }(React.Component));
@@ -41397,6 +41401,8 @@ function makeComponentEndpoint(WrappedComponent) {
             var jsp = reducers_1.default.jsp;
             var node = this.refs.element;
             jsp.addEndpoint(node, { anchor: 'Right' }, jsplumb_config_1.endpointConfig);
+        };
+        Endpoint.prototype.componentWillUnmount = function () {
         };
         Endpoint.prototype.render = function () {
             var props = this.props;

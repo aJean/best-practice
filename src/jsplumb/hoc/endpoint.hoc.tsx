@@ -19,6 +19,10 @@ export default function makeComponentEndpoint(WrappedComponent) {
             jsp.addEndpoint(node, { anchor: 'Right' }, endpointConfig);
         }
 
+        componentWillUnmount() {
+            
+        }
+
         render() {
             const props = this.props;
 

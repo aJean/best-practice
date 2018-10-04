@@ -15,14 +15,21 @@ export default function makeDragComponent(WrappedComponent) {
             jsp.draggable(node, {containment: store.containment});
             jsp.addEndpoint(node, {anchor: 'Left'}, endpointConfig);
         }
+
+        componentWillUnmount() {
+            const jsp: any = store.jsp;
+            const node = this.refs.element;
+
+            jsp.empty(node);
+            jsp.removeAllEndpoints(node);
+        }
         
         render() {
-            const jsp = this.context.jsp;
             const props = this.props;
             const style = {left: props.left, top: props.top};
 
-            return (<div ref="element" className="react-entity-wrap" style={style}>
-                <WrappedComponent jsp={jsp} {...props} />
+            return (<div id={props.id} ref="element" className="react-entity-wrap" style={style}>
+                <WrappedComponent {...props} />
             </div>);
         }
     }

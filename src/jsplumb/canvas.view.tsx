@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {getEntity} from './config/entity.config';
+import {getEntity, getEntityId} from './config/entity.config';
 import { connect } from 'react-redux';
 import * as actions from './config/actions';
 
@@ -27,7 +27,7 @@ class CanvasView extends React.Component<any, any> {
     generateEntity() {
         return this.props.list.map((data, i) => {
             const Entity = getEntity(data.type);
-            return <Entity  key={i} {...data} />
+            return <Entity  key={data.id} {...data} />
         });
     }
 
@@ -42,6 +42,7 @@ class CanvasView extends React.Component<any, any> {
 
         event.preventDefault();
         this.props.onAddControl({
+            id: getEntityId(),
             type: `${text}`,
             title: `${text} 单元`,
             top: event.layerY,

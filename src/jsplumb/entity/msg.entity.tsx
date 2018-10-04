@@ -9,10 +9,6 @@ import Topbar from '../common/topbar';
  */
 
 class MsgEntity extends React.Component<any, any> {
-    componentDidMount() {
-        const jsp = this.props.jsp;
-    }
-
     render() {
         const props = this.props;
 

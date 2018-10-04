@@ -44,7 +44,7 @@ class ControlsView extends React.Component<any, any> {
     render() {
         return (<section className="react-controls">
             <div draggable={true} onDragStart={this.dragHandle} onClick={this.clickHandle} data-type={EntityType.tigger}>触发器</div>
-            <div draggable={true} onDragStart={this.dragHandle} onClick={this.clickHandle} data-type={EntityType.ask}>对话单元</div>
+            <div draggable={true} onDragStart={this.dragHandle} onClick={this.clickHandle} data-type={EntityType.ask}>问答单元</div>
             <div draggable={true} onDragStart={this.dragHandle} onClick={this.clickHandle} data-type={EntityType.message}>消息单元</div>
             <div draggable={true} onDragStart={this.dragHandle} onClick={this.clickHandle} data-type={EntityType.chat}>对话单元</div>
             <div draggable={true} onDragStart={this.dragHandle} onClick={this.clickHandle} data-type={EntityType.hidden}>隐藏单元</div>
