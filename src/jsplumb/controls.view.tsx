@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {EntityType} from './config/entity.config';
+import { EntityType } from './config/entity.config';
 import { connect } from 'react-redux';
 import * as actions from './config/actions';
 

@@ -3,7 +3,7 @@ import { getEntity, getEntityId } from './config/entity.config';
 import { connect } from 'react-redux';
 import store from './config/reducers';
 import * as actions from './config/actions';
-import { connectConfig } from './config/jsplumb.config';
+import { connectConfig, overlays } from './config/jsplumb.config';
 
 /**
  * @file 作为 provider 和 drop 容器
@@ -28,6 +28,7 @@ class CanvasView extends React.Component<any, any> {
      */
     componentDidMount() {
         this.generateConnections();
+        this.bindConnections();
     }
 
     /**
@@ -42,16 +43,30 @@ class CanvasView extends React.Component<any, any> {
     }
 
     /**
-     * 建立实体关联
-     * order 决定连接方向
+     * 建立实体关联, order 决定连接方向
      */
     generateConnections() {
         const jsp = store.jsp;
 
         this.props.connections.forEach(data => {
             const anchors = data.order ? ['Left', 'Right'] : ['Right', 'Left'];
-            jsp.connect({source: data.from, target: data.to, anchors, unique: true});
+            jsp.connect({source: data.from, target: data.to, anchors, ...connectConfig});
         });
+    }
+
+    /**
+     * 绑定所有建立关联事件
+     */
+    bindConnections() {
+        const jsp = store.jsp;
+
+        jsp.bind('connection', function (conn, originalEvent) {
+            console.log(originalEvent)
+        });
+
+        store.onOverlayClick = function (overlay, originalEvent) {
+            jsp.deleteConnection(overlay.component);
+        }
     }
 
     /**

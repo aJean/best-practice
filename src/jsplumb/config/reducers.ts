@@ -62,9 +62,14 @@ const reducers = combineReducers({
     connections: connectionsReducer
 });
 
-// @trick 携带两个全局属性
+// @TODO: 优化这个事件绑定
+initConfig.ConnectionOverlays[0][1]['events'].click = function (overlay, originalEvent) {
+    store.onOverlayClick(overlay, originalEvent);
+}
+
+// trick 携带两个全局属性
 const store: any = createStore(reducers);
-store.jsp = jsPlumb.getInstance(<any>initConfig);
+store.jsp = jsPlumb.getInstance(<any>initConfig);;
 store.containment = '_canvas';
 
 export default store;

@@ -17,10 +17,6 @@ export default {
         jsp.ready(function () {
             jsp.setContainer(el);
 
-            jsp.bind('click', function (conn, originalEvent) {
-                jsp.deleteConnection(conn);
-            });
-
             ReactDOM.render(<Provider store={store}><main>
                 <ControlsView />
                 <CanvasView />

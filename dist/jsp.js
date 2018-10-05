@@ -40636,9 +40636,6 @@ exports.default = {
         var jsp = reducers_1.default.jsp;
         jsp.ready(function () {
             jsp.setContainer(el);
-            jsp.bind('click', function (conn, originalEvent) {
-                jsp.deleteConnection(conn);
-            });
             ReactDOM.render(React.createElement(react_redux_1.Provider, { store: reducers_1.default },
                 React.createElement("main", null,
                     React.createElement(controls_view_1.default, null),
@@ -40689,6 +40686,7 @@ var entity_config_1 = __webpack_require__(/*! ./config/entity.config */ "./src/j
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 var reducers_1 = __webpack_require__(/*! ./config/reducers */ "./src/jsplumb/config/reducers.ts");
 var actions = __webpack_require__(/*! ./config/actions */ "./src/jsplumb/config/actions.ts");
+var jsplumb_config_1 = __webpack_require__(/*! ./config/jsplumb.config */ "./src/jsplumb/config/jsplumb.config.ts");
 /**
  * @file 作为 provider 和 drop 容器
  */
@@ -40713,6 +40711,7 @@ var CanvasView = /** @class */ (function (_super) {
      */
     CanvasView.prototype.componentDidMount = function () {
         this.generateConnections();
+        this.bindConnections();
     };
     /**
      * 根据 entity 类型创建实体
@@ -40725,15 +40724,26 @@ var CanvasView = /** @class */ (function (_super) {
         });
     };
     /**
-     * 建立实体关联
-     * order 决定连接方向
+     * 建立实体关联, order 决定连接方向
      */
     CanvasView.prototype.generateConnections = function () {
         var jsp = reducers_1.default.jsp;
         this.props.connections.forEach(function (data) {
             var anchors = data.order ? ['Left', 'Right'] : ['Right', 'Left'];
-            jsp.connect({ source: data.from, target: data.to, anchors: anchors, unique: true });
+            jsp.connect(__assign({ source: data.from, target: data.to, anchors: anchors }, jsplumb_config_1.connectConfig));
         });
+    };
+    /**
+     * 绑定所有建立关联事件
+     */
+    CanvasView.prototype.bindConnections = function () {
+        var jsp = reducers_1.default.jsp;
+        jsp.bind('connection', function (conn, originalEvent) {
+            console.log(originalEvent);
+        });
+        reducers_1.default.onOverlayClick = function (overlay, originalEvent) {
+            jsp.deleteConnection(overlay.component);
+        };
     };
     /**
      * 确定拖放行为
@@ -41020,9 +41030,23 @@ exports.connectorStyle = {
 exports.hoverStyle = {
     stroke: '#1f77f3'
 };
+// bind click overlay event
 exports.overlays = [
-    ['Label', { label: 'del', id: 'label' }],
-    ["Arrow", { location: 1, width: 8, length: 6 }]
+    [
+        'Custom', { create: function (component) {
+                var img = document.createElement('img');
+                img.src = './imgs/delete.png';
+                return img;
+            },
+            id: 'img-overlay',
+            events: {
+                click: function (overlay, originalEvent) {
+                    console.log(overlay.component);
+                }
+            }
+        }
+    ],
+    ['Arrow', { location: 1, width: 8, length: 6 }]
 ];
 // 端点
 exports.sourceConfig = {
@@ -41149,9 +41173,14 @@ var reducers = redux_1.combineReducers({
     entitys: entitysReducer,
     connections: connectionsReducer
 });
-// @trick 携带两个全局属性
+// @TODO: 优化这个事件绑定
+jsplumb_config_1.initConfig.ConnectionOverlays[0][1]['events'].click = function (overlay, originalEvent) {
+    store.onOverlayClick(overlay, originalEvent);
+};
+// trick 携带两个全局属性
 var store = redux_1.createStore(reducers);
 store.jsp = jsplumb_1.jsPlumb.getInstance(jsplumb_config_1.initConfig);
+;
 store.containment = '_canvas';
 exports.default = store;
 

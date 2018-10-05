@@ -11,9 +11,22 @@ export const hoverStyle = {
     stroke: '#1f77f3'
 };
 
+// bind click overlay event
 export const overlays = [
-    ['Label', { label: 'del', id: 'label' }],
-    ["Arrow", { location: 1, width: 8, length: 6 }]
+    [
+        'Custom', { create: function (component) {
+            const img = document.createElement('img');
+            img.src = './imgs/delete.png';
+            return img;
+        },
+        id: 'img-overlay',
+        events: {
+            click: function (overlay, originalEvent) { 
+                console.log(overlay.component); 
+            }
+        }
+    }],
+    ['Arrow', { location: 1, width: 8, length: 6 }]
 ];
 
 // 端点
