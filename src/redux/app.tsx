@@ -3,9 +3,7 @@ import * as ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import store from './reducer';
 import List from './list';
-import sync from '../generator/sync';
 
-// sync;
 class App extends React.Component {
     render() {
         return (<Provider store={store}>

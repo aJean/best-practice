@@ -9,14 +9,20 @@ import Topbar from '../common/topbar';
  */
 
 class MsgEntity extends React.Component<any, any> {
+    generateOptions() {
+        const options = this.props.options;
+
+        return options ? this.props.options.map(data => <Option id={data.id} key={data.id} text={data.text} />)
+            : null;
+    }
+
     render() {
         const props = this.props;
 
         return (<section className="react-entity">
             <Topbar {...props} />
             <Lamma word="员工类型" text="你想请什么样的假?" />
-            <Option text="测试消息1" />
-            <Option text="测试消息2" />
+            {this.generateOptions()}
         </section>);
     }
 }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import store from '../config/reducers';
-import {endpointConfig} from '../config/jsplumb.config';
+import {targetConfig} from '../config/jsplumb.config';
 
 /**
  * @file 赋予组件拖动能力
@@ -8,12 +8,13 @@ import {endpointConfig} from '../config/jsplumb.config';
 
 export default function makeDragComponent(WrappedComponent) {
     return class Draggable extends React.Component<any, any> {
+        
         componentDidMount() {
             const jsp: any = store.jsp;
             const node = this.refs.element;
 
             jsp.draggable(node, {containment: store.containment});
-            jsp.addEndpoint(node, {anchor: 'Left'}, endpointConfig);
+            jsp.addEndpoint(node, {anchor: 'Left'}, targetConfig);
         }
 
         componentWillUnmount() {

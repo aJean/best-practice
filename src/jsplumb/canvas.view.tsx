@@ -1,14 +1,19 @@
 import * as React from 'react';
-import {getEntity, getEntityId} from './config/entity.config';
+import { getEntity, getEntityId } from './config/entity.config';
 import { connect } from 'react-redux';
+import store from './config/reducers';
 import * as actions from './config/actions';
+import { connectConfig } from './config/jsplumb.config';
 
 /**
  * @file 作为 provider 和 drop 容器
  */
 
 const mapStateToProps = state => {
-    return {list: state.controlsList};
+    return {
+        entitys: state.entitys,
+        connections: state.connections
+    };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -19,24 +24,47 @@ const mapDispatchToProps = dispatch => {
 
 class CanvasView extends React.Component<any, any> {
     /**
-     * 根据 controls 类型创建实体
-     *
-     * @returns
-     * @memberof CanvasView
+     * 建立实体关联
      */
-    generateEntity() {
-        return this.props.list.map((data, i) => {
+    componentDidMount() {
+        this.generateConnections();
+    }
+
+    /**
+     * 根据 entity 类型创建实体
+     */
+    generateEntitys() {
+        return this.props.entitys.map(data => {
             const Entity = getEntity(data.type);
             // make sure id is unique
             return <Entity  key={data.id} {...data} />
         });
     }
 
+    /**
+     * 建立实体关联
+     * order 决定连接方向
+     */
+    generateConnections() {
+        const jsp = store.jsp;
+
+        this.props.connections.forEach(data => {
+            const anchors = data.order ? ['Left', 'Right'] : ['Right', 'Left'];
+            jsp.connect({source: data.from, target: data.to, anchors, unique: true});
+        });
+    }
+
+    /**
+     * 确定拖放行为
+     */
     dragoverHandle(data) {
         data.nativeEvent.preventDefault();
         data.nativeEvent.dataTransfer.dropEffect = 'copy';
     }
 
+    /**
+     * 放置新增实体
+     */
     dropHandle(data) {
         const event = data.nativeEvent;
         const text = event.dataTransfer.getData('text');
@@ -55,7 +83,7 @@ class CanvasView extends React.Component<any, any> {
         return (
             <div id="_canvas" className="react-canvas" onDrop={this.dropHandle.bind(this)}
                 onDragOver={this.dragoverHandle.bind(this)}>
-                {this.generateEntity()}
+                {this.generateEntitys()}
             </div>
         );
     }

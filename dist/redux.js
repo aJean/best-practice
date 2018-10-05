@@ -28208,7 +28208,6 @@ var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/in
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 var reducer_1 = __webpack_require__(/*! ./reducer */ "./src/redux/reducer.ts");
 var list_1 = __webpack_require__(/*! ./list */ "./src/redux/list.tsx");
-// sync;
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
     function App() {

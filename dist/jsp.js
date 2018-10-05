@@ -40687,12 +40687,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var entity_config_1 = __webpack_require__(/*! ./config/entity.config */ "./src/jsplumb/config/entity.config.ts");
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var reducers_1 = __webpack_require__(/*! ./config/reducers */ "./src/jsplumb/config/reducers.ts");
 var actions = __webpack_require__(/*! ./config/actions */ "./src/jsplumb/config/actions.ts");
 /**
  * @file 作为 provider 和 drop 容器
  */
 var mapStateToProps = function (state) {
-    return { list: state.controlsList };
+    return {
+        entitys: state.entitys,
+        connections: state.connections
+    };
 };
 var mapDispatchToProps = function (dispatch) {
     return {
@@ -40705,21 +40709,42 @@ var CanvasView = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     /**
-     * 根据 controls 类型创建实体
-     *
-     * @returns
-     * @memberof CanvasView
+     * 建立实体关联
      */
-    CanvasView.prototype.generateEntity = function () {
-        return this.props.list.map(function (data, i) {
+    CanvasView.prototype.componentDidMount = function () {
+        this.generateConnections();
+    };
+    /**
+     * 根据 entity 类型创建实体
+     */
+    CanvasView.prototype.generateEntitys = function () {
+        return this.props.entitys.map(function (data) {
             var Entity = entity_config_1.getEntity(data.type);
+            // make sure id is unique
             return React.createElement(Entity, __assign({ key: data.id }, data));
         });
     };
+    /**
+     * 建立实体关联
+     * order 决定连接方向
+     */
+    CanvasView.prototype.generateConnections = function () {
+        var jsp = reducers_1.default.jsp;
+        this.props.connections.forEach(function (data) {
+            var anchors = data.order ? ['Left', 'Right'] : ['Right', 'Left'];
+            jsp.connect({ source: data.from, target: data.to, anchors: anchors, unique: true });
+        });
+    };
+    /**
+     * 确定拖放行为
+     */
     CanvasView.prototype.dragoverHandle = function (data) {
         data.nativeEvent.preventDefault();
         data.nativeEvent.dataTransfer.dropEffect = 'copy';
     };
+    /**
+     * 放置新增实体
+     */
     CanvasView.prototype.dropHandle = function (data) {
         var event = data.nativeEvent;
         var text = event.dataTransfer.getData('text');
@@ -40733,7 +40758,7 @@ var CanvasView = /** @class */ (function (_super) {
         });
     };
     CanvasView.prototype.render = function () {
-        return (React.createElement("div", { id: "_canvas", className: "react-canvas", onDrop: this.dropHandle.bind(this), onDragOver: this.dragoverHandle.bind(this) }, this.generateEntity()));
+        return (React.createElement("div", { id: "_canvas", className: "react-canvas", onDrop: this.dropHandle.bind(this), onDragOver: this.dragoverHandle.bind(this) }, this.generateEntitys()));
     };
     return CanvasView;
 }(React.Component));
@@ -40992,36 +41017,66 @@ exports.connectorStyle = {
     strokeWidth: 4,
     stroke: '#687c8a'
 };
-exports.connectorHoverStyle = {
-    strokeWidth: 4,
+exports.hoverStyle = {
     stroke: '#1f77f3'
 };
-exports.endpointConfig = {
-    endpoint: 'Dot',
-    paintStyle: {
+exports.overlays = [
+    ['Label', { label: 'del', id: 'label' }],
+    ["Arrow", { location: 1, width: 8, length: 6 }]
+];
+// 端点
+exports.sourceConfig = {
+    isSource: true
+};
+exports.targetConfig = {
+    isTarget: true
+};
+// 关联
+exports.connectConfig = {};
+exports.initConfig = {
+    Endpoint: 'Dot',
+    EndpointStyle: {
         strokeWidth: 3,
         stroke: '#8e9ca8',
         fill: 'transparent',
         radius: 6,
         lineWidth: 2
     },
-    hoverPaintStyle: { stroke: '#1f77f3' },
-    isSource: true,
-    isTarget: true,
-    connector: ['Flowchart', {
+    EndpointHoverStyle: exports.hoverStyle,
+    Connector: ['Flowchart', {
             stub: [40, 60],
             gap: 5,
             cornerRadius: 5,
             alwaysRespectStubs: true
         }],
-    connectorStyle: exports.connectorStyle,
-    connectorHoverStyle: exports.connectorHoverStyle,
-    connectorOverlays: [
-        ['Label', { label: 'del', id: 'label' }],
-        ["Arrow", { location: 1, width: 8, length: 6 }]
-    ],
-    maxConnections: 1
+    PaintStyle: exports.connectorStyle,
+    ConnectionOverlays: exports.overlays,
+    HoverPaintStyle: exports.hoverStyle,
+    MaxConnections: 1,
+    ConnectionsDetachable: false
 };
+
+
+/***/ }),
+
+/***/ "./src/jsplumb/config/option.config.ts":
+/*!*********************************************!*\
+  !*** ./src/jsplumb/config/option.config.ts ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/**
+ * @file 端点配置
+ */
+Object.defineProperty(exports, "__esModule", { value: true });
+var uid = 0;
+function getOptionId() {
+    return "point_id_" + uid++;
+}
+exports.getOptionId = getOptionId;
 
 
 /***/ }),
@@ -41038,26 +41093,33 @@ exports.endpointConfig = {
 Object.defineProperty(exports, "__esModule", { value: true });
 var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 var jsplumb_1 = __webpack_require__(/*! jsplumb */ "./node_modules/jsplumb/dist/js/jsplumb.js");
+var jsplumb_config_1 = __webpack_require__(/*! ./jsplumb.config */ "./src/jsplumb/config/jsplumb.config.ts");
 /**
  * @file store
  * 负责数据 state 管理
  * 保留全局属性 jsp instance & containment
  */
-var initControlsList = [{
+var initEntitys = [{
         id: 'e1',
         type: 'ENTITY-MESSAGE',
         title: '消息单元',
         top: 200,
-        left: 120
+        left: 120,
+        options: [{ id: 'p1', text: '今天星期几' }, { id: 'p2', text: '明天又是星期几' }]
     }, {
         id: 'e2',
         type: 'ENTITY-MESSAGE',
         title: '消息单元',
         top: 200,
-        left: 500
+        left: 500,
+        options: [{ id: 'p3', text: '哦哦哦，假期呢' }, { id: 'p4', text: '说好的下雨呢' }]
     }];
-function controlsReducer(state, action) {
-    if (state === void 0) { state = initControlsList; }
+var initConnections = [{ from: 'p1', to: 'e2', order: 0 }];
+/**
+ * 画布实体控制
+ */
+function entitysReducer(state, action) {
+    if (state === void 0) { state = initEntitys; }
     switch (action.type) {
         case 'ADD_CONTROL':
             return state.concat([action.payload]);
@@ -41069,14 +41131,27 @@ function controlsReducer(state, action) {
             return state;
     }
 }
+/**
+ * 实体关联控制
+ */
+function connectionsReducer(state, action) {
+    if (state === void 0) { state = initConnections; }
+    switch (action.type) {
+        case 'ADD_CONNECTION':
+            return state.concat([action.payload]);
+        case 'DEL_CONNECTION':
+            return state;
+        default:
+            return state;
+    }
+}
 var reducers = redux_1.combineReducers({
-    controlsList: controlsReducer
+    entitys: entitysReducer,
+    connections: connectionsReducer
 });
 // @trick 携带两个全局属性
 var store = redux_1.createStore(reducers);
-store.jsp = jsplumb_1.jsPlumb.getInstance({
-    ConnectionsDetachable: false
-});
+store.jsp = jsplumb_1.jsPlumb.getInstance(jsplumb_config_1.initConfig);
 store.containment = '_canvas';
 exports.default = store;
 
@@ -41264,13 +41339,17 @@ var MsgEntity = /** @class */ (function (_super) {
     function MsgEntity() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    MsgEntity.prototype.generateOptions = function () {
+        var options = this.props.options;
+        return options ? this.props.options.map(function (data) { return React.createElement(option_1.default, { id: data.id, key: data.id, text: data.text }); })
+            : null;
+    };
     MsgEntity.prototype.render = function () {
         var props = this.props;
         return (React.createElement("section", { className: "react-entity" },
             React.createElement(topbar_1.default, __assign({}, props)),
             React.createElement(lemma_1.default, { word: "\u5458\u5DE5\u7C7B\u578B", text: "\u4F60\u60F3\u8BF7\u4EC0\u4E48\u6837\u7684\u5047?" }),
-            React.createElement(option_1.default, { text: "\u6D4B\u8BD5\u6D88\u606F1" }),
-            React.createElement(option_1.default, { text: "\u6D4B\u8BD5\u6D88\u606F2" })));
+            this.generateOptions()));
     };
     return MsgEntity;
 }(React.Component));
@@ -41329,7 +41408,7 @@ function makeDragComponent(WrappedComponent) {
             var jsp = reducers_1.default.jsp;
             var node = this.refs.element;
             jsp.draggable(node, { containment: reducers_1.default.containment });
-            jsp.addEndpoint(node, { anchor: 'Left' }, jsplumb_config_1.endpointConfig);
+            jsp.addEndpoint(node, { anchor: 'Left' }, jsplumb_config_1.targetConfig);
         };
         Draggable.prototype.componentWillUnmount = function () {
             var jsp = reducers_1.default.jsp;
@@ -41388,25 +41467,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var reducers_1 = __webpack_require__(/*! ../config/reducers */ "./src/jsplumb/config/reducers.ts");
 var jsplumb_config_1 = __webpack_require__(/*! ../config/jsplumb.config */ "./src/jsplumb/config/jsplumb.config.ts");
+var option_config_1 = __webpack_require__(/*! ../config/option.config */ "./src/jsplumb/config/option.config.ts");
 /**
  * @file 赋予组件端点能力
  */
 function makeComponentEndpoint(WrappedComponent) {
     return /** @class */ (function (_super) {
         __extends(Endpoint, _super);
-        function Endpoint(props) {
-            return _super.call(this, props) || this;
+        function Endpoint() {
+            return _super !== null && _super.apply(this, arguments) || this;
         }
         Endpoint.prototype.componentDidMount = function () {
             var jsp = reducers_1.default.jsp;
             var node = this.refs.element;
-            jsp.addEndpoint(node, { anchor: 'Right' }, jsplumb_config_1.endpointConfig);
+            jsp.addEndpoint(node, { anchor: 'Right' }, jsplumb_config_1.sourceConfig);
         };
         Endpoint.prototype.componentWillUnmount = function () {
         };
         Endpoint.prototype.render = function () {
             var props = this.props;
-            return (React.createElement("div", { ref: "element", className: "react-endpoint" },
+            var id = props.id || option_config_1.getOptionId();
+            return (React.createElement("div", { id: id, ref: "element", className: "react-endpoint" },
                 React.createElement(WrappedComponent, __assign({}, props))));
         };
         return Endpoint;
