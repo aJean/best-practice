@@ -9,7 +9,7 @@ import * as actions from './config/actions';
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddControl: data => dispatch(actions.addControl(data))
+        onAddControl: data => dispatch(actions.addEntity(data))
     };
 };
 

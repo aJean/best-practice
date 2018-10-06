@@ -3,7 +3,7 @@ import { getEntity, getEntityId } from './config/entity.config';
 import { connect } from 'react-redux';
 import store from './config/reducers';
 import * as actions from './config/actions';
-import { connectConfig, overlays } from './config/jsplumb.config';
+import { connectConfig } from './config/jsplumb.config';
 
 /**
  * @file 作为 provider 和 drop 容器
@@ -18,7 +18,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddControl: data => dispatch(actions.addControl(data))
+        onAddEntity: data => dispatch(actions.addEntity(data)),
+        onAddConnection: data => dispatch(actions.addConnection(data)),
+        onDelConnection: data => dispatch(actions.delConnection(data))
     };
 };
 
@@ -59,14 +61,29 @@ class CanvasView extends React.Component<any, any> {
      */
     bindConnections() {
         const jsp = store.jsp;
+        const props = this.props;
 
-        jsp.bind('connection', function (conn, originalEvent) {
-            console.log(originalEvent)
+        // 建立任意关联
+        jsp.bind('connection', function (conn) {
+            props.onAddConnection({
+                from: conn.sourceId,
+                to: conn.targetId,
+                order: 0
+            });
         });
 
-        store.onOverlayClick = function (overlay, originalEvent) {
+        // 删除指定关联, 会触发 connectionDetached
+        store.onOverlayClick = function (overlay) {
             jsp.deleteConnection(overlay.component);
         }
+
+        // 统一处理 detache 关联, 包括删除实体, 点击 x
+        jsp.bind('connectionDetached', function (conn) {
+            props.onDelConnection({
+                from: conn.sourceId,
+                to: conn.targetId
+            });
+        });
     }
 
     /**
@@ -85,7 +102,7 @@ class CanvasView extends React.Component<any, any> {
         const text = event.dataTransfer.getData('text');
 
         event.preventDefault();
-        this.props.onAddControl({
+        this.props.onAddEntity({
             id: getEntityId(),
             type: `${text}`,
             title: `${text} 单元`,

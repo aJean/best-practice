@@ -20,6 +20,7 @@ export const overlays = [
             return img;
         },
         id: 'img-overlay',
+        visible: true,
         events: {
             click: function (overlay, originalEvent) { 
                 console.log(overlay.component); 

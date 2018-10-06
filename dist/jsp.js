@@ -40698,7 +40698,9 @@ var mapStateToProps = function (state) {
 };
 var mapDispatchToProps = function (dispatch) {
     return {
-        onAddControl: function (data) { return dispatch(actions.addControl(data)); }
+        onAddEntity: function (data) { return dispatch(actions.addEntity(data)); },
+        onAddConnection: function (data) { return dispatch(actions.addConnection(data)); },
+        onDelConnection: function (data) { return dispatch(actions.delConnection(data)); }
     };
 };
 var CanvasView = /** @class */ (function (_super) {
@@ -40738,12 +40740,26 @@ var CanvasView = /** @class */ (function (_super) {
      */
     CanvasView.prototype.bindConnections = function () {
         var jsp = reducers_1.default.jsp;
-        jsp.bind('connection', function (conn, originalEvent) {
-            console.log(originalEvent);
+        var props = this.props;
+        // 建立任意关联
+        jsp.bind('connection', function (conn) {
+            props.onAddConnection({
+                from: conn.sourceId,
+                to: conn.targetId,
+                order: 0
+            });
         });
-        reducers_1.default.onOverlayClick = function (overlay, originalEvent) {
+        // 删除指定关联, 会触发 connectionDetached
+        reducers_1.default.onOverlayClick = function (overlay) {
             jsp.deleteConnection(overlay.component);
         };
+        // 统一处理 detache 关联, 包括删除实体, 点击 x
+        jsp.bind('connectionDetached', function (conn) {
+            props.onDelConnection({
+                from: conn.sourceId,
+                to: conn.targetId
+            });
+        });
     };
     /**
      * 确定拖放行为
@@ -40759,7 +40775,7 @@ var CanvasView = /** @class */ (function (_super) {
         var event = data.nativeEvent;
         var text = event.dataTransfer.getData('text');
         event.preventDefault();
-        this.props.onAddControl({
+        this.props.onAddEntity({
             id: entity_config_1.getEntityId(),
             type: "" + text,
             title: text + " \u5355\u5143",
@@ -40905,7 +40921,7 @@ var actions = __webpack_require__(/*! ../config/actions */ "./src/jsplumb/config
  */
 var mapDispatchToProps = function (dispatch) {
     return {
-        onDelControl: function (id) { return dispatch(actions.delControl(id)); }
+        onDelEntity: function (id) { return dispatch(actions.delEntity(id)); }
     };
 };
 var Topbar = /** @class */ (function (_super) {
@@ -40914,7 +40930,7 @@ var Topbar = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Topbar.prototype.clickHandle = function () {
-        this.props.onDelControl(this.props.id);
+        this.props.onDelEntity(this.props.id);
     };
     Topbar.prototype.render = function () {
         var props = this.props;
@@ -40954,8 +40970,10 @@ var redux_actions_1 = __webpack_require__(/*! redux-actions */ "./node_modules/r
 /**
  * @file actions
  */
-exports.addControl = redux_actions_1.createAction('ADD_CONTROL');
-exports.delControl = redux_actions_1.createAction('DEL_CONTROL');
+exports.addEntity = redux_actions_1.createAction('ADD_ENTITY');
+exports.delEntity = redux_actions_1.createAction('DEL_ENTITY');
+exports.addConnection = redux_actions_1.createAction('ADD_CONNECTION');
+exports.delConnection = redux_actions_1.createAction('DEL_CONNECTION');
 
 
 /***/ }),
@@ -41039,6 +41057,7 @@ exports.overlays = [
                 return img;
             },
             id: 'img-overlay',
+            visible: true,
             events: {
                 click: function (overlay, originalEvent) {
                     console.log(overlay.component);
@@ -41135,7 +41154,7 @@ var initEntitys = [{
         type: 'ENTITY-MESSAGE',
         title: '消息单元',
         top: 200,
-        left: 500,
+        left: 600,
         options: [{ id: 'p3', text: '哦哦哦，假期呢' }, { id: 'p4', text: '说好的下雨呢' }]
     }];
 var initConnections = [{ from: 'p1', to: 'e2', order: 0 }];
@@ -41144,13 +41163,14 @@ var initConnections = [{ from: 'p1', to: 'e2', order: 0 }];
  */
 function entitysReducer(state, action) {
     if (state === void 0) { state = initEntitys; }
+    var newState;
     switch (action.type) {
-        case 'ADD_CONTROL':
+        case 'ADD_ENTITY':
             return state.concat([action.payload]);
-        case 'DEL_CONTROL':
+        case 'DEL_ENTITY':
             var id_1 = action.payload;
-            var list = state.filter(function (data) { return data.id != id_1; });
-            return list;
+            newState = state.filter(function (data) { return data.id != id_1; });
+            return newState;
         default:
             return state;
     }
@@ -41160,11 +41180,17 @@ function entitysReducer(state, action) {
  */
 function connectionsReducer(state, action) {
     if (state === void 0) { state = initConnections; }
+    var newState;
+    var id;
     switch (action.type) {
         case 'ADD_CONNECTION':
-            return state.concat([action.payload]);
+            newState = state.concat([action.payload]);
+            return newState;
         case 'DEL_CONNECTION':
-            return state;
+            var item_1 = action.payload;
+            newState = state.filter(function (data) { return data.from != item_1.from && data.to != item_1.to; });
+            console.log(newState);
+            return newState;
         default:
             return state;
     }
@@ -41219,7 +41245,7 @@ var actions = __webpack_require__(/*! ./config/actions */ "./src/jsplumb/config/
  */
 var mapDispatchToProps = function (dispatch) {
     return {
-        onAddControl: function (data) { return dispatch(actions.addControl(data)); }
+        onAddControl: function (data) { return dispatch(actions.addEntity(data)); }
     };
 };
 var ControlsView = /** @class */ (function (_super) {

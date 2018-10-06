@@ -8,7 +8,7 @@ import * as actions from '../config/actions';
 
 const mapDispatchToProps = dispatch => {
     return {
-        onDelControl: id => dispatch(actions.delControl(id))
+        onDelEntity: id => dispatch(actions.delEntity(id))
     };
 };
 
@@ -21,7 +21,7 @@ class Topbar extends React.Component<any, any> {
     }
 
     clickHandle() {
-        this.props.onDelControl(this.props.id);
+        this.props.onDelEntity(this.props.id);
     }
 
     render() {

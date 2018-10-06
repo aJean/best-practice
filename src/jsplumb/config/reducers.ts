@@ -20,7 +20,7 @@ const initEntitys = [{
     type: 'ENTITY-MESSAGE',
     title: '消息单元',
     top: 200,
-    left: 500,
+    left: 600,
     options: [{id: 'p3', text: '哦哦哦，假期呢'}, {id: 'p4', text: '说好的下雨呢'}]
 }];
 
@@ -30,14 +30,15 @@ const initConnections = [{from: 'p1', to: 'e2', order: 0}];
  * 画布实体控制
  */
 function entitysReducer(state = initEntitys, action) {
-    switch (action.type) {
-        case 'ADD_CONTROL':
-            return state.concat([action.payload]);
-        case 'DEL_CONTROL':
-            const id = action.payload;
-            const list = state.filter(data => data.id != id);
+    let newState;
 
-            return list;
+    switch (action.type) {
+        case 'ADD_ENTITY':
+            return state.concat([action.payload]);
+        case 'DEL_ENTITY':
+            const id = action.payload;
+            newState = state.filter(data => data.id != id);
+            return newState;
         default:
             return state;
     }
@@ -47,11 +48,18 @@ function entitysReducer(state = initEntitys, action) {
  * 实体关联控制
  */
 function connectionsReducer(state = initConnections, action) {
+    let newState;
+    let id;
+
     switch (action.type) {
         case 'ADD_CONNECTION':
-            return state.concat([action.payload]);
+            newState = state.concat([action.payload]);
+            return newState;
         case 'DEL_CONNECTION':
-            return state;
+            const item = action.payload;
+            newState = state.filter(data => data.from != item.from && data.to != item.to);
+            console.log(newState)
+            return newState;
         default:
             return state;
     }

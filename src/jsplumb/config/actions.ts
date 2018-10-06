@@ -4,6 +4,10 @@ import { createAction } from 'redux-actions';
  * @file actions
  */
 
-export const addControl = createAction('ADD_CONTROL');
+export const addEntity = createAction('ADD_ENTITY');
 
-export const delControl = createAction('DEL_CONTROL');
+export const delEntity = createAction('DEL_ENTITY');
+
+export const addConnection = createAction('ADD_CONNECTION');
+
+export const delConnection = createAction('DEL_CONNECTION');
