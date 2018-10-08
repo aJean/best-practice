@@ -22,7 +22,7 @@ function run(gen) {
         if (result.done) {
             return result.value;
         }
-
+        // 执行 promise, 并将后续的 next 传入
         result.value.then(function (data) {
             next(data);
         });
