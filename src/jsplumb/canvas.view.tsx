@@ -52,7 +52,11 @@ class CanvasView extends React.Component<any, any> {
 
         this.props.connections.forEach(data => {
             const anchors = data.order ? ['Left', 'Right'] : ['Right', 'Left'];
-            jsp.connect({source: data.from, target: data.to, anchors, ...connectConfig});
+
+            const idfrom = jsp.getEndpoints(data.from)[0].id;
+            const idto = jsp.getEndpoints(data.to)[0].id;
+
+            jsp.connect({uuids: [idfrom, idto], ...connectConfig});
         });
     }
 
