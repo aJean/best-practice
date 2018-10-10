@@ -41216,7 +41216,8 @@ var initEntitys = [{
         type: 'ENTITY-ASK',
         title: '提问单元',
         top: 450,
-        left: 300
+        left: 300,
+        options: [{ id: 'p5', text: '我就试试' }]
     }];
 var initConnections = [{ from: 'p1', to: 'e2' }];
 /**
@@ -41391,7 +41392,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var drag_hoc_1 = __webpack_require__(/*! ../hoc/drag.hoc */ "./src/jsplumb/hoc/drag.hoc.tsx");
-var option_1 = __webpack_require__(/*! ../common/option */ "./src/jsplumb/common/option.tsx");
+var entity_1 = __webpack_require__(/*! ./entity */ "./src/jsplumb/entity/entity.tsx");
 var topbar_1 = __webpack_require__(/*! ../common/topbar */ "./src/jsplumb/common/topbar.tsx");
 /**
  * @file 问题单元
@@ -41405,11 +41406,58 @@ var AskEntity = /** @class */ (function (_super) {
         var props = this.props;
         return (React.createElement("section", { className: "react-entity" },
             React.createElement(topbar_1.default, __assign({}, props)),
-            React.createElement(option_1.default, { text: "\u62D6\u62FD\u6DFB\u52A0\u7EC4\u4EF6\u6D4B\u8BD5" })));
+            this.generateOptions()));
     };
     return AskEntity;
-}(React.Component));
+}(entity_1.default));
 exports.default = drag_hoc_1.default(AskEntity);
+
+
+/***/ }),
+
+/***/ "./src/jsplumb/entity/entity.tsx":
+/*!***************************************!*\
+  !*** ./src/jsplumb/entity/entity.tsx ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var option_1 = __webpack_require__(/*! ../common/option */ "./src/jsplumb/common/option.tsx");
+var Entity = /** @class */ (function (_super) {
+    __extends(Entity, _super);
+    function Entity() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Entity.prototype.generateOptions = function () {
+        var options = this.props.options;
+        return options ? this.props.options.map(function (data) {
+            return React.createElement(option_1.default, { id: data.id, key: data.id, text: data.text });
+        })
+            : null;
+    };
+    Entity.prototype.render = function () {
+        return null;
+    };
+    return Entity;
+}(React.Component));
+exports.default = Entity;
 
 
 /***/ }),
@@ -41450,8 +41498,8 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var drag_hoc_1 = __webpack_require__(/*! ../hoc/drag.hoc */ "./src/jsplumb/hoc/drag.hoc.tsx");
+var entity_1 = __webpack_require__(/*! ./entity */ "./src/jsplumb/entity/entity.tsx");
 var lemma_1 = __webpack_require__(/*! ../common/lemma */ "./src/jsplumb/common/lemma.tsx");
-var option_1 = __webpack_require__(/*! ../common/option */ "./src/jsplumb/common/option.tsx");
 var topbar_1 = __webpack_require__(/*! ../common/topbar */ "./src/jsplumb/common/topbar.tsx");
 /**
  * @file 消息对话单元
@@ -41461,11 +41509,6 @@ var MsgEntity = /** @class */ (function (_super) {
     function MsgEntity() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    MsgEntity.prototype.generateOptions = function () {
-        var options = this.props.options;
-        return options ? this.props.options.map(function (data) { return React.createElement(option_1.default, { id: data.id, key: data.id, text: data.text }); })
-            : null;
-    };
     MsgEntity.prototype.render = function () {
         var props = this.props;
         return (React.createElement("section", { className: "react-entity" },
@@ -41474,7 +41517,7 @@ var MsgEntity = /** @class */ (function (_super) {
             this.generateOptions()));
     };
     return MsgEntity;
-}(React.Component));
+}(entity_1.default));
 exports.default = drag_hoc_1.default(MsgEntity);
 
 
@@ -41616,6 +41659,7 @@ function makeComponentEndpoint(WrappedComponent) {
         Endpoint.prototype.findEp = function () {
             var jsp = reducers_1.default.jsp;
             var node = this.refs.element;
+            console.log(node);
             return jsp.getEndpoints(node)[0];
         };
         Endpoint.prototype.onMouseOver = function () {

@@ -1,21 +1,14 @@
 import * as React from 'react';
 import makeDragComponent from '../hoc/drag.hoc';
+import Entity from './entity';
 import Lamma from '../common/lemma';
-import Option from '../common/option';
 import Topbar from '../common/topbar';
 
 /**
  * @file 消息对话单元
  */
 
-class MsgEntity extends React.Component<any, any> {
-    generateOptions() {
-        const options = this.props.options;
-
-        return options ? this.props.options.map(data => <Option id={data.id} key={data.id} text={data.text} />)
-            : null;
-    }
-
+class MsgEntity extends Entity {
     render() {
         const props = this.props;
 

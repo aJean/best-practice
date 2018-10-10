@@ -30,7 +30,7 @@ export default function makeComponentEndpoint(WrappedComponent) {
         findEp() {
             const jsp: any = store.jsp;
             const node = this.refs.element;
-            
+            console.log(node)
             return jsp.getEndpoints(node)[0];
         }
 

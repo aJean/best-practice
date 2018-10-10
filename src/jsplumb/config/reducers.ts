@@ -27,7 +27,8 @@ const initEntitys = [{
     type: 'ENTITY-ASK',
     title: '提问单元',
     top: 450,
-    left: 300
+    left: 300,
+    options: [{id: 'p5', text: '我就试试'}]
 }];
 
 const initConnections = [{from: 'p1', to: 'e2'}];
