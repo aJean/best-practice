@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { jsPlumb } from 'jsplumb';
-import { initConfig } from './jsplumb.config';
+import { initConfig, connectConfig } from './jsplumb.config';
 
 /**
  * @file store
@@ -22,9 +22,15 @@ const initEntitys = [{
     top: 200,
     left: 600,
     options: [{id: 'p3', text: '哦哦哦，假期呢'}, {id: 'p4', text: '说好的下雨呢'}]
+}, {
+    id: 'e3',
+    type: 'ENTITY-ASK',
+    title: '提问单元',
+    top: 450,
+    left: 300
 }];
 
-const initConnections = [{from: 'p1', to: 'e2', order: 0}];
+const initConnections = [{from: 'p1', to: 'e2'}];
 
 /**
  * 画布实体控制
@@ -73,7 +79,15 @@ const reducers = combineReducers({
 // @TODO: 优化这个事件绑定
 initConfig.ConnectionOverlays[0][1]['events'].click = function (overlay, originalEvent) {
     store.onOverlayClick(overlay, originalEvent);
-}
+};
+
+connectConfig.events.mouseover = function (conn, originalEvent) {
+    store.onConnectionOver(conn, originalEvent);
+};
+
+connectConfig.events.mouseout = function (conn, originalEvent) {
+    store.onConnectionOut(conn, originalEvent);
+};
 
 // trick 携带两个全局属性
 const store: any = createStore(reducers);

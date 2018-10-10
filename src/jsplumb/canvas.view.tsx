@@ -45,18 +45,16 @@ class CanvasView extends React.Component<any, any> {
     }
 
     /**
-     * 建立实体关联, order 决定连接方向
+     * 建立实体关联, 使用 uuids， from --> to
      */
     generateConnections() {
         const jsp = store.jsp;
 
         this.props.connections.forEach(data => {
-            const anchors = data.order ? ['Left', 'Right'] : ['Right', 'Left'];
+            const uid1 = jsp.getEndpoints(data.from)[0].getUuid();
+            const uid2 = jsp.getEndpoints(data.to)[0].getUuid();
 
-            const idfrom = jsp.getEndpoints(data.from)[0].id;
-            const idto = jsp.getEndpoints(data.to)[0].id;
-
-            jsp.connect({uuids: [idfrom, idto], ...connectConfig});
+            jsp.connect({uuids: [uid1, uid2], ...connectConfig});
         });
     }
 
@@ -66,20 +64,42 @@ class CanvasView extends React.Component<any, any> {
     bindConnections() {
         const jsp = store.jsp;
         const props = this.props;
-
-        // 建立任意关联
-        jsp.bind('connection', function (conn) {
-            props.onAddConnection({
-                from: conn.sourceId,
-                to: conn.targetId,
-                order: 0
-            });
-        });
+        let timeid;
 
         // 删除指定关联, 会触发 connectionDetached
         store.onOverlayClick = function (overlay) {
             jsp.deleteConnection(overlay.component);
-        }
+        };
+
+        // 关联 mouseover
+        store.onConnectionOver = function (conn) {
+            clearTimeout(timeid);
+            if (conn.getOverlays) {
+                const overlay = conn.getOverlays()['img-overlay'];
+                overlay.setVisible(true);
+            }
+        };
+
+        // 关联 mouseout
+        store.onConnectionOut = function (conn) {
+            if (conn.getOverlays) {
+                timeid = setTimeout(function() {
+                    const overlay = conn.getOverlays()['img-overlay'];
+                    overlay.setVisible(false);
+                }, 100);
+            }
+        };
+
+        // 建立任意关联
+        jsp.bind('connection', function (info) {
+            info.connection.bind('mouseover', store.onConnectionOver);
+            info.connection.bind('mouseout', store.onConnectionOut);
+
+            props.onAddConnection({
+                from: info.sourceId,
+                to: info.targetId
+            });
+        });
 
         // 统一处理 detache 关联, 包括删除实体, 点击 x
         jsp.bind('connectionDetached', function (conn) {
@@ -119,7 +139,7 @@ class CanvasView extends React.Component<any, any> {
         return (
             <div id="_canvas" className="react-canvas" onDrop={this.dropHandle.bind(this)}
                 onDragOver={this.dragoverHandle.bind(this)}>
-                {this.generateEntitys()}
+                    {this.generateEntitys()}
             </div>
         );
     }

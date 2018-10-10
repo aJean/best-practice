@@ -40656,6 +40656,21 @@ exports.default = {
                     React.createElement(controls_view_1.default, null),
                     React.createElement(canvas_view_1.default, null))), el);
         });
+    },
+    keySimulate: function () {
+        var keyboardEvent = new KeyboardEvent('keypress', { bubbles: true });
+        Object.defineProperty(keyboardEvent, 'ctrlKey', {
+            get: function () {
+                return true;
+            }
+        });
+        Object.defineProperty(keyboardEvent, 'charCode', {
+            get: function () {
+                return this.charCodeVal;
+            }
+        });
+        keyboardEvent['charCodeVal'] = '61';
+        document.body.dispatchEvent(keyboardEvent);
     }
 };
 
@@ -40741,15 +40756,14 @@ var CanvasView = /** @class */ (function (_super) {
         });
     };
     /**
-     * 建立实体关联, order 决定连接方向
+     * 建立实体关联, 使用 uuids， from --> to
      */
     CanvasView.prototype.generateConnections = function () {
         var jsp = reducers_1.default.jsp;
         this.props.connections.forEach(function (data) {
-            var anchors = data.order ? ['Left', 'Right'] : ['Right', 'Left'];
-            var idfrom = jsp.getEndpoints(data.from)[0].id;
-            var idto = jsp.getEndpoints(data.to)[0].id;
-            jsp.connect(__assign({ uuids: [idfrom, idto] }, jsplumb_config_1.connectConfig));
+            var uid1 = jsp.getEndpoints(data.from)[0].getUuid();
+            var uid2 = jsp.getEndpoints(data.to)[0].getUuid();
+            jsp.connect(__assign({ uuids: [uid1, uid2] }, jsplumb_config_1.connectConfig));
         });
     };
     /**
@@ -40758,18 +40772,37 @@ var CanvasView = /** @class */ (function (_super) {
     CanvasView.prototype.bindConnections = function () {
         var jsp = reducers_1.default.jsp;
         var props = this.props;
-        // 建立任意关联
-        jsp.bind('connection', function (conn) {
-            props.onAddConnection({
-                from: conn.sourceId,
-                to: conn.targetId,
-                order: 0
-            });
-        });
+        var timeid;
         // 删除指定关联, 会触发 connectionDetached
         reducers_1.default.onOverlayClick = function (overlay) {
             jsp.deleteConnection(overlay.component);
         };
+        // 关联 mouseover
+        reducers_1.default.onConnectionOver = function (conn) {
+            clearTimeout(timeid);
+            if (conn.getOverlays) {
+                var overlay = conn.getOverlays()['img-overlay'];
+                overlay.setVisible(true);
+            }
+        };
+        // 关联 mouseout
+        reducers_1.default.onConnectionOut = function (conn) {
+            if (conn.getOverlays) {
+                timeid = setTimeout(function () {
+                    var overlay = conn.getOverlays()['img-overlay'];
+                    overlay.setVisible(false);
+                }, 100);
+            }
+        };
+        // 建立任意关联
+        jsp.bind('connection', function (info) {
+            info.connection.bind('mouseover', reducers_1.default.onConnectionOver);
+            info.connection.bind('mouseout', reducers_1.default.onConnectionOut);
+            props.onAddConnection({
+                from: info.sourceId,
+                to: info.targetId
+            });
+        });
         // 统一处理 detache 关联, 包括删除实体, 点击 x
         jsp.bind('connectionDetached', function (conn) {
             props.onDelConnection({
@@ -41058,6 +41091,7 @@ exports.getEntityId = getEntityId;
  * @file 画布相关配置
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+var NOOP = function (overlay, originalEvent) { };
 exports.connectorStyle = {
     strokeWidth: 4,
     stroke: '#687c8a'
@@ -41074,11 +41108,9 @@ exports.overlays = [
                 return img;
             },
             id: 'img-overlay',
-            visible: true,
+            visible: false,
             events: {
-                click: function (overlay, originalEvent) {
-                    console.log(overlay.component);
-                }
+                click: NOOP
             }
         }
     ],
@@ -41092,7 +41124,13 @@ exports.targetConfig = {
     isTarget: true
 };
 // 关联
-exports.connectConfig = {};
+exports.connectConfig = {
+    events: {
+        mouseover: NOOP,
+        mouseout: NOOP
+    }
+};
+// 初始化 jsp 实例配置
 exports.initConfig = {
     Endpoint: 'Dot',
     EndpointStyle: {
@@ -41173,8 +41211,14 @@ var initEntitys = [{
         top: 200,
         left: 600,
         options: [{ id: 'p3', text: '哦哦哦，假期呢' }, { id: 'p4', text: '说好的下雨呢' }]
+    }, {
+        id: 'e3',
+        type: 'ENTITY-ASK',
+        title: '提问单元',
+        top: 450,
+        left: 300
     }];
-var initConnections = [{ from: 'p1', to: 'e2', order: 0 }];
+var initConnections = [{ from: 'p1', to: 'e2' }];
 /**
  * 画布实体控制
  */
@@ -41219,6 +41263,12 @@ var reducers = redux_1.combineReducers({
 // @TODO: 优化这个事件绑定
 jsplumb_config_1.initConfig.ConnectionOverlays[0][1]['events'].click = function (overlay, originalEvent) {
     store.onOverlayClick(overlay, originalEvent);
+};
+jsplumb_config_1.connectConfig.events.mouseover = function (conn, originalEvent) {
+    store.onConnectionOver(conn, originalEvent);
+};
+jsplumb_config_1.connectConfig.events.mouseout = function (conn, originalEvent) {
+    store.onConnectionOut(conn, originalEvent);
 };
 // trick 携带两个全局属性
 var store = redux_1.createStore(reducers);
@@ -41469,6 +41519,7 @@ var reducers_1 = __webpack_require__(/*! ../config/reducers */ "./src/jsplumb/co
 var jsplumb_config_1 = __webpack_require__(/*! ../config/jsplumb.config */ "./src/jsplumb/config/jsplumb.config.ts");
 /**
  * @file 赋予组件拖动能力
+ * 要保证 endpoint svg uuid 与 组件 id 一致
  */
 function makeDragComponent(WrappedComponent) {
     return /** @class */ (function (_super) {
@@ -41480,7 +41531,7 @@ function makeDragComponent(WrappedComponent) {
             var jsp = reducers_1.default.jsp;
             var node = this.refs.element;
             jsp.draggable(node, { containment: reducers_1.default.containment });
-            jsp.addEndpoint(node, { anchor: 'Left' }, jsplumb_config_1.targetConfig);
+            jsp.addEndpoint(node, { anchor: 'Left', uuid: this.props.id }, jsplumb_config_1.targetConfig);
         };
         Draggable.prototype.componentWillUnmount = function () {
             var jsp = reducers_1.default.jsp;
@@ -41542,6 +41593,8 @@ var jsplumb_config_1 = __webpack_require__(/*! ../config/jsplumb.config */ "./sr
 var option_config_1 = __webpack_require__(/*! ../config/option.config */ "./src/jsplumb/config/option.config.ts");
 /**
  * @file 赋予组件端点能力
+ * 要保证 endpoint svg uuid 与 组件 id 一致
+ * id 应该是创建 relation 时生成
  */
 function makeComponentEndpoint(WrappedComponent) {
     return /** @class */ (function (_super) {
@@ -41552,14 +41605,31 @@ function makeComponentEndpoint(WrappedComponent) {
         Endpoint.prototype.componentDidMount = function () {
             var jsp = reducers_1.default.jsp;
             var node = this.refs.element;
-            jsp.addEndpoint(node, { anchor: 'Right' }, jsplumb_config_1.sourceConfig);
+            jsp.addEndpoint(node, {
+                anchor: 'Right',
+                uuid: this.id
+            }, jsplumb_config_1.sourceConfig);
         };
         Endpoint.prototype.componentWillUnmount = function () {
+            // 只有删除 entity 才会删除 endpoint
+        };
+        Endpoint.prototype.findEp = function () {
+            var jsp = reducers_1.default.jsp;
+            var node = this.refs.element;
+            return jsp.getEndpoints(node)[0];
+        };
+        Endpoint.prototype.onMouseOver = function () {
+            this.findEp().fire('mouseover');
+            this.refs.element['style'].background = '#e7f3ff';
+        };
+        Endpoint.prototype.onMouseOut = function () {
+            this.findEp().fire('mouseout');
+            this.refs.element['style'].background = 'none';
         };
         Endpoint.prototype.render = function () {
             var props = this.props;
-            var id = props.id || option_config_1.getOptionId();
-            return (React.createElement("div", { id: id, ref: "element", className: "react-endpoint" },
+            var id = this.id = props.id || option_config_1.getOptionId();
+            return (React.createElement("div", { id: id, ref: "element", className: "react-endpoint", onMouseOver: this.onMouseOver.bind(this), onMouseOut: this.onMouseOut.bind(this) },
                 React.createElement(WrappedComponent, __assign({}, props))));
         };
         return Endpoint;

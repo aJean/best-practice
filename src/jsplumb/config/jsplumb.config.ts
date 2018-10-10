@@ -2,6 +2,8 @@
  * @file 画布相关配置
  */
 
+const NOOP = function (overlay, originalEvent) {};
+
 export const connectorStyle = {
     strokeWidth: 4,
     stroke: '#687c8a'
@@ -20,11 +22,9 @@ export const overlays = [
             return img;
         },
         id: 'img-overlay',
-        visible: true,
+        visible: false,
         events: {
-            click: function (overlay, originalEvent) { 
-                console.log(overlay.component); 
-            }
+            click: NOOP
         }
     }],
     ['Arrow', { location: 1, width: 8, length: 6 }]
@@ -41,9 +41,13 @@ export const targetConfig = {
 
 // 关联
 export const connectConfig = {
-    
+    events: {
+        mouseover: NOOP,
+        mouseout: NOOP
+    }
 };
 
+// 初始化 jsp 实例配置
 export const initConfig = {
     Endpoint: 'Dot',
     EndpointStyle: {
