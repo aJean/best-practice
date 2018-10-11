@@ -1,6 +1,10 @@
 import * as React from 'react';
 import Option from '../common/option';
 
+/**
+ * @file 实体公共类
+ */
+
 export default class Entity extends React.Component<any, any> {
     generateOptions() {
         const options = this.props.options;
