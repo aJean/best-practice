@@ -46,32 +46,17 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
 /******/ 		}
 /******/ 	};
 /******/
 /******/ 	// define __esModule on exports
 /******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
 /******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -40794,6 +40779,12 @@ var CanvasView = /** @class */ (function (_super) {
                 }, 100);
             }
         };
+        // overlay mouseout
+        reducers_1.default.onOverlayOut = function (overlay) {
+            timeid = setTimeout(function () {
+                overlay.setVisible(false);
+            }, 100);
+        };
         // 建立任意关联
         jsp.bind('connection', function (info) {
             info.connection.bind('mouseover', reducers_1.default.onConnectionOver);
@@ -41091,6 +41082,7 @@ exports.getEntityId = getEntityId;
  * @file 画布相关配置
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+// reducer 中才会实现
 var NOOP = function (overlay, originalEvent) { };
 exports.connectorStyle = {
     strokeWidth: 4,
@@ -41110,7 +41102,8 @@ exports.overlays = [
             id: 'img-overlay',
             visible: false,
             events: {
-                click: NOOP
+                click: NOOP,
+                mouseout: NOOP
             }
         }
     ],
@@ -41261,9 +41254,12 @@ var reducers = redux_1.combineReducers({
     entitys: entitysReducer,
     connections: connectionsReducer
 });
-// @TODO: 优化这个事件绑定
+// @TODO: 优化以下事件绑定
 jsplumb_config_1.initConfig.ConnectionOverlays[0][1]['events'].click = function (overlay, originalEvent) {
     store.onOverlayClick(overlay, originalEvent);
+};
+jsplumb_config_1.initConfig.ConnectionOverlays[0][1]['events'].mouseout = function (overlay, originalEvent) {
+    store.onOverlayOut(overlay, originalEvent);
 };
 jsplumb_config_1.connectConfig.events.mouseover = function (conn, originalEvent) {
     store.onConnectionOver(conn, originalEvent);
@@ -41659,7 +41655,6 @@ function makeComponentEndpoint(WrappedComponent) {
         Endpoint.prototype.findEp = function () {
             var jsp = reducers_1.default.jsp;
             var node = this.refs.element;
-            console.log(node);
             return jsp.getEndpoints(node)[0];
         };
         Endpoint.prototype.onMouseOver = function () {

@@ -83,11 +83,18 @@ class CanvasView extends React.Component<any, any> {
         // 关联 mouseout
         store.onConnectionOut = function (conn) {
             if (conn.getOverlays) {
-                timeid = setTimeout(function() {
+                timeid = setTimeout(function () {
                     const overlay = conn.getOverlays()['img-overlay'];
                     overlay.setVisible(false);
                 }, 100);
             }
+        };
+
+        // overlay mouseout
+        store.onOverlayOut = function (overlay) {
+            timeid = setTimeout(function () {
+                overlay.setVisible(false);
+            }, 100);
         };
 
         // 建立任意关联

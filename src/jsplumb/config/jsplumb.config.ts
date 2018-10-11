@@ -2,6 +2,7 @@
  * @file 画布相关配置
  */
 
+// reducer 中才会实现
 const NOOP = function (overlay, originalEvent) {};
 
 export const connectorStyle = {
@@ -24,7 +25,8 @@ export const overlays = [
         id: 'img-overlay',
         visible: false,
         events: {
-            click: NOOP
+            click: NOOP,
+            mouseout: NOOP
         }
     }],
     ['Arrow', { location: 1, width: 8, length: 6 }]

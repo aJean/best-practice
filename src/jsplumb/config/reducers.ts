@@ -77,9 +77,13 @@ const reducers = combineReducers({
     connections: connectionsReducer
 });
 
-// @TODO: 优化这个事件绑定
+// @TODO: 优化以下事件绑定
 initConfig.ConnectionOverlays[0][1]['events'].click = function (overlay, originalEvent) {
     store.onOverlayClick(overlay, originalEvent);
+};
+
+initConfig.ConnectionOverlays[0][1]['events'].mouseout = function (overlay, originalEvent) {
+    store.onOverlayOut(overlay, originalEvent);
 };
 
 connectConfig.events.mouseover = function (conn, originalEvent) {
