@@ -46,17 +46,32 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
 /******/ 	};
 /******/
 /******/ 	// define __esModule on exports
 /******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
 /******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -40702,6 +40717,7 @@ var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react
 var reducers_1 = __webpack_require__(/*! ./config/reducers */ "./src/jsplumb/config/reducers.ts");
 var actions = __webpack_require__(/*! ./config/actions */ "./src/jsplumb/config/actions.ts");
 var jsplumb_config_1 = __webpack_require__(/*! ./config/jsplumb.config */ "./src/jsplumb/config/jsplumb.config.ts");
+var minimap_1 = __webpack_require__(/*! ./common/minimap */ "./src/jsplumb/common/minimap.tsx");
 /**
  * @file 作为 provider 和 drop 容器
  */
@@ -40825,7 +40841,9 @@ var CanvasView = /** @class */ (function (_super) {
         });
     };
     CanvasView.prototype.render = function () {
-        return (React.createElement("div", { id: "_canvas", className: "react-canvas", onDrop: this.dropHandle.bind(this), onDragOver: this.dragoverHandle.bind(this) }, this.generateEntitys()));
+        return (React.createElement("div", { id: "_canvas", className: "react-canvas", onDrop: this.dropHandle.bind(this), onDragOver: this.dragoverHandle.bind(this) },
+            React.createElement(minimap_1.default, null),
+            this.generateEntitys()));
     };
     return CanvasView;
 }(React.Component));
@@ -40880,6 +40898,77 @@ var Lemma = /** @class */ (function (_super) {
     return Lemma;
 }(React.Component));
 exports.default = Lemma;
+
+
+/***/ }),
+
+/***/ "./src/jsplumb/common/minimap.tsx":
+/*!****************************************!*\
+  !*** ./src/jsplumb/common/minimap.tsx ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var PropTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/**
+ * @file drag zone mini map
+ */
+var mapData = {
+    offsetX: 0,
+    offsetY: 0,
+    flag: false
+};
+var Minimap = /** @class */ (function (_super) {
+    __extends(Minimap, _super);
+    function Minimap() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Minimap.prototype.mouseDownHandle = function (data) {
+        var e = data.nativeEvent;
+        mapData.offsetX = e.offsetX;
+        mapData.offsetY = e.offsetY;
+        mapData.flag = true;
+    };
+    Minimap.prototype.mouseMoveHandle = function (data) {
+        if (!mapData.flag) {
+            return;
+        }
+        var node = this.refs.element;
+        var e = data.nativeEvent;
+        node.style.left = e.offsetX + 'px';
+        node.style.top = e.offsetY + 'px';
+    };
+    Minimap.prototype.mouseOutHandle = function () {
+        mapData.flag = false;
+    };
+    Minimap.prototype.render = function () {
+        return (React.createElement("div", { className: "visual-minimap", onMouseMove: this.mouseMoveHandle.bind(this), onMouseUp: this.mouseOutHandle },
+            React.createElement("div", { ref: "element", className: "visual-minimap-slider", onMouseDown: this.mouseDownHandle })));
+    };
+    Minimap.propTypes = {
+        top: PropTypes.number,
+        left: PropTypes.number
+    };
+    return Minimap;
+}(React.Component));
+exports.default = Minimap;
 
 
 /***/ }),
@@ -41436,6 +41525,9 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var option_1 = __webpack_require__(/*! ../common/option */ "./src/jsplumb/common/option.tsx");
+/**
+ * @file 实体公共类
+ */
 var Entity = /** @class */ (function (_super) {
     __extends(Entity, _super);
     function Entity() {

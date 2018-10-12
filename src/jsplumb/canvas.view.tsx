@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import store from './config/reducers';
 import * as actions from './config/actions';
 import { connectConfig } from './config/jsplumb.config';
+import Minimap from './common/minimap';
 
 /**
  * @file 作为 provider 和 drop 容器
@@ -146,6 +147,7 @@ class CanvasView extends React.Component<any, any> {
         return (
             <div id="_canvas" className="react-canvas" onDrop={this.dropHandle.bind(this)}
                 onDragOver={this.dragoverHandle.bind(this)}>
+                    <Minimap />
                     {this.generateEntitys()}
             </div>
         );
