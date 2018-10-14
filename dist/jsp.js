@@ -46,32 +46,17 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
 /******/ 		}
 /******/ 	};
 /******/
 /******/ 	// define __esModule on exports
 /******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
 /******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -40929,38 +40914,70 @@ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var PropTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /**
  * @file drag zone mini map
+ * 计算 map 与画布的比例, 来确定移动距离
+ * 画布大小改变, map 比例也要改变
  */
 var mapData = {
-    offsetX: 0,
-    offsetY: 0,
+    x: 0,
+    y: 0,
+    left: 0,
+    top: 0,
     flag: false
 };
+function mid(min, number, max) {
+    var ret = number;
+    if (number < min) {
+        ret = min;
+    }
+    if (number > max) {
+        ret = max;
+    }
+    return ret + 'px';
+}
 var Minimap = /** @class */ (function (_super) {
     __extends(Minimap, _super);
-    function Minimap() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function Minimap(props) {
+        var _this = _super.call(this, props) || this;
+        _this.mouseMoveHandle = _this.mouseMoveHandle.bind(_this);
+        _this.mouseUpHandle = _this.mouseUpHandle.bind(_this);
+        return _this;
     }
+    Minimap.prototype.componentDidMount = function () {
+        document.addEventListener('mousemove', this.mouseMoveHandle, false);
+        document.addEventListener('mouseup', this.mouseUpHandle, false);
+    };
+    Minimap.prototype.componentWillUnmount = function () {
+        document.removeEventListener('mousemove', this.mouseMoveHandle);
+        document.removeEventListener('mouseup', this.mouseUpHandle);
+    };
     Minimap.prototype.mouseDownHandle = function (data) {
         var e = data.nativeEvent;
-        mapData.offsetX = e.offsetX;
-        mapData.offsetY = e.offsetY;
+        mapData.x = e.clientX;
+        mapData.y = e.clientY;
         mapData.flag = true;
     };
-    Minimap.prototype.mouseMoveHandle = function (data) {
+    Minimap.prototype.mouseMoveHandle = function (e) {
         if (!mapData.flag) {
             return;
         }
         var node = this.refs.element;
-        var e = data.nativeEvent;
-        node.style.left = e.offsetX + 'px';
-        node.style.top = e.offsetY + 'px';
+        var disX = e.clientX - mapData.x;
+        var disY = e.clientY - mapData.y;
+        var left = mid(0, mapData.left + disX, 170);
+        var top = mid(0, mapData.top + disY, 170);
+        node.style.left = left;
+        node.style.top = top;
+        window.scrollTo(disX * 5, disY);
     };
-    Minimap.prototype.mouseOutHandle = function () {
+    Minimap.prototype.mouseUpHandle = function (e) {
+        var node = this.refs.element;
         mapData.flag = false;
+        mapData.left = parseInt(node.style.left);
+        mapData.top = parseInt(node.style.top);
     };
     Minimap.prototype.render = function () {
-        return (React.createElement("div", { className: "visual-minimap", onMouseMove: this.mouseMoveHandle.bind(this), onMouseUp: this.mouseOutHandle },
-            React.createElement("div", { ref: "element", className: "visual-minimap-slider", onMouseDown: this.mouseDownHandle })));
+        return (React.createElement("div", { className: "visual-minimap" },
+            React.createElement("div", { ref: "element", className: "visual-minimap-slider", onMouseDown: this.mouseDownHandle, onMouseUp: this.mouseUpHandle })));
     };
     Minimap.propTypes = {
         top: PropTypes.number,
