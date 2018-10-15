@@ -21,13 +21,19 @@ body {
     }
 }
 
-.react-canvas {
+.visual-canvas-wrap {
     position: relative;
-    width: 200vh;
     height: 100vh;
     margin-left: 100px;
-    background: #e1e1e1;
-    -webkit-user-select:none;
+    overflow: auto;
+
+    .visual-canvas {
+        position: relative;
+        width: 200vh;
+        height: 100vh;
+        background: #e1e1e1;
+        -webkit-user-select:none;
+    }
 }
 
 // entity
@@ -129,11 +135,10 @@ body {
 .visual-minimap {
     position: fixed;
     top: 20px;
-    left: 1000px;
-    width: 200px;
-    height: 200px;
-    background: rgb(85, 195, 238);
-    opacity: 0.6;
+    right: 20px;
+    border: 1px solid #000;
+    background: rgba(85, 195, 238, .6);
+    z-index: 999;
     .visual-minimap-slider {
         position: absolute;
         top: 0;
@@ -143,4 +148,16 @@ body {
         background: #999;
         cursor: pointer;
     }
+}
+
+// bounce
+.visual-bounce {
+    display: none;
+    position: fixed;
+    width: 200px;
+    height: 100vh;
+    top: 0;
+    right: 0;
+    background: #000;
+    z-index: 900;
 }

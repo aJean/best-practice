@@ -33,6 +33,10 @@ const initEntitys = [{
 
 const initConnections = [{from: 'p1', to: 'e2'}];
 
+const initUI = {
+    openEditor: false
+};
+
 /**
  * 画布实体控制
  */
@@ -72,9 +76,25 @@ function connectionsReducer(state = initConnections, action) {
     }
 }
 
+/**
+ * ui 交互相关
+ */
+function uiReducer(state = initUI, action) {
+    let newState;
+
+    switch (action.type) {
+        case 'OPEN_EDITOR_UI':
+            newState = {...state, openEditor: true};
+            return newState;
+        default:
+            return state;
+    }
+}
+
 const reducers = combineReducers({
     entitys: entitysReducer,
-    connections: connectionsReducer
+    connections: connectionsReducer,
+    ui: uiReducer
 });
 
 // @TODO: 优化以下事件绑定

@@ -15,8 +15,6 @@ export default {
         const jsp = store.jsp;
 
         jsp.ready(function () {
-            jsp.setContainer(el);
-
             ReactDOM.render(<Provider store={store}><main>
                 <ControlsView />
                 <CanvasView />
@@ -25,7 +23,7 @@ export default {
     },
 
     keySimulate() {
-        const keyboardEvent = new KeyboardEvent('keypress', {bubbles:true});
+        const keyboardEvent = new KeyboardEvent('keypress', {bubbles: true});
         Object.defineProperty(keyboardEvent, 'ctrlKey', {
             get: function () {
                 return true;

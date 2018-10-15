@@ -46,17 +46,32 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
 /******/ 	};
 /******/
 /******/ 	// define __esModule on exports
 /******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
 /******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -40635,7 +40650,6 @@ exports.default = {
     init: function (el) {
         var jsp = reducers_1.default.jsp;
         jsp.ready(function () {
-            jsp.setContainer(el);
             ReactDOM.render(React.createElement(react_redux_1.Provider, { store: reducers_1.default },
                 React.createElement("main", null,
                     React.createElement(controls_view_1.default, null),
@@ -40697,12 +40711,13 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-var entity_config_1 = __webpack_require__(/*! ./config/entity.config */ "./src/jsplumb/config/entity.config.ts");
-var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 var reducers_1 = __webpack_require__(/*! ./config/reducers */ "./src/jsplumb/config/reducers.ts");
 var actions = __webpack_require__(/*! ./config/actions */ "./src/jsplumb/config/actions.ts");
+var entity_config_1 = __webpack_require__(/*! ./config/entity.config */ "./src/jsplumb/config/entity.config.ts");
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 var jsplumb_config_1 = __webpack_require__(/*! ./config/jsplumb.config */ "./src/jsplumb/config/jsplumb.config.ts");
 var minimap_1 = __webpack_require__(/*! ./common/minimap */ "./src/jsplumb/common/minimap.tsx");
+var bounce_1 = __webpack_require__(/*! ./common/bounce */ "./src/jsplumb/common/bounce.tsx");
 /**
  * @file 作为 provider 和 drop 容器
  */
@@ -40722,19 +40737,31 @@ var mapDispatchToProps = function (dispatch) {
 var CanvasView = /** @class */ (function (_super) {
     __extends(CanvasView, _super);
     function CanvasView() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.state = {
+            ready: false
+        };
+        return _this;
     }
     /**
      * 建立实体关联
      */
     CanvasView.prototype.componentDidMount = function () {
-        this.generateConnections();
-        this.bindConnections();
+        var _this = this;
+        reducers_1.default.jsp.setContainer('_canvas');
+        // trick: 要在绘制之前先设置 container, 但又依赖于 react 组件生命周期触发顺序
+        this.setState({ ready: true }, function () {
+            _this.generateConnections();
+            _this.bindConnections();
+        });
     };
     /**
      * 根据 entity 类型创建实体
      */
     CanvasView.prototype.generateEntitys = function () {
+        if (!this.state.ready) {
+            return null;
+        }
         return this.props.entitys.map(function (data) {
             var Entity = entity_config_1.getEntity(data.type);
             // make sure id is unique
@@ -40826,13 +40853,65 @@ var CanvasView = /** @class */ (function (_super) {
         });
     };
     CanvasView.prototype.render = function () {
-        return (React.createElement("div", { id: "_canvas", className: "react-canvas", onDrop: this.dropHandle.bind(this), onDragOver: this.dragoverHandle.bind(this) },
-            React.createElement(minimap_1.default, null),
-            this.generateEntitys()));
+        return (React.createElement("section", { id: "_canvasWrap", className: "visual-canvas-wrap" },
+            React.createElement(minimap_1.default, { scroll: "_canvasWrap" }),
+            React.createElement(bounce_1.default, null),
+            React.createElement("div", { id: "_canvas", className: "visual-canvas", onDrop: this.dropHandle.bind(this), onDragOver: this.dragoverHandle.bind(this) }, this.generateEntitys())));
     };
     return CanvasView;
 }(React.Component));
 exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(CanvasView);
+
+
+/***/ }),
+
+/***/ "./src/jsplumb/common/bounce.tsx":
+/*!***************************************!*\
+  !*** ./src/jsplumb/common/bounce.tsx ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/**
+ * @file 实体编辑效果组件
+ */
+var mapStateToProps = function (state) {
+    return {
+        ui: state.ui
+    };
+};
+var Bounce = /** @class */ (function (_super) {
+    __extends(Bounce, _super);
+    function Bounce() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Bounce.prototype.getStyle = function () {
+        return this.props.ui.openEditor ? { display: 'block' } : null;
+    };
+    Bounce.prototype.render = function () {
+        return (React.createElement("section", { className: "visual-bounce", style: this.getStyle() }));
+    };
+    return Bounce;
+}(React.Component));
+exports.default = react_redux_1.connect(mapStateToProps, null)(Bounce);
 
 
 /***/ }),
@@ -40932,7 +41011,7 @@ function mid(min, number, max) {
     if (number > max) {
         ret = max;
     }
-    return ret + 'px';
+    return ret;
 }
 var Minimap = /** @class */ (function (_super) {
     __extends(Minimap, _super);
@@ -40943,12 +41022,21 @@ var Minimap = /** @class */ (function (_super) {
         return _this;
     }
     Minimap.prototype.componentDidMount = function () {
+        var props = this.props;
+        var element = this.scrollElement = document.getElementById(props.scroll);
+        this.ratio = (element.scrollWidth - element.clientWidth) / (props.mapSize - props.nodeSize);
         document.addEventListener('mousemove', this.mouseMoveHandle, false);
         document.addEventListener('mouseup', this.mouseUpHandle, false);
     };
     Minimap.prototype.componentWillUnmount = function () {
         document.removeEventListener('mousemove', this.mouseMoveHandle);
         document.removeEventListener('mouseup', this.mouseUpHandle);
+    };
+    Minimap.prototype.createStyle = function () {
+        return {
+            width: this.props.mapSize,
+            height: this.props.mapSize
+        };
     };
     Minimap.prototype.mouseDownHandle = function (data) {
         var e = data.nativeEvent;
@@ -40963,11 +41051,13 @@ var Minimap = /** @class */ (function (_super) {
         var node = this.refs.element;
         var disX = e.clientX - mapData.x;
         var disY = e.clientY - mapData.y;
-        var left = mid(0, mapData.left + disX, 170);
-        var top = mid(0, mapData.top + disY, 170);
-        node.style.left = left;
-        node.style.top = top;
-        window.scrollTo(disX * 5, disY);
+        var left = mid(0, mapData.left + disX, 120);
+        var top = mid(0, mapData.top + disY, 120);
+        node.style.left = left + 'px';
+        node.style.top = top + 'px';
+        if (this.scrollElement) {
+            this.scrollElement.scrollLeft = left * this.ratio;
+        }
     };
     Minimap.prototype.mouseUpHandle = function (e) {
         var node = this.refs.element;
@@ -40976,12 +41066,18 @@ var Minimap = /** @class */ (function (_super) {
         mapData.top = parseInt(node.style.top);
     };
     Minimap.prototype.render = function () {
-        return (React.createElement("div", { className: "visual-minimap" },
+        return (React.createElement("div", { className: "visual-minimap", style: this.createStyle() },
             React.createElement("div", { ref: "element", className: "visual-minimap-slider", onMouseDown: this.mouseDownHandle, onMouseUp: this.mouseUpHandle })));
     };
     Minimap.propTypes = {
         top: PropTypes.number,
-        left: PropTypes.number
+        left: PropTypes.number,
+        scroll: PropTypes.string
+    };
+    Minimap.defaultProps = {
+        mapSize: 150,
+        nodeSize: 30,
+        limit: 120
     };
     return Minimap;
 }(React.Component));
@@ -41068,7 +41164,8 @@ var actions = __webpack_require__(/*! ../config/actions */ "./src/jsplumb/config
  */
 var mapDispatchToProps = function (dispatch) {
     return {
-        onDelEntity: function (id) { return dispatch(actions.delEntity(id)); }
+        onDelEntity: function (id) { return dispatch(actions.delEntity(id)); },
+        onEditEntity: function (id) { return dispatch(actions.opernEditorUI(id)); }
     };
 };
 var Topbar = /** @class */ (function (_super) {
@@ -41079,13 +41176,16 @@ var Topbar = /** @class */ (function (_super) {
     Topbar.prototype.clickHandle = function () {
         this.props.onDelEntity(this.props.id);
     };
+    Topbar.prototype.editHandle = function () {
+        this.props.onEditEntity(this.props.id);
+    };
     Topbar.prototype.render = function () {
         var props = this.props;
         return (React.createElement("div", { className: "react-entity-topbar" },
             React.createElement("span", { className: "react-entity-topbar-icon react-entity-topbar-sign" },
                 React.createElement("img", { src: props.icon })),
             props.title,
-            React.createElement("span", { className: "react-entity-topbar-icon react-entity-topbar-edit" },
+            React.createElement("span", { className: "react-entity-topbar-icon react-entity-topbar-edit", onClick: this.editHandle.bind(this) },
                 React.createElement("img", { src: props.edit })),
             React.createElement("span", { className: "react-entity-topbar-icon react-entity-topbar-close", onClick: this.clickHandle.bind(this) },
                 React.createElement("img", { src: props.close }))));
@@ -41121,6 +41221,7 @@ exports.addEntity = redux_actions_1.createAction('ADD_ENTITY');
 exports.delEntity = redux_actions_1.createAction('DEL_ENTITY');
 exports.addConnection = redux_actions_1.createAction('ADD_CONNECTION');
 exports.delConnection = redux_actions_1.createAction('DEL_CONNECTION');
+exports.opernEditorUI = redux_actions_1.createAction('OPEN_EDITOR_UI');
 
 
 /***/ }),
@@ -41287,6 +41388,17 @@ exports.getOptionId = getOptionId;
 
 "use strict";
 
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 var jsplumb_1 = __webpack_require__(/*! jsplumb */ "./node_modules/jsplumb/dist/js/jsplumb.js");
@@ -41319,6 +41431,9 @@ var initEntitys = [{
         options: [{ id: 'p5', text: '我就试试' }]
     }];
 var initConnections = [{ from: 'p1', to: 'e2' }];
+var initUI = {
+    openEditor: false
+};
 /**
  * 画布实体控制
  */
@@ -41356,9 +41471,24 @@ function connectionsReducer(state, action) {
             return state;
     }
 }
+/**
+ * ui 交互相关
+ */
+function uiReducer(state, action) {
+    if (state === void 0) { state = initUI; }
+    var newState;
+    switch (action.type) {
+        case 'OPEN_EDITOR_UI':
+            newState = __assign({}, state, { openEditor: true });
+            return newState;
+        default:
+            return state;
+    }
+}
 var reducers = redux_1.combineReducers({
     entitys: entitysReducer,
-    connections: connectionsReducer
+    connections: connectionsReducer,
+    ui: uiReducer
 });
 // @TODO: 优化以下事件绑定
 jsplumb_config_1.initConfig.ConnectionOverlays[0][1]['events'].click = function (overlay, originalEvent) {

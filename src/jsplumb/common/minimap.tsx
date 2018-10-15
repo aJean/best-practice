@@ -26,21 +26,37 @@ function mid(min, number, max) {
         ret =  max;
     }
 
-    return ret + 'px';
+    return ret;
 }
-export default class Minimap extends React.Component {
+
+export default class Minimap extends React.Component<any, any> {
     static propTypes = {
         top: PropTypes.number,
-        left: PropTypes.number
+        left: PropTypes.number,
+        scroll: PropTypes.string
     }
+
+    static defaultProps = {
+        mapSize: 150,
+        nodeSize: 30,
+        limit: 120
+    }
+
+    scrollElement: any;
+    ratio: number;
 
     constructor(props) {
         super(props);
+
         this.mouseMoveHandle = this.mouseMoveHandle.bind(this);
         this.mouseUpHandle = this.mouseUpHandle.bind(this);
     }
 
     componentDidMount() {
+        const props = this.props;
+        const element = this.scrollElement = document.getElementById(props.scroll);
+
+        this.ratio = (element.scrollWidth - element.clientWidth) / (props.mapSize - props.nodeSize);
         document.addEventListener('mousemove', this.mouseMoveHandle, false);
         document.addEventListener('mouseup', this.mouseUpHandle, false);
     }
@@ -48,6 +64,13 @@ export default class Minimap extends React.Component {
     componentWillUnmount() {
         document.removeEventListener('mousemove', this.mouseMoveHandle);
         document.removeEventListener('mouseup', this.mouseUpHandle);
+    }
+
+    createStyle() {
+        return {
+            width: this.props.mapSize,
+            height: this.props.mapSize
+        };
     }
 
     mouseDownHandle(data) {
@@ -66,13 +89,15 @@ export default class Minimap extends React.Component {
         const node: any = this.refs.element;
         const disX = e.clientX - mapData.x;
         const disY = e.clientY - mapData.y;
-        const left = mid(0, mapData.left + disX, 170);
-        const top = mid(0,  mapData.top + disY, 170);
+        const left = mid(0, mapData.left + disX, 120);
+        const top = mid(0,  mapData.top + disY, 120);
 
-        node.style.left = left;
-        node.style.top = top;
+        node.style.left = left + 'px';
+        node.style.top = top + 'px';
 
-        window.scrollTo(disX * 5, disY);
+        if (this.scrollElement) {
+            this.scrollElement.scrollLeft = left * this.ratio;
+        }
     }
 
     mouseUpHandle(e) {
@@ -84,7 +109,7 @@ export default class Minimap extends React.Component {
     }
 
     render() {
-        return (<div className="visual-minimap">
+        return (<div className="visual-minimap" style={this.createStyle()}>
             <div ref="element" className="visual-minimap-slider"
                 onMouseDown={this.mouseDownHandle} onMouseUp={this.mouseUpHandle}></div>
         </div>);

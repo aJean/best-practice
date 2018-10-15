@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { getEntity, getEntityId } from './config/entity.config';
-import { connect } from 'react-redux';
 import store from './config/reducers';
 import * as actions from './config/actions';
+import { getEntity, getEntityId } from './config/entity.config';
+import { connect } from 'react-redux';
 import { connectConfig } from './config/jsplumb.config';
 import Minimap from './common/minimap';
+import Bounce from './common/bounce';
 
 /**
  * @file 作为 provider 和 drop 容器
@@ -26,18 +27,31 @@ const mapDispatchToProps = dispatch => {
 };
 
 class CanvasView extends React.Component<any, any> {
+    state = {
+        ready: false
+    };
+
     /**
      * 建立实体关联
      */
     componentDidMount() {
-        this.generateConnections();
-        this.bindConnections();
+        store.jsp.setContainer('_canvas');
+
+        // trick: 要在绘制之前先设置 container, 但又依赖于 react 组件生命周期触发顺序
+        this.setState({ready: true}, () => {
+            this.generateConnections();
+            this.bindConnections();
+        });
     }
 
     /**
      * 根据 entity 类型创建实体
      */
     generateEntitys() {
+        if (!this.state.ready) {
+            return null;
+        }
+
         return this.props.entitys.map(data => {
             const Entity = getEntity(data.type);
             // make sure id is unique
@@ -144,13 +158,14 @@ class CanvasView extends React.Component<any, any> {
     }
 
     render() {
-        return (
-            <div id="_canvas" className="react-canvas" onDrop={this.dropHandle.bind(this)}
+        return (<section id="_canvasWrap" className="visual-canvas-wrap">
+            <Minimap scroll="_canvasWrap" />
+            <Bounce />
+            <div id="_canvas" className="visual-canvas" onDrop={this.dropHandle.bind(this)}
                 onDragOver={this.dragoverHandle.bind(this)}>
-                    <Minimap />
                     {this.generateEntitys()}
             </div>
-        );
+        </section>);
     }
 }
 
