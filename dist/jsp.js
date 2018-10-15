@@ -40890,6 +40890,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var actions = __webpack_require__(/*! ../config/actions */ "./src/jsplumb/config/actions.ts");
 /**
  * @file 实体编辑效果组件
  */
@@ -40898,20 +40899,46 @@ var mapStateToProps = function (state) {
         ui: state.ui
     };
 };
+var mapDispatchToProps = function (dispatch) {
+    return {
+        onCloseEditor: function () { return dispatch(actions.closeEditorUI()); }
+    };
+};
 var Bounce = /** @class */ (function (_super) {
     __extends(Bounce, _super);
     function Bounce() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Bounce.prototype.getStyle = function () {
-        return this.props.ui.openEditor ? { display: 'block' } : null;
+        var open = this.props.ui.openEditor;
+        var element = this.refs.element;
+        if (open) {
+            setTimeout(function () {
+                element['style'].transform = 'translate3d(0, 0, 0)';
+            }, 0);
+        }
+        else if (element) {
+            element['style'].transform = null;
+        }
+        return open ? { display: 'block' } : null;
+    };
+    Bounce.prototype.saveHandle = function () {
+        return this.props.onCloseEditor();
+    };
+    /**
+     * 根据 entity type 切换 form
+     */
+    Bounce.prototype.appendForm = function () {
+        return null;
     };
     Bounce.prototype.render = function () {
-        return (React.createElement("section", { className: "visual-bounce", style: this.getStyle() }));
+        return (React.createElement("section", { ref: "element", className: "visual-bounce", style: this.getStyle() },
+            this.appendForm(),
+            React.createElement("button", { onClick: this.saveHandle.bind(this) }, "save")));
     };
     return Bounce;
 }(React.Component));
-exports.default = react_redux_1.connect(mapStateToProps, null)(Bounce);
+exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Bounce);
 
 
 /***/ }),
@@ -41165,7 +41192,7 @@ var actions = __webpack_require__(/*! ../config/actions */ "./src/jsplumb/config
 var mapDispatchToProps = function (dispatch) {
     return {
         onDelEntity: function (id) { return dispatch(actions.delEntity(id)); },
-        onEditEntity: function (id) { return dispatch(actions.opernEditorUI(id)); }
+        onOpenEditor: function (data) { return dispatch(actions.openEditorUI(data)); }
     };
 };
 var Topbar = /** @class */ (function (_super) {
@@ -41176,8 +41203,11 @@ var Topbar = /** @class */ (function (_super) {
     Topbar.prototype.clickHandle = function () {
         this.props.onDelEntity(this.props.id);
     };
+    /**
+     * 需要传输一个描述性的 data, 使编辑器 form 和画布组件保持同步
+     */
     Topbar.prototype.editHandle = function () {
-        this.props.onEditEntity(this.props.id);
+        this.props.onOpenEditor(this.props.id);
     };
     Topbar.prototype.render = function () {
         var props = this.props;
@@ -41221,7 +41251,8 @@ exports.addEntity = redux_actions_1.createAction('ADD_ENTITY');
 exports.delEntity = redux_actions_1.createAction('DEL_ENTITY');
 exports.addConnection = redux_actions_1.createAction('ADD_CONNECTION');
 exports.delConnection = redux_actions_1.createAction('DEL_CONNECTION');
-exports.opernEditorUI = redux_actions_1.createAction('OPEN_EDITOR_UI');
+exports.openEditorUI = redux_actions_1.createAction('OPEN_EDITOR_UI');
+exports.closeEditorUI = redux_actions_1.createAction('CLOSE_EDITOR_UI');
 
 
 /***/ }),
@@ -41480,6 +41511,9 @@ function uiReducer(state, action) {
     switch (action.type) {
         case 'OPEN_EDITOR_UI':
             newState = __assign({}, state, { openEditor: true });
+            return newState;
+        case 'CLOSE_EDITOR_UI':
+            newState = __assign({}, state, { openEditor: false });
             return newState;
         default:
             return state;

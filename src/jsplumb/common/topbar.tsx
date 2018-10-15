@@ -9,7 +9,7 @@ import * as actions from '../config/actions';
 const mapDispatchToProps = dispatch => {
     return {
         onDelEntity: id => dispatch(actions.delEntity(id)),
-        onEditEntity: id => dispatch(actions.opernEditorUI(id))
+        onOpenEditor: data => dispatch(actions.openEditorUI(data))
     };
 };
 
@@ -25,8 +25,11 @@ class Topbar extends React.Component<any, any> {
         this.props.onDelEntity(this.props.id);
     }
 
+    /**
+     * 需要传输一个描述性的 data, 使编辑器 form 和画布组件保持同步
+     */
     editHandle() {
-        this.props.onEditEntity(this.props.id);
+        this.props.onOpenEditor(this.props.id);
     }
 
     render() {

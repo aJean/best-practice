@@ -86,6 +86,9 @@ function uiReducer(state = initUI, action) {
         case 'OPEN_EDITOR_UI':
             newState = {...state, openEditor: true};
             return newState;
+        case 'CLOSE_EDITOR_UI':
+            newState = {...state, openEditor: false};
+            return newState;
         default:
             return state;
     }
