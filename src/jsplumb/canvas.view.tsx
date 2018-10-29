@@ -51,6 +51,7 @@ class CanvasView extends React.Component<any, any> {
         if (!this.state.ready) {
             return null;
         }
+        console.log(1)
 
         return this.props.entitys.map(data => {
             const Entity = getEntity(data.type);
@@ -66,10 +67,7 @@ class CanvasView extends React.Component<any, any> {
         const jsp = store.jsp;
 
         this.props.connections.forEach(data => {
-            const uid1 = jsp.getEndpoints(data.from)[0].getUuid();
-            const uid2 = jsp.getEndpoints(data.to)[0].getUuid();
-
-            jsp.connect({uuids: [uid1, uid2], ...connectConfig});
+            jsp.connect({uuids: [data.from, data.to], ...connectConfig});
         });
     }
 

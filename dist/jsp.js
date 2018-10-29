@@ -40747,6 +40747,7 @@ var CanvasView = /** @class */ (function (_super) {
         if (!this.state.ready) {
             return null;
         }
+        console.log(1);
         return this.props.entitys.map(function (data) {
             var Entity = entity_config_1.getEntity(data.type);
             // make sure id is unique
@@ -40759,9 +40760,7 @@ var CanvasView = /** @class */ (function (_super) {
     CanvasView.prototype.generateConnections = function () {
         var jsp = reducers_1.default.jsp;
         this.props.connections.forEach(function (data) {
-            var uid1 = jsp.getEndpoints(data.from)[0].getUuid();
-            var uid2 = jsp.getEndpoints(data.to)[0].getUuid();
-            jsp.connect(__assign({ uuids: [uid1, uid2] }, jsplumb_config_1.connectConfig));
+            jsp.connect(__assign({ uuids: [data.from, data.to] }, jsplumb_config_1.connectConfig));
         });
     };
     /**
