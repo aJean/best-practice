@@ -31,7 +31,7 @@ const initEntitys = [{
     options: [{id: 'p5', text: '我就试试'}]
 }];
 
-const initConnections = [{from: 'p1', to: 'e2'}];
+const initConnections = [{from: 'p1', to: 'e2'}, {from: 'p3', to: 'e3'}];
 
 const initUI = {
     openEditor: false
