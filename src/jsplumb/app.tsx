@@ -20,21 +20,5 @@ export default {
                 <CanvasView />
             </main></Provider>, el);
         });
-    },
-
-    keySimulate() {
-        const keyboardEvent = new KeyboardEvent('keypress', {bubbles: true});
-        Object.defineProperty(keyboardEvent, 'ctrlKey', {
-            get: function () {
-                return true;
-            }
-        }); 
-        Object.defineProperty(keyboardEvent, 'charCode', {
-            get: function () {
-                return this.charCodeVal;
-            }
-        }); 
-        keyboardEvent['charCodeVal'] = '61';
-        document.body.dispatchEvent(keyboardEvent);
     }
 }

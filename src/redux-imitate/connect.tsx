@@ -18,7 +18,7 @@ const connect = (mapStateToProps, mapDispatchToProps) => (WrappedComponent) => {
         componentWillMount() {
             const store = this.context.store;
             const staticProps = mapDispatchToProps ? mapDispatchToProps(store.dispatch) : {};
-            // setState 不会触发 rerender, 而是相当于 init
+            // trick: setState 不会触发 rerender, 而是相当于 init
             this.update(store.getState(), staticProps);
             store.subscribe(data => this.update(data, staticProps));
         }
