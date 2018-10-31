@@ -46,17 +46,32 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
 /******/ 	};
 /******/
 /******/ 	// define __esModule on exports
 /******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
 /******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -49608,7 +49623,7 @@ var PhysicsEngine = function () {
       }
 
       // enable adaptive timesteps
-      this.adaptiveTimestep = true && this.options.adaptiveTimestep;
+      this.adaptiveTimestep =  true && this.options.adaptiveTimestep;
 
       // this sets the width of all nodes initially which could be required for the avoidOverlap
       this.body.emitter.emit("_resizeNodes");
@@ -60002,6 +60017,112 @@ exports["default"] = FloydWarshall;
 
 /***/ }),
 
+/***/ "./src/generator/saga-take.ts":
+/*!************************************!*\
+  !*** ./src/generator/saga-take.ts ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/**
+ * @file redux-saga
+ *       channel 作为管道实现两端的通信
+ *       put -> take
+ *       takeEvery 每次消耗都再重新放入
+ */
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var ch = function channel() {
+    var fn;
+    function take(cb) {
+        fn = cb;
+    }
+    function put(input) {
+        if (fn) {
+            fn(input);
+        }
+    }
+    return { put: put, take: take };
+}();
+function take() {
+    return { type: 'take' };
+}
+function mySaga() {
+    var action;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (false) {}
+                return [4 /*yield*/, take()];
+            case 1:
+                action = _a.sent();
+                console.log(action);
+                return [3 /*break*/, 0];
+            case 2: return [2 /*return*/];
+        }
+    });
+}
+/**
+ * 将执行函数放入 channel
+ * @param {*} effect
+ * @param {*} cb task.next
+ */
+function runTakeEffect(effect, cb) {
+    ch.take(function (input) { return cb(input); });
+}
+function task(iterator) {
+    var it = iterator();
+    function next(args) {
+        var result = it.next(args);
+        if (!result.done) {
+            var effect = result.value;
+            switch (effect.type) {
+                case 'take':
+                    return runTakeEffect(result.value, next);
+            }
+        }
+    }
+    next();
+}
+function initSaga() {
+    task(mySaga);
+    document.body.addEventListener('click', function (e) {
+        ch.put(e);
+    });
+}
+exports.default = initSaga;
+
+
+/***/ }),
+
 /***/ "./src/vis/draw.ts":
 /*!*************************!*\
   !*** ./src/vis/draw.ts ***!
@@ -60013,6 +60134,7 @@ exports["default"] = FloydWarshall;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var vis_1 = __webpack_require__(/*! vis */ "./node_modules/vis/dist/vis.js");
+var saga_take_1 = __webpack_require__(/*! ../generator/saga-take */ "./src/generator/saga-take.ts");
 /**
  * @file vis draw 流程图
  */
@@ -60057,6 +60179,7 @@ exports.default = {
                 console.log(111);
             }
         });
+        saga_take_1.default();
     }
 };
 

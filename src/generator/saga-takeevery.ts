@@ -13,9 +13,7 @@ const ch = function channel() {
     }
     // 消耗一个执行方法
     function put(input) {
-        if (fn) {
-            fn(input);
-        }
+        fn && fn(input);
     }
 
     return { put, take };
@@ -23,6 +21,7 @@ const ch = function channel() {
 
 function* takeEvery(worker) {
     yield fork(function* () {
+        // 循环执行, worker -> yield -> put -> worker
         while (true) {
             const action = yield take();
             worker(action);
@@ -31,22 +30,15 @@ function* takeEvery(worker) {
 }
 
 function* mainSaga() {
-    yield takeEvery(action => {
-        console.log(action);
-    });
+    yield takeEvery(action => console.log(action.type));
 }
 
 function take() {
-    return {
-        type: 'take'
-    };
+    return { type: 'take' };
 }
 
 function fork(cb) {
-    return {
-        type: 'fork',
-        fn: cb,
-    };
+    return { type: 'fork', fn: cb };
 }
 
 // push channel
@@ -56,6 +48,9 @@ function runTakeEffect(effect, cb) {
 
 function runForkEffect(effect, cb) {
     task(effect.fn || effect);
+    // cb == next 让之前的 gen 执行完, 释放资源
+    // 第一次是 mainSaga
+    // 第二次是 takeEvery
     cb();
 }
 
@@ -68,11 +63,12 @@ function task(iterator) {
         if (!result.done) {
             const effect = result.value;
 
-            // 判断effect是否是iterator
+            // 第一次执行返回是 takeEvery 的 iterator
             if (typeof effect[Symbol.iterator] === 'function') {
                 runForkEffect(effect, next);
-            } else if (effect.type) {
+            } else {
                 switch (effect.type) {
+                    // 循环 执行 frok.fn
                     case 'take':
                         runTakeEffect(effect, next);
                         break;

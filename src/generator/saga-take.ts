@@ -22,14 +22,15 @@ const ch = function channel() {
 }();
 
 function take() {
-    return {
-        type: 'take'
-    };
+    return { type: 'take' };
 }
 
 function* mySaga() {
-    const action = yield take();
-    console.log(action);
+    // 这里可以很容易的实现 takeEvery, 但这个方法是用户写的，所以必须给用户一个一致性的 api
+    while (true) {
+        const action = yield take();
+        console.log(action);
+    }
 }
 
 /**
