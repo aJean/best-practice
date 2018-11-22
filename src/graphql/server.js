@@ -66,7 +66,7 @@ app.post('/graphql', graphqlHTTP({
 app.get('/test', function(req, res) {
     return res.send('111111111');
 
-    MongoClient.connect('mongodb://localhost:27017',function (err, db) {
+    MongoClient.connect('mongodb://localhost:27017', function (err, db) {
         console.log(err)
         const person = db.db('person');
         const student = person.collection('student');
