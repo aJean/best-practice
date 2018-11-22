@@ -2,6 +2,7 @@ const express = require('express');
 const graphqlHTTP = require('express-graphql');
 const { buildSchema } = require('graphql');
 const { MongoClient } = require('mongodb');
+const bodyParser = require('body-parser');
 const data = require('./data.json');
 
 /**
@@ -38,6 +39,7 @@ const root = {
 
 const app = express();
 
+
 // cros config
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', 'http://test.baidu.com:8081');
@@ -51,17 +53,16 @@ app.use(function(req, res, next) {
     }
 });
 
-app.use('/', graphqlHTTP({
-    schema: schema,
-    rootValue: root,
-    graphiql: true
-}));
 
 app.post('/graphql', graphqlHTTP({
     schema: schema,
     rootValue: root,
     graphiql: true
 }));
+
+app.post('/heihei', bodyParser.json(), function(req, res) {
+    res.status(200).send(req.body);
+});
 
 app.get('/test', function(req, res) {
     return res.send('111111111');
