@@ -24,7 +24,7 @@ const typeDefs = gql `
     }
     type Query {
         author(firstName: String, lastName: String): Author # 查询作者信息
-        getFortuneCookie: String
+        hello: String
     }
 `;
 
@@ -33,6 +33,9 @@ const resolvers = {
         author(root, args) { // args就是上面schema中author的入参
             return { id: 1, firstName: 'Hello', lastName: 'World' };
         },
+        hello() {
+            return 'i love this game';
+        }
     },
     Author: {
         // 定义author中的posts
