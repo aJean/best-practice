@@ -1,3 +1,4 @@
+import './polymer.laiye.less';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -7,8 +8,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 /**
- * @file dva like
- * @TODO: 使用 router 管理组件渲染吧
+ * @file react redux saga 最佳实践
  */
 
 function createReducer(model, mapTo) {
@@ -16,12 +16,13 @@ function createReducer(model, mapTo) {
     const reducers = model.reducers;
     const initState = model.state;
 
+    // 执行 action 相关的 reducer, 未定义的返回原始数据
     mapTo[ns] = reducers ? 
         function(state = initState, action) {
             const type = action.type.replace(`${ns}/`, '');
             const reducer = reducers[type];
 
-            return reducer ? reducer(state) : state;
+            return reducer ? reducer(state, action) : state;
         } : 
         function(state = initState) {
             return state;
@@ -60,17 +61,17 @@ function initSagas(models) {
 }
 
 function initRouter(models) {
-    const routes = models.map((model, i) => {
-        return (<Route key={i} path={model.path} component={model.component} />);
+    const links = [];
+    const routes = [];
+
+    models.forEach((model, i) => {
+        routes.push(<Route key={i} path={model.path} component={model.component} />);
+        links.push(<Link className="laiye-link" key={i} to={model.path}>{model.name}</Link>);
     });
 
     return (<Router basename="/reactss/dist/">
-        <div className="polymer-routes">
-            <nav>
-                <Link to='/dva.html'>主页</Link><br/>
-                <Link to='/count'>计数器</Link><br/>
-                <Link to='/list'>列表测试 saga</Link>
-            </nav>
+        <div className="laiye-routes">
+            <nav>{links}</nav>
             {routes}
         </div>
     </Router>);
@@ -90,7 +91,7 @@ export default class Polymer {
         const store = createStore(reducers, applyMiddleware(sagaMiddleware));
         const sagas = initSagas(this.models);
         const router = initRouter(this.models);
-
+        // listen actions
         sagaMiddleware.run(function *() {
             yield sagaEffects.all(sagas);
         });

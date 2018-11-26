@@ -28439,21 +28439,24 @@ function fetchUser(action) {
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 3, , 5]);
-                return [4 /*yield*/, effects_1.call(get, action.payload)];
+                console.log(action);
+                _a.label = 1;
             case 1:
+                _a.trys.push([1, 4, , 6]);
+                return [4 /*yield*/, effects_1.call(get, action.payload)];
+            case 2:
                 data = _a.sent();
                 return [4 /*yield*/, effects_1.put(actions.fetchUserSucced(data))];
-            case 2:
-                _a.sent();
-                return [3 /*break*/, 5];
             case 3:
+                _a.sent();
+                return [3 /*break*/, 6];
+            case 4:
                 error_2 = _a.sent();
                 return [4 /*yield*/, effects_1.put(actions.fetchUserFailed(error_2))];
-            case 4:
+            case 5:
                 _a.sent();
-                return [3 /*break*/, 5];
-            case 5: return [2 /*return*/];
+                return [3 /*break*/, 6];
+            case 6: return [2 /*return*/];
         }
     });
 }

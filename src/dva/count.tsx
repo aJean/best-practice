@@ -1,4 +1,4 @@
-import {connect} from './polymer';
+import {connect} from './polymer.laiye';
 import * as React from 'react';
 
 function mapStateToProps(state) {

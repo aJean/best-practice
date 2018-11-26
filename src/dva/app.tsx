@@ -1,4 +1,4 @@
-import Polymer from './polymer';
+import Polymer from './polymer.laiye';
 import HomePage from './count';
 import ListPage from './list';
 
@@ -15,6 +15,7 @@ app.add({
       current: 0
     },
     path: '/count',
+    name: '计数器',
     component: HomePage,
     reducers: {
         add(state) {
@@ -31,16 +32,17 @@ app.add({
     ns: 'list',
     state: ['wwwwwwww', 'aaaaaaaaa', 'aaaaaaaaaaa'],
     path: '/list',
+    name: '列表测试 saga',
     component: ListPage,
     effects: {
         *add(action, { call, put }) {
             yield call(delay, 1000);
-            yield put({ type: 'list/success' });
+            yield put({ type: 'list/success', data: Date.now() });
         }
     },
     reducers: {
-        success: function(state) {
-            return [...state, 'newsnewsnews'];
+        success: function(state, action) {
+            return [...state, 'new' + action.data];
         }
     }
 });

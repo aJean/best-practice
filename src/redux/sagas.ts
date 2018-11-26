@@ -15,6 +15,7 @@ function* fetchData(action) {
 }
 
 function* fetchUser(action) {
+    console.log(action);
     try {
         const data = yield call(get, action.payload);
         yield put(actions.fetchUserSucced(data));

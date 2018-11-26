@@ -29115,13 +29115,13 @@ var __spread = (this && this.__spread) || function () {
     return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var polymer_1 = __webpack_require__(/*! ./polymer */ "./src/dva/polymer.tsx");
+var polymer_laiye_1 = __webpack_require__(/*! ./polymer.laiye */ "./src/dva/polymer.laiye.tsx");
 var count_1 = __webpack_require__(/*! ./count */ "./src/dva/count.tsx");
 var list_1 = __webpack_require__(/*! ./list */ "./src/dva/list.tsx");
 /**
  * @file 封装 router, redux, saga 工程细节
  */
-var app = new polymer_1.default();
+var app = new polymer_laiye_1.default();
 app.add({
     ns: 'count',
     state: {
@@ -29129,6 +29129,7 @@ app.add({
         current: 0
     },
     path: '/count',
+    name: '计数器',
     component: count_1.default,
     reducers: {
         add: function (state) {
@@ -29141,6 +29142,7 @@ app.add({
     ns: 'list',
     state: ['wwwwwwww', 'aaaaaaaaa', 'aaaaaaaaaaa'],
     path: '/list',
+    name: '列表测试 saga',
     component: list_1.default,
     effects: {
         add: function (action, _a) {
@@ -29150,7 +29152,7 @@ app.add({
                     case 0: return [4 /*yield*/, call(delay, 1000)];
                     case 1:
                         _b.sent();
-                        return [4 /*yield*/, put({ type: 'list/success' })];
+                        return [4 /*yield*/, put({ type: 'list/success', data: Date.now() })];
                     case 2:
                         _b.sent();
                         return [2 /*return*/];
@@ -29159,8 +29161,8 @@ app.add({
         }
     },
     reducers: {
-        success: function (state) {
-            return __spread(state, ['newsnewsnews']);
+        success: function (state, action) {
+            return __spread(state, ['new' + action.data]);
         }
     }
 });
@@ -29188,7 +29190,7 @@ exports.default = {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var polymer_1 = __webpack_require__(/*! ./polymer */ "./src/dva/polymer.tsx");
+var polymer_laiye_1 = __webpack_require__(/*! ./polymer.laiye */ "./src/dva/polymer.laiye.tsx");
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 function mapStateToProps(state) {
     return { count: state.count };
@@ -29203,7 +29205,7 @@ var CountApp = function (_a) {
         React.createElement("div", null,
             React.createElement("button", { onClick: function () { dispatch({ type: 'count/add' }); } }, "+"))));
 };
-exports.default = polymer_1.connect(mapStateToProps)(CountApp);
+exports.default = polymer_laiye_1.connect(mapStateToProps)(CountApp);
 
 
 /***/ }),
@@ -29218,7 +29220,7 @@ exports.default = polymer_1.connect(mapStateToProps)(CountApp);
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var polymer_1 = __webpack_require__(/*! ./polymer */ "./src/dva/polymer.tsx");
+var polymer_laiye_1 = __webpack_require__(/*! ./polymer.laiye */ "./src/dva/polymer.laiye.tsx");
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /**
  * @file list component
@@ -29233,15 +29235,26 @@ var ListApp = function (_a) {
         React.createElement("button", { onClick: function () { dispatch({ type: 'list/add' }); } }, "\u6D4B\u8BD5saga"),
         React.createElement("div", null, list.map(function (text, i) { return React.createElement("div", { key: i }, text); }))));
 };
-exports.default = polymer_1.connect(mapStateToProps)(ListApp);
+exports.default = polymer_laiye_1.connect(mapStateToProps)(ListApp);
 
 
 /***/ }),
 
-/***/ "./src/dva/polymer.tsx":
-/*!*****************************!*\
-  !*** ./src/dva/polymer.tsx ***!
-  \*****************************/
+/***/ "./src/dva/polymer.laiye.less":
+/*!************************************!*\
+  !*** ./src/dva/polymer.laiye.less ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./src/dva/polymer.laiye.tsx":
+/*!***********************************!*\
+  !*** ./src/dva/polymer.laiye.tsx ***!
+  \***********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -29278,6 +29291,7 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
+__webpack_require__(/*! ./polymer.laiye.less */ "./src/dva/polymer.laiye.less");
 var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
@@ -29286,19 +29300,19 @@ var sagaEffects = __webpack_require__(/*! redux-saga/effects */ "./node_modules/
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /**
- * @file dva like
- * @TODO: 使用 router 管理组件渲染吧
+ * @file react redux saga 最佳实践
  */
 function createReducer(model, mapTo) {
     var ns = model.ns;
     var reducers = model.reducers;
     var initState = model.state;
+    // 执行 action 相关的 reducer, 未定义的返回原始数据
     mapTo[ns] = reducers ?
         function (state, action) {
             if (state === void 0) { state = initState; }
             var type = action.type.replace(ns + "/", '');
             var reducer = reducers[type];
-            return reducer ? reducer(state) : state;
+            return reducer ? reducer(state, action) : state;
         } :
         function (state) {
             if (state === void 0) { state = initState; }
@@ -29338,17 +29352,15 @@ function initSagas(models) {
     return sagas;
 }
 function initRouter(models) {
-    var routes = models.map(function (model, i) {
-        return (React.createElement(react_router_dom_1.Route, { key: i, path: model.path, component: model.component }));
+    var links = [];
+    var routes = [];
+    models.forEach(function (model, i) {
+        routes.push(React.createElement(react_router_dom_1.Route, { key: i, path: model.path, component: model.component }));
+        links.push(React.createElement(react_router_dom_1.Link, { className: "laiye-link", key: i, to: model.path }, model.name));
     });
     return (React.createElement(react_router_dom_1.BrowserRouter, { basename: "/reactss/dist/" },
-        React.createElement("div", { className: "polymer-routes" },
-            React.createElement("nav", null,
-                React.createElement(react_router_dom_1.Link, { to: '/dva.html' }, "\u4E3B\u9875"),
-                React.createElement("br", null),
-                React.createElement(react_router_dom_1.Link, { to: '/count' }, "\u8BA1\u6570\u5668"),
-                React.createElement("br", null),
-                React.createElement(react_router_dom_1.Link, { to: '/list' }, "\u5217\u8868\u6D4B\u8BD5 saga")),
+        React.createElement("div", { className: "laiye-routes" },
+            React.createElement("nav", null, links),
             routes)));
 }
 var Polymer = /** @class */ (function () {
@@ -29365,6 +29377,7 @@ var Polymer = /** @class */ (function () {
         var store = redux_1.createStore(reducers, redux_1.applyMiddleware(sagaMiddleware));
         var sagas = initSagas(this.models);
         var router = initRouter(this.models);
+        // listen actions
         sagaMiddleware.run(function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
