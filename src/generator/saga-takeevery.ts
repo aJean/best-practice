@@ -1,8 +1,7 @@
 /**
  * @file redux-saga
- *       channel 作为管道实现两端的通信
- *       put -> take 
  *       takeEvery 每次消耗都再重新放入
+ *       三层 generator，最内层循环 hold
  */
 
 const ch = function channel() {
@@ -19,6 +18,9 @@ const ch = function channel() {
     return { put, take };
 }();
 
+/**
+ * @param worker  next 会循环内层的 take
+ */
 function* takeEvery(worker) {
     yield fork(function* () {
         // 循环执行, worker -> yield -> put -> worker
@@ -37,6 +39,9 @@ function take() {
     return { type: 'take' };
 }
 
+/**
+ * @param cb 循环的 generator
+ */
 function fork(cb) {
     return { type: 'fork', fn: cb };
 }
@@ -63,15 +68,16 @@ function task(iterator) {
         if (!result.done) {
             const effect = result.value;
 
-            // 第一次执行返回是 takeEvery 的 iterator
+            // 第一次执行返回是 takeEvery 的 iterator, 再次执行 task 到 fork，就不会再进这个分支了
             if (typeof effect[Symbol.iterator] === 'function') {
                 runForkEffect(effect, next);
             } else {
                 switch (effect.type) {
-                    // 循环 执行 frok.fn
+                    // 循环执行 take
                     case 'take':
                         runTakeEffect(effect, next);
                         break;
+                    // 执行一次 frok.fn, 释放 fork generator
                     case 'fork':
                         runForkEffect(effect, next);
                         break;
