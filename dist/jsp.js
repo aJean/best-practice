@@ -40747,7 +40747,6 @@ var CanvasView = /** @class */ (function (_super) {
         if (!this.state.ready) {
             return null;
         }
-        console.log(1);
         return this.props.entitys.map(function (data) {
             var Entity = entity_config_1.getEntity(data.type);
             // make sure id is unique
@@ -41833,7 +41832,6 @@ function makeDragComponent(WrappedComponent) {
             var jsp = reducers_1.default.jsp;
             var node = this.refs.element;
             jsp.empty(node);
-            jsp.removeAllEndpoints(node);
         };
         Draggable.prototype.render = function () {
             var props = this.props;

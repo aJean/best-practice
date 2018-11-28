@@ -17,7 +17,7 @@ const mapDispatchToProps = dispatch => {
 class List extends React.PureComponent<any, any> {
     render() {
         const list = this.props.list.map((data, i) => (<div key={i}>大家好今天给大家表演---{data}</div>));
-
+        
         return (
             <div>
                 <h1>{this.props.user}翻你的排</h1>

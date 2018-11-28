@@ -28222,6 +28222,7 @@ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 var reducer_1 = __webpack_require__(/*! ./reducer */ "./src/redux/reducer.ts");
+var error_1 = __webpack_require__(/*! ./error */ "./src/redux/error.tsx");
 var list_1 = __webpack_require__(/*! ./list */ "./src/redux/list.tsx");
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
@@ -28232,7 +28233,8 @@ var App = /** @class */ (function (_super) {
         return (React.createElement(react_redux_1.Provider, { store: reducer_1.default },
             React.createElement("div", null,
                 React.createElement("h2", null, "welcome hello world"),
-                React.createElement(list_1.default, null))));
+                React.createElement(error_1.default, null,
+                    React.createElement(list_1.default, null)))));
     };
     return App;
 }(React.Component));
@@ -28241,6 +28243,57 @@ exports.default = {
         ReactDOM.render(React.createElement(App, null), el);
     }
 };
+
+
+/***/ }),
+
+/***/ "./src/redux/error.tsx":
+/*!*****************************!*\
+  !*** ./src/redux/error.tsx ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var ErrorCapture = /** @class */ (function (_super) {
+    __extends(ErrorCapture, _super);
+    function ErrorCapture() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.state = {
+            hasError: false
+        };
+        return _this;
+    }
+    ErrorCapture.prototype.componentDidCatch = function (error, info) {
+        console.log(info);
+        this.setState({ hasError: true });
+    };
+    ErrorCapture.prototype.render = function () {
+        if (this.state.hasError) {
+            // You can render any custom fallback UI
+            return React.createElement("h1", null, "Something went wrong.");
+        }
+        return this.props.children;
+    };
+    return ErrorCapture;
+}(React.Component));
+exports.default = ErrorCapture;
 
 
 /***/ }),

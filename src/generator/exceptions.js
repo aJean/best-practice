@@ -38,6 +38,7 @@ async function testAction() {
 /**
  * 旧版本的生成器模式, 思路一致
  * promise 保证使用 reject 抛出异常即可
+ * example: yog2 必须在 async 里使用 await, 且返回必须是 promise
  */
 function* genAction() {
     try {

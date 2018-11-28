@@ -51,7 +51,6 @@ class CanvasView extends React.Component<any, any> {
         if (!this.state.ready) {
             return null;
         }
-        console.log(1)
 
         return this.props.entitys.map(data => {
             const Entity = getEntity(data.type);
