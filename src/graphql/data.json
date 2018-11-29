@@ -1,5 +1,9 @@
 {
     "userList": [
         {"name": "kenzoss", "id": 1}, {"name": "ajean", "id": 2}, {"name": "dalala", "id": 3}
+    ],
+
+    "posts": [
+        {"text": "我可以", "id": 1}, {"text": "小盒子", "id": 2}, {"text": "起始的不是结束的", "id": 3}
     ]
 }

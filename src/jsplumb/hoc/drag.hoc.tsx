@@ -21,7 +21,7 @@ export default function makeDragComponent(WrappedComponent) {
             const jsp: any = store.jsp;
             const node = this.refs.element;
 
-            jsp.empty(node);
+            node && jsp.removeAllEndpoints(node);
         }
         
         render() {

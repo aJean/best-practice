@@ -1,5 +1,6 @@
 const express = require('express');
 const { ApolloServer, gql } = require('apollo-server-express');
+const data = require('./data.json');
 
 /**
  * @file apollo server
@@ -7,51 +8,45 @@ const { ApolloServer, gql } = require('apollo-server-express');
 
 const app = express();
 
+
 // 定义schema
 const typeDefs = gql `
     type Author {
         id: Int
-        firstName: String
-        lastName: String
-        posts: [Post]
+        name: String
+        post: Post
     }
     type Post {
         id: Int
-        title: String
         text: String
-        views: Int
-        author: Author
     }
     type Query {
-        author(firstName: String, lastName: String): Author # 查询作者信息
+        author(id: Int): Author
+        posts: [Post]
         hello: String
     }
 `;
 
 const resolvers = {
     Query: {
-        author(root, args) { // args就是上面schema中author的入参
-            return { id: 1, firstName: 'Hello', lastName: 'World' };
+        author(root, args) {
+            const list = data.userList;
+            return list.find(author => author.id == args.id);
         },
         hello() {
             return 'i love this game';
-        }
+        },
+        posts() {
+            return data.posts;
+        } 
     },
     Author: {
         // 定义author中的posts
-        posts(author) {
-            return [
-                { id: 1, title: 'A post', text: 'Some text', views: 2 },
-                { id: 2, title: 'Another post', text: 'Some other text', views: 200 }
-            ];
+        post(author) {
+            const list = data.posts;
+            return list.find(post => author.id == post.id);
         },
-    },
-    Post: {
-        // 定义Post里面的author
-        author(post) {
-            return { id: 1, firstName: 'Hello', lastName: 'World' };
-        },
-    },
+    }
 };
 
 const server = new ApolloServer({ typeDefs, resolvers });
