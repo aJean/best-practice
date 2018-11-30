@@ -41831,7 +41831,7 @@ function makeDragComponent(WrappedComponent) {
         Draggable.prototype.componentWillUnmount = function () {
             var jsp = reducers_1.default.jsp;
             var node = this.refs.element;
-            jsp.empty(node);
+            node && jsp.removeAllEndpoints(node);
         };
         Draggable.prototype.render = function () {
             var props = this.props;

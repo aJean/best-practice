@@ -1,6 +1,12 @@
+import { compose, withApollo } from 'react-apollo';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as actions from './actions';
+import { getPost } from './request';
+
+/**
+ * @file withApollo 有没有必要，是否应该自己获取 context
+ */
 
 const mapStateToProps = state => {
     return {list: state.list, user: state.user};
@@ -15,6 +21,10 @@ const mapDispatchToProps = dispatch => {
 };
 
 class List extends React.PureComponent<any, any> {
+    componentDidMount() {
+        getPost(this.props.client, 1).then(res => console.log(res));
+    }
+
     render() {
         const list = this.props.list.map((data, i) => (<div key={i}>大家好今天给大家表演---{data}</div>));
         
@@ -30,4 +40,4 @@ class List extends React.PureComponent<any, any> {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(List);
+export default compose(withApollo, connect(mapStateToProps, mapDispatchToProps))(List);
