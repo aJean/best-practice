@@ -394,7 +394,7 @@ process.umask = function() { return 0; };
 /*!************************************************!*\
   !*** ./node_modules/apollo-boost/lib/index.js ***!
   \************************************************/
-/*! exports provided: printAST, ObservableQuery, NetworkStatus, ApolloError, ApolloClient, FetchType, createOperation, makePromise, toPromise, fromPromise, fromError, Observable, empty, from, split, concat, ApolloLink, execute, gql, HttpLink, default, InMemoryCache, defaultDataIdFromObject, StoreReader, assertIdValue, WriteError, enhanceErrorWithDocument, StoreWriter, HeuristicFragmentMatcher, IntrospectionFragmentMatcher, ObjectCache, defaultNormalizedCacheFactory, RecordingCache, record */
+/*! exports provided: gql, HttpLink, default, printAST, ObservableQuery, NetworkStatus, ApolloError, ApolloClient, createOperation, makePromise, toPromise, fromPromise, fromError, Observable, InMemoryCache, defaultDataIdFromObject, FetchType, empty, from, split, concat, ApolloLink, execute, StoreReader, assertIdValue, WriteError, enhanceErrorWithDocument, StoreWriter, HeuristicFragmentMatcher, IntrospectionFragmentMatcher, ObjectCache, defaultNormalizedCacheFactory, RecordingCache, record */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -61699,6 +61699,145 @@ if (hasSymbols()) {
 
 /***/ }),
 
+/***/ "./src/component/container.tsx":
+/*!*************************************!*\
+  !*** ./src/component/container.tsx ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var stateless_1 = __webpack_require__(/*! ./stateless */ "./src/component/stateless.tsx");
+var react_dom_1 = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+var context_1 = __webpack_require__(/*! ./context */ "./src/component/context.ts");
+/**
+ * @file 处理数据的容器组件
+ */
+var Container = /** @class */ (function (_super) {
+    __extends(Container, _super);
+    function Container() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.state = {};
+        return _this;
+    }
+    Container.getDerivedStateFromProps = function (props) {
+        return null;
+    };
+    Container.prototype.render = function () {
+        var list = this.props.list;
+        return react_dom_1.createPortal(React.createElement(context_1.default.Provider, { value: { author: 'ajean' } },
+            React.createElement("div", null, list.map(function (data, i) { return React.createElement(stateless_1.default, { key: i, text: data }); }))), document.body);
+    };
+    return Container;
+}(React.Component));
+exports.default = Container;
+
+
+/***/ }),
+
+/***/ "./src/component/context.ts":
+/*!**********************************!*\
+  !*** ./src/component/context.ts ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+exports.default = React.createContext({ author: 'ajean' });
+
+
+/***/ }),
+
+/***/ "./src/component/renderProps.tsx":
+/*!***************************************!*\
+  !*** ./src/component/renderProps.tsx ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/**]
+ * @file 负责控制逻辑，直接渲染传入子组件
+ */
+var RenderProps = /** @class */ (function (_super) {
+    __extends(RenderProps, _super);
+    function RenderProps() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.state = {
+            show: false
+        };
+        return _this;
+    }
+    RenderProps.prototype.render = function () {
+        return React.createElement("section", { style: { border: '1px solid #0e5cc1' } },
+            React.createElement("h4", null, "render props"),
+            this.props.render(this.state));
+    };
+    return RenderProps;
+}(React.Component));
+exports.default = RenderProps;
+
+
+/***/ }),
+
+/***/ "./src/component/stateless.tsx":
+/*!*************************************!*\
+  !*** ./src/component/stateless.tsx ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var context_1 = __webpack_require__(/*! ./context */ "./src/component/context.ts");
+/**
+ * @file 无状态组件
+ */
+var Stateless = function (props) {
+    return React.createElement(context_1.default.Consumer, null, function (data) { return React.createElement("div", { style: { border: '1px solid red', marginTop: '10px' } }, data.author + props.text); });
+};
+exports.default = Stateless;
+
+
+/***/ }),
+
 /***/ "./src/redux/actions.ts":
 /*!******************************!*\
   !*** ./src/redux/actions.ts ***!
@@ -61865,7 +62004,8 @@ var react_apollo_1 = __webpack_require__(/*! react-apollo */ "./node_modules/rea
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 var actions = __webpack_require__(/*! ./actions */ "./src/redux/actions.ts");
-var request_1 = __webpack_require__(/*! ./request */ "./src/redux/request.ts");
+var renderProps_1 = __webpack_require__(/*! ../component/renderProps */ "./src/component/renderProps.tsx");
+var container_1 = __webpack_require__(/*! ../component/container */ "./src/component/container.tsx");
 /**
  * @file withApollo 有没有必要，是否应该自己获取 context
  */
@@ -61885,18 +62025,15 @@ var List = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     List.prototype.componentDidMount = function () {
-        request_1.getPost(this.props.client, 1).then(function (res) { return console.log(res); });
+        // getPost(this.props.client, 1).then(res => console.log(res));
     };
     List.prototype.render = function () {
-        var list = this.props.list.map(function (data, i) { return (React.createElement("div", { key: i },
-            "\u5927\u5BB6\u597D\u4ECA\u5929\u7ED9\u5927\u5BB6\u8868\u6F14---",
-            data)); });
         return (React.createElement("div", null,
+            React.createElement(renderProps_1.default, { render: function (data) { return data.show ? React.createElement("button", null, "click me!") : null; } }),
+            React.createElement(container_1.default, { list: this.props.list }),
             React.createElement("h1", null,
                 this.props.user,
                 "\u7FFB\u4F60\u7684\u6392"),
-            list,
-            React.createElement("br", null),
             React.createElement("button", { onClick: this.props.onAddList }, "\u6DFB\u52A0 item"),
             React.createElement("button", { onClick: this.props.onAddUser }, "\u6DFB\u52A0 user"),
             React.createElement("button", { onClick: this.props.onAddDb }, "\u6D4B\u8BD5 db")));
@@ -61966,38 +62103,6 @@ var store = redux_1.createStore(reducers, redux_1.applyMiddleware(sagaMiddleware
 // listen action
 sagaMiddleware.run(sagas_1.default);
 exports.default = store;
-
-
-/***/ }),
-
-/***/ "./src/redux/request.ts":
-/*!******************************!*\
-  !*** ./src/redux/request.ts ***!
-  \******************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var graphql_tag_1 = __webpack_require__(/*! graphql-tag */ "./node_modules/graphql-tag/src/index.js");
-/**
- * @file querys
- */
-var QUERY_POST = graphql_tag_1.default(templateObject_1 || (templateObject_1 = __makeTemplateObject(["  \n    query getUser($id: Int, $type: Boolean) {\n        find (id: $id, type: $type) {\n            name\n        }\n    }\n"], ["  \n    query getUser($id: Int, $type: Boolean) {\n        find (id: $id, type: $type) {\n            name\n        }\n    }\n"])));
-function getPost(client, id) {
-    return client.query({
-        fetchPolicy: 'network-only',
-        query: QUERY_POST,
-        variables: { id: id }
-    });
-}
-exports.getPost = getPost;
-var templateObject_1;
 
 
 /***/ }),
