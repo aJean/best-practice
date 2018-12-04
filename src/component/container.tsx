@@ -17,7 +17,7 @@ export default class Container extends React.Component<any, any> {
     render() {
         const list = this.props.list;
         return createPortal(<Context.Provider value={{author: 'ajean'}}>
-            <div>{list.map((data, i) => <Stateless key={i} text={data} />)}</div>
+            <section>{list.map((data, i) => <Stateless key={i} text={data} />)}</section>
         </Context.Provider>, document.body);
     }
 }
