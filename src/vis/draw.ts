@@ -1,5 +1,5 @@
 import {Network, DataSet} from 'vis';
-import initSaga from '../generator/saga-take';
+import initSaga from '../generator/saga-takeevery';
 
 /**
  * @file vis draw 流程图

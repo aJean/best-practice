@@ -61742,7 +61742,7 @@ var Container = /** @class */ (function (_super) {
     Container.prototype.render = function () {
         var list = this.props.list;
         return react_dom_1.createPortal(React.createElement(context_1.default.Provider, { value: { author: 'ajean' } },
-            React.createElement("div", null, list.map(function (data, i) { return React.createElement(stateless_1.default, { key: i, text: data }); }))), document.body);
+            React.createElement("section", null, list.map(function (data, i) { return React.createElement(stateless_1.default, { key: i, text: data }); }))), document.body);
     };
     return Container;
 }(React.Component));

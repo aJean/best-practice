@@ -54,8 +54,8 @@ function runTakeEffect(effect, cb) {
 function runForkEffect(effect, cb) {
     task(effect.fn || effect);
     // cb == next 让之前的 gen 执行完, 释放资源
-    // 第一次是 mainSaga
-    // 第二次是 takeEvery
+    // 第一次是结束 mainSaga
+    // 第二次是结束 takeEvery
     cb();
 }
 

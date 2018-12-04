@@ -60017,10 +60017,10 @@ exports["default"] = FloydWarshall;
 
 /***/ }),
 
-/***/ "./src/generator/saga-take.ts":
-/*!************************************!*\
-  !*** ./src/generator/saga-take.ts ***!
-  \************************************/
+/***/ "./src/generator/saga-takeevery.ts":
+/*!*****************************************!*\
+  !*** ./src/generator/saga-takeevery.ts ***!
+  \*****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -60028,9 +60028,8 @@ exports["default"] = FloydWarshall;
 
 /**
  * @file redux-saga
- *       channel 作为管道实现两端的通信
- *       put -> take
  *       takeEvery 每次消耗都再重新放入
+ *       三层 generator，最内层循环 hold
  */
 var __generator = (this && this.__generator) || function (thisArg, body) {
     var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
@@ -60062,58 +60061,103 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var ch = function channel() {
     var fn;
+    // 保存一个执行方法
     function take(cb) {
         fn = cb;
     }
+    // 消耗一个执行方法
     function put(input) {
-        if (fn) {
-            fn(input);
-        }
+        fn && fn(input);
     }
     return { put: put, take: take };
 }();
-function take() {
-    return { type: 'take' };
-}
-function mySaga() {
-    var action;
+/**
+ * @param worker  next 会循环内层的 take
+ */
+function takeEvery(worker) {
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                if (false) {}
-                return [4 /*yield*/, take()];
+            case 0: return [4 /*yield*/, fork(function () {
+                    var action;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                if (false) {}
+                                return [4 /*yield*/, take()];
+                            case 1:
+                                action = _a.sent();
+                                worker(action);
+                                return [3 /*break*/, 0];
+                            case 2: return [2 /*return*/];
+                        }
+                    });
+                })];
             case 1:
-                action = _a.sent();
-                console.log(action);
-                return [3 /*break*/, 0];
-            case 2: return [2 /*return*/];
+                _a.sent();
+                return [2 /*return*/];
         }
     });
 }
+function mainSaga() {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, takeEvery(function (action) { return console.log(action.type); })];
+            case 1:
+                _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}
+function take() {
+    return { type: 'take' };
+}
 /**
- * 将执行函数放入 channel
- * @param {*} effect
- * @param {*} cb task.next
+ * @param cb 循环的 generator
  */
+function fork(cb) {
+    return { type: 'fork', fn: cb };
+}
+// push channel
 function runTakeEffect(effect, cb) {
     ch.take(function (input) { return cb(input); });
 }
+function runForkEffect(effect, cb) {
+    task(effect.fn || effect);
+    // cb == next 让之前的 gen 执行完, 释放资源
+    // 第一次是结束 mainSaga
+    // 第二次是结束 takeEvery
+    cb();
+}
 function task(iterator) {
-    var it = iterator();
+    var iter = typeof iterator === 'function' ? iterator() : iterator;
     function next(args) {
-        var result = it.next(args);
+        var result = iter.next(args);
+        // while 导致不会走到 done, 所以每次消耗完就会重新 take
         if (!result.done) {
             var effect = result.value;
-            switch (effect.type) {
-                case 'take':
-                    return runTakeEffect(result.value, next);
+            // 第一次执行返回是 takeEvery 的 iterator, 再次执行 task 到 fork，就不会再进这个分支了
+            if (typeof effect[Symbol.iterator] === 'function') {
+                runForkEffect(effect, next);
+            }
+            else {
+                switch (effect.type) {
+                    // 循环执行 take
+                    case 'take':
+                        runTakeEffect(effect, next);
+                        break;
+                    // 执行一次 frok.fn, 释放 fork generator
+                    case 'fork':
+                        runForkEffect(effect, next);
+                        break;
+                    default:
+                }
             }
         }
     }
     next();
 }
 function initSaga() {
-    task(mySaga);
+    task(mainSaga);
     document.body.addEventListener('click', function (e) {
         ch.put(e);
     });
@@ -60134,7 +60178,7 @@ exports.default = initSaga;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var vis_1 = __webpack_require__(/*! vis */ "./node_modules/vis/dist/vis.js");
-var saga_take_1 = __webpack_require__(/*! ../generator/saga-take */ "./src/generator/saga-take.ts");
+var saga_takeevery_1 = __webpack_require__(/*! ../generator/saga-takeevery */ "./src/generator/saga-takeevery.ts");
 /**
  * @file vis draw 流程图
  */
@@ -60179,7 +60223,7 @@ exports.default = {
                 console.log(111);
             }
         });
-        saga_take_1.default();
+        saga_takeevery_1.default();
     }
 };
 
