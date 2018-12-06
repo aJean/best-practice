@@ -29,9 +29,16 @@ const initEntitys = [{
     top: 450,
     left: 300,
     options: [{id: 'p5', text: '我就试试'}]
+}, {
+    id: 'e4',
+    type: 'ENTITY-ASK',
+    title: '提问单元',
+    top: 450,
+    left: 700,
+    options: [{id: 'p6', text: 'ccccccc'}]
 }];
 
-const initConnections = [{from: 'p1', to: 'e2'}, {from: 'p3', to: 'e3'}];
+const initConnections = [{from: 'p1', to: 'e2'}, {from: 'p3', to: 'e3'}, {from: 'p5', to: 'e4'}];
 
 const initUI = {
     openEditor: false

@@ -41443,8 +41443,15 @@ var initEntitys = [{
         top: 450,
         left: 300,
         options: [{ id: 'p5', text: '我就试试' }]
+    }, {
+        id: 'e4',
+        type: 'ENTITY-ASK',
+        title: '提问单元',
+        top: 450,
+        left: 700,
+        options: [{ id: 'p6', text: 'ccccccc' }]
     }];
-var initConnections = [{ from: 'p1', to: 'e2' }, { from: 'p3', to: 'e3' }];
+var initConnections = [{ from: 'p1', to: 'e2' }, { from: 'p3', to: 'e3' }, { from: 'p5', to: 'e4' }];
 var initUI = {
     openEditor: false
 };
@@ -41833,10 +41840,20 @@ function makeDragComponent(WrappedComponent) {
             var node = this.refs.element;
             node && jsp.removeAllEndpoints(node);
         };
+        Draggable.prototype.handleClick = function () {
+            var jsp = reducers_1.default.jsp;
+            var node = this.refs.element;
+            jsp.select({ target: this.props.id }).each(function (connection) {
+                connection.setPaintStyle({ stroke: "red", strokeWidth: 4, });
+                jsp.revalidate(node);
+            });
+            console.log('repaint');
+            jsp.repaintEverything();
+        };
         Draggable.prototype.render = function () {
             var props = this.props;
             var style = { left: props.left, top: props.top };
-            return (React.createElement("div", { id: props.id, ref: "element", className: "react-entity-wrap", style: style },
+            return (React.createElement("div", { id: props.id, ref: "element", className: "react-entity-wrap", style: style, onClick: this.handleClick.bind(this) },
                 React.createElement(WrappedComponent, __assign({}, props))));
         };
         return Draggable;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import store from '../config/reducers';
-import {targetConfig} from '../config/jsplumb.config';
+import {initConfig, targetConfig} from '../config/jsplumb.config';
 
 /**
  * @file 赋予组件拖动能力
@@ -23,12 +23,27 @@ export default function makeDragComponent(WrappedComponent) {
 
             node && jsp.removeAllEndpoints(node);
         }
+
+        handleClick() {
+            const jsp: any = store.jsp;
+            const node = this.refs.element;
+            
+            jsp.select({ target: this.props.id }).each(function (connection) {
+                connection.setPaintStyle({ stroke: "red",  strokeWidth: 4,});
+                jsp.revalidate(node);
+            });
+
+            console.log('repaint');
+
+            jsp.repaintEverything();
+        }
         
         render() {
             const props = this.props;
             const style = {left: props.left, top: props.top};
 
-            return (<div id={props.id} ref="element" className="react-entity-wrap" style={style}>
+            return (<div id={props.id} ref="element" className="react-entity-wrap" style={style}
+                onClick={this.handleClick.bind(this)}>
                 <WrappedComponent {...props} />
             </div>);
         }
