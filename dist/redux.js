@@ -66247,6 +66247,15 @@ var App = /** @class */ (function (_super) {
             sel.removeAllRanges();
             sel.addRange(range);
         };
+        _this.delHandle = function () {
+            var sel = window.getSelection();
+            var range = sel.getRangeAt(0);
+            var end = range.endOffset;
+            range.setStart(sel.focusNode, end - 1);
+            range.setEnd(sel.focusNode, end);
+            range.deleteContents();
+            console.log(sel.focusNode);
+        };
         return _this;
     }
     App.prototype.getChildContext = function () {
@@ -66257,7 +66266,8 @@ var App = /** @class */ (function (_super) {
             React.createElement("div", null,
                 React.createElement("h2", null, "welcome hello world"),
                 React.createElement("div", { id: "edit", style: { height: 40, border: '1px solid blue', outline: 'none' }, contentEditable: true, dangerouslySetInnerHTML: { __html: "1111122222" } }),
-                React.createElement("button", { id: "btn", style: { marginTop: 20, marginBottom: 20 }, onClick: this.clickHandle }, "wrap"),
+                React.createElement("button", { style: { marginTop: 20, marginBottom: 20 }, onClick: this.clickHandle }, "wrap"),
+                React.createElement("button", { style: { marginTop: 20, marginBottom: 20 }, onClick: this.delHandle }, "del"),
                 React.createElement(error_1.default, null,
                     React.createElement(list_1.default, null)))));
     };
