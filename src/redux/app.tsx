@@ -18,10 +18,29 @@ class App extends React.Component {
         return { client }
     }
 
+    clickHandle = () => {
+        const sel = window.getSelection();
+        const range = sel.getRangeAt(0);
+    
+        const span = document.createElement('span');
+        span.contentEditable = 'false';
+        span.style.cssText = 'background:red;';
+        span.appendChild(document.createTextNode('helloworld'));
+    
+        sel.deleteFromDocument();
+        range.insertNode(span);
+        range.collapse(false)
+    
+        sel.removeAllRanges();
+        sel.addRange(range);
+    }
+
     render() {
         return (<Provider store={store}>
             <div>
                 <h2>welcome hello world</h2>
+                <div id="edit" style={{height: 40, border: '1px solid blue', outline: 'none'}} contentEditable dangerouslySetInnerHTML={{__html: "1111122222"}} />
+                <button id="btn" style={{marginTop: 20, marginBottom: 20}} onClick={this.clickHandle}>wrap</button>
                 <ErrorCapture><List></List></ErrorCapture>
             </div>
         </Provider>)
