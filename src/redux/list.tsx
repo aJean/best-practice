@@ -7,7 +7,7 @@ import RenderProps from '../component/renderProps';
 import Container from '../component/container';
 
 /**
- * @file withApollo 有没有必要，是否应该自己获取 context
+ * @file withApollo 有没有必要，是否应该自己获取 client
  */
 
 const mapStateToProps = state => {
