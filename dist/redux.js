@@ -66032,6 +66032,37 @@ if (hasSymbols()) {
 
 /***/ }),
 
+/***/ "./src/component/consumer.tsx":
+/*!************************************!*\
+  !*** ./src/component/consumer.tsx ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var provider_1 = __webpack_require__(/*! ./provider */ "./src/component/provider.tsx");
+/**
+ * @file 无状态组件
+ */
+var Stateless = function (props) {
+    return React.createElement(provider_1.MyContext.Consumer, null, function (_a) {
+        var data = _a.data, selectChanged = _a.selectChanged;
+        return React.createElement("div", { style: { marginTop: '10px', marginBottom: '10px' } },
+            React.createElement("input", { type: "text", onChange: selectChanged, style: { display: 'block' } }),
+            data ? React.createElement("ul", null,
+                React.createElement("li", null, data.name),
+                React.createElement("li", null, data.alter_ego),
+                React.createElement("li", null, data.first_appearance)) : null);
+    });
+};
+exports.default = Stateless;
+
+
+/***/ }),
+
 /***/ "./src/component/container.tsx":
 /*!*************************************!*\
   !*** ./src/component/container.tsx ***!
@@ -66056,9 +66087,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-var stateless_1 = __webpack_require__(/*! ./stateless */ "./src/component/stateless.tsx");
-var react_dom_1 = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-var context_1 = __webpack_require__(/*! ./context */ "./src/component/context.ts");
+var provider_1 = __webpack_require__(/*! ./provider */ "./src/component/provider.tsx");
+var consumer_1 = __webpack_require__(/*! ./consumer */ "./src/component/consumer.tsx");
 /**
  * @file 处理数据的容器组件
  */
@@ -66073,9 +66103,8 @@ var Container = /** @class */ (function (_super) {
         return null;
     };
     Container.prototype.render = function () {
-        var list = this.props.list;
-        return react_dom_1.createPortal(React.createElement(context_1.default.Provider, { value: { author: 'ajean' } },
-            React.createElement("section", null, list.map(function (data, i) { return React.createElement(stateless_1.default, { key: i, text: data }); }))), document.body);
+        return React.createElement(provider_1.default, null,
+            React.createElement(consumer_1.default, null));
     };
     return Container;
 }(React.Component));
@@ -66084,18 +66113,86 @@ exports.default = Container;
 
 /***/ }),
 
-/***/ "./src/component/context.ts":
-/*!**********************************!*\
-  !*** ./src/component/context.ts ***!
-  \**********************************/
+/***/ "./src/component/provider.tsx":
+/*!************************************!*\
+  !*** ./src/component/provider.tsx ***!
+  \************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-exports.default = React.createContext({ author: 'ajean' });
+/**
+ * @file new conntext api
+ */
+var DEFAULT_STATE = {
+    list: [{
+            name: 'Amethyst',
+            alter_ego: 'Amy Winston',
+            first_appearance: 'LEGION OF SUPER-HEROES #298 (1983)',
+        },
+        {
+            name: 'Aquaman',
+            alter_ego: 'Arthur Curry',
+            first_appearance: 'MORE FUN COMICS #73 (1941)',
+        },
+        {
+            name: 'Arsenal',
+            alter_ego: 'Roy Harper',
+            first_appearance: 'ADVENTURE COMICS #250 (1958)',
+        },
+        {
+            name: 'Atom',
+            alter_ego: 'Ray Palmer',
+            first_appearance: 'SHOWCASE #34 (1961)',
+        },
+        {
+            name: 'Batgirl',
+            alter_ego: 'Barbara Gordon',
+            first_appearance: 'BATMAN #139 (1961)',
+        },
+        {
+            name: 'Batman',
+            alter_ego: 'Bruce Wayne',
+            first_appearance: 'DETECTIVE COMICS #27',
+        }
+    ],
+    select: ''
+};
+exports.MyContext = React.createContext({ data: null, selectChanged: null });
+var Provider = /** @class */ (function (_super) {
+    __extends(Provider, _super);
+    function Provider() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.state = DEFAULT_STATE;
+        _this.selectChanged = function (event) {
+            _this.setState({ select: event.target.value });
+        };
+        return _this;
+    }
+    Provider.prototype.render = function () {
+        var _a = this.state, list = _a.list, select = _a.select;
+        var data = list.find(function (item) { return item.name === select; });
+        return React.createElement(exports.MyContext.Provider, { value: { data: data, selectChanged: this.selectChanged } }, this.props.children);
+    };
+    return Provider;
+}(React.Component));
+exports.default = Provider;
 
 
 /***/ }),
@@ -66144,29 +66241,6 @@ var RenderProps = /** @class */ (function (_super) {
     return RenderProps;
 }(React.Component));
 exports.default = RenderProps;
-
-
-/***/ }),
-
-/***/ "./src/component/stateless.tsx":
-/*!*************************************!*\
-  !*** ./src/component/stateless.tsx ***!
-  \*************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-var context_1 = __webpack_require__(/*! ./context */ "./src/component/context.ts");
-/**
- * @file 无状态组件
- */
-var Stateless = function (props) {
-    return React.createElement(context_1.default.Consumer, null, function (data) { return React.createElement("div", { style: { border: '1px solid red', marginTop: '10px' } }, data.author + props.text); });
-};
-exports.default = Stateless;
 
 
 /***/ }),
@@ -66229,6 +66303,7 @@ var apollo_boost_1 = __webpack_require__(/*! apollo-boost */ "./node_modules/apo
 var reducer_1 = __webpack_require__(/*! ./reducer */ "./src/redux/reducer.ts");
 var error_1 = __webpack_require__(/*! ./error */ "./src/redux/error.tsx");
 var list_1 = __webpack_require__(/*! ./list */ "./src/redux/list.tsx");
+var container_1 = __webpack_require__(/*! ../component/container */ "./src/component/container.tsx");
 var client = new apollo_boost_1.default({ uri: "http://test.baidu.com:4000/graphql" });
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
@@ -66265,6 +66340,7 @@ var App = /** @class */ (function (_super) {
         return (React.createElement(react_redux_1.Provider, { store: reducer_1.default },
             React.createElement("div", null,
                 React.createElement("h2", null, "welcome hello world"),
+                React.createElement(container_1.default, null),
                 React.createElement("div", { id: "edit", style: { height: 40, border: '1px solid blue', outline: 'none' }, contentEditable: true, dangerouslySetInnerHTML: { __html: "1111122222" } }),
                 React.createElement("button", { style: { marginTop: 20, marginBottom: 20 }, onClick: this.clickHandle }, "wrap"),
                 React.createElement("button", { style: { marginTop: 20, marginBottom: 20 }, onClick: this.delHandle }, "del"),
@@ -66366,7 +66442,7 @@ var actions = __webpack_require__(/*! ./actions */ "./src/redux/actions.ts");
 var renderProps_1 = __webpack_require__(/*! ../component/renderProps */ "./src/component/renderProps.tsx");
 var container_1 = __webpack_require__(/*! ../component/container */ "./src/component/container.tsx");
 /**
- * @file withApollo 有没有必要，是否应该自己获取 context
+ * @file withApollo 有没有必要，是否应该自己获取 client
  */
 var mapStateToProps = function (state) {
     return { list: state.list, user: state.user };

@@ -28,7 +28,6 @@ module.exports = {
         redux: './src/redux/app.tsx',
         gclient: './src/graphql/app.ts',
         dva: './src/dva/app.tsx',
-        vis: './src/vis/draw.ts',
         jsp: './src/jsplumb/app.tsx'
     },
     output: {

@@ -6,6 +6,7 @@ import ApolloClient from "apollo-boost";
 import store from './reducer';
 import ErrorCapture from './error';
 import List from './list';
+import Container from '../component/container';
 
 const client = new ApolloClient({ uri: "http://test.baidu.com:4000/graphql" });
 
@@ -50,10 +51,11 @@ class App extends React.Component {
         return (<Provider store={store}>
             <div>
                 <h2>welcome hello world</h2>
+                <Container />
                 <div id="edit" style={{height: 40, border: '1px solid blue', outline: 'none'}} contentEditable dangerouslySetInnerHTML={{__html: "1111122222"}} />
                 <button style={{marginTop: 20, marginBottom: 20}} onClick={this.clickHandle}>wrap</button>
                 <button style={{marginTop: 20, marginBottom: 20}} onClick={this.delHandle}>del</button>
-                <ErrorCapture><List></List></ErrorCapture>
+                <ErrorCapture><List /></ErrorCapture>
             </div>
         </Provider>)
     }
