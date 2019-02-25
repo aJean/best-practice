@@ -32618,12 +32618,15 @@ module.exports = warning;
 /*!*************************!*\
   !*** ./src/dva/app.tsx ***!
   \*************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-var __assign = (this && this.__assign) || function () {
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _polymer_laiye__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./polymer.laiye */ "./src/dva/polymer.laiye.tsx");
+/* harmony import */ var _count__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./count */ "./src/dva/count.tsx");
+/* harmony import */ var _list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./list */ "./src/dva/list.tsx");
+var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
             s = arguments[i];
@@ -32634,7 +32637,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-var __generator = (this && this.__generator) || function (thisArg, body) {
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
     var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
     return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
@@ -32661,7 +32664,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __read = (this && this.__read) || function (o, n) {
+var __read = (undefined && undefined.__read) || function (o, n) {
     var m = typeof Symbol === "function" && o[Symbol.iterator];
     if (!m) return o;
     var i = m.call(o), r, ar = [], e;
@@ -32677,18 +32680,18 @@ var __read = (this && this.__read) || function (o, n) {
     }
     return ar;
 };
-var __spread = (this && this.__spread) || function () {
+var __spread = (undefined && undefined.__spread) || function () {
     for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
     return ar;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var polymer_laiye_1 = __webpack_require__(/*! ./polymer.laiye */ "./src/dva/polymer.laiye.tsx");
-var count_1 = __webpack_require__(/*! ./count */ "./src/dva/count.tsx");
-var list_1 = __webpack_require__(/*! ./list */ "./src/dva/list.tsx");
+
+
+
 /**
  * @file 封装 router, redux, saga 工程细节
  */
-var app = new polymer_laiye_1.default();
+var app = new _polymer_laiye__WEBPACK_IMPORTED_MODULE_0__["default"]();
+var testEsm = 0;
 app.add({
     ns: 'count',
     state: {
@@ -32697,7 +32700,7 @@ app.add({
     },
     path: '/count',
     name: '计数器',
-    component: count_1.default,
+    component: _count__WEBPACK_IMPORTED_MODULE_1__["default"],
     reducers: {
         add: function (state) {
             var newCurrent = state.current + 1;
@@ -32710,7 +32713,7 @@ app.add({
     state: ['wwwwwwww', 'aaaaaaaaa', 'aaaaaaaaaaa'],
     path: '/list',
     name: '列表测试 saga',
-    component: list_1.default,
+    component: _list__WEBPACK_IMPORTED_MODULE_2__["default"],
     effects: {
         add: function (action, _a) {
             var call = _a.call, put = _a.put;
@@ -32738,11 +32741,15 @@ function delay(timeout) {
         setTimeout(resolve, timeout);
     });
 }
-exports.default = {
+/* harmony default export */ __webpack_exports__["default"] = ({
+    testEsm: testEsm,
+    addEsm: function () {
+        testEsm++;
+    },
     init: function (el) {
         app.start(el);
     }
-};
+});
 
 
 /***/ }),
@@ -32751,28 +32758,30 @@ exports.default = {
 /*!***************************!*\
   !*** ./src/dva/count.tsx ***!
   \***************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _polymer_laiye__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./polymer.laiye */ "./src/dva/polymer.laiye.tsx");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 
-Object.defineProperty(exports, "__esModule", { value: true });
-var polymer_laiye_1 = __webpack_require__(/*! ./polymer.laiye */ "./src/dva/polymer.laiye.tsx");
-var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
 function mapStateToProps(state) {
     return { count: state.count };
 }
 var CountApp = function (_a) {
     var count = _a.count, dispatch = _a.dispatch;
-    return (React.createElement("div", null,
-        React.createElement("div", null,
+    return (react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("div", null,
+        react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("div", null,
             "Highest Record: ",
             count.record),
-        React.createElement("div", null, count.current),
-        React.createElement("div", null,
-            React.createElement("button", { onClick: function () { dispatch({ type: 'count/add' }); } }, "+"))));
+        react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("div", null, count.current),
+        react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("div", null,
+            react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("button", { onClick: function () { dispatch({ type: 'count/add' }); } }, "+"))));
 };
-exports.default = polymer_laiye_1.connect(mapStateToProps)(CountApp);
+/* harmony default export */ __webpack_exports__["default"] = (Object(_polymer_laiye__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps)(CountApp));
 
 
 /***/ }),
@@ -32781,14 +32790,16 @@ exports.default = polymer_laiye_1.connect(mapStateToProps)(CountApp);
 /*!**************************!*\
   !*** ./src/dva/list.tsx ***!
   \**************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _polymer_laiye__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./polymer.laiye */ "./src/dva/polymer.laiye.tsx");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 
-Object.defineProperty(exports, "__esModule", { value: true });
-var polymer_laiye_1 = __webpack_require__(/*! ./polymer.laiye */ "./src/dva/polymer.laiye.tsx");
-var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
 /**
  * @file list component
  */
@@ -32797,12 +32808,12 @@ function mapStateToProps(state) {
 }
 var ListApp = function (_a) {
     var list = _a.list, dispatch = _a.dispatch;
-    return (React.createElement("div", null,
-        React.createElement("h2", null, "level 2 \u5217\u8868\u9875"),
-        React.createElement("button", { onClick: function () { dispatch({ type: 'list/add' }); } }, "\u6D4B\u8BD5saga"),
-        React.createElement("div", null, list.map(function (text, i) { return React.createElement("div", { key: i }, text); }))));
+    return (react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("div", null,
+        react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("h2", null, "level 2 \u5217\u8868\u9875"),
+        react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("button", { onClick: function () { dispatch({ type: 'list/add' }); } }, "\u6D4B\u8BD5saga"),
+        react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("div", null, list.map(function (text, i) { return react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("div", { key: i }, text); }))));
 };
-exports.default = polymer_laiye_1.connect(mapStateToProps)(ListApp);
+/* harmony default export */ __webpack_exports__["default"] = (Object(_polymer_laiye__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps)(ListApp));
 
 
 /***/ }),
@@ -32822,12 +32833,31 @@ exports.default = polymer_laiye_1.connect(mapStateToProps)(ListApp);
 /*!***********************************!*\
   !*** ./src/dva/polymer.laiye.tsx ***!
   \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default, Provider, createProvider, connectAdvanced, connect */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _polymer_laiye_less__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./polymer.laiye.less */ "./src/dva/polymer.laiye.less");
+/* harmony import */ var _polymer_laiye_less__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_polymer_laiye_less__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var redux_saga__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! redux-saga */ "./node_modules/redux-saga/es/index.js");
+/* harmony import */ var redux_saga_effects__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! redux-saga/effects */ "./node_modules/redux-saga/es/effects.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return react_redux__WEBPACK_IMPORTED_MODULE_3__["Provider"]; });
 
-var __generator = (this && this.__generator) || function (thisArg, body) {
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return react_redux__WEBPACK_IMPORTED_MODULE_3__["createProvider"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return react_redux__WEBPACK_IMPORTED_MODULE_3__["connectAdvanced"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"]; });
+
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
     var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
     return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
@@ -32854,18 +32884,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-Object.defineProperty(exports, "__esModule", { value: true });
-__webpack_require__(/*! ./polymer.laiye.less */ "./src/dva/polymer.laiye.less");
-var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
-var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-var redux_saga_1 = __webpack_require__(/*! redux-saga */ "./node_modules/redux-saga/es/index.js");
-var sagaEffects = __webpack_require__(/*! redux-saga/effects */ "./node_modules/redux-saga/es/effects.js");
-var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+
+
+
+
+
+
+
+
 /**
  * @file react redux saga 最佳实践
  */
@@ -32889,7 +32915,7 @@ function createReducer(model, mapTo) {
 function initReducers(models) {
     var mapTo = {};
     models.forEach(function (model) { return createReducer(model, mapTo); });
-    return redux_1.combineReducers(mapTo);
+    return Object(redux__WEBPACK_IMPORTED_MODULE_1__["combineReducers"])(mapTo);
 }
 /**
  * 绑定 sagas, 这里嵌套的 fn 有点多
@@ -32906,7 +32932,7 @@ function initSagas(models) {
                 sagas.push(function () {
                     return __generator(this, function (_a) {
                         switch (_a.label) {
-                            case 0: return [4 /*yield*/, sagaEffects.takeEvery(ns + "/" + key, function (action) { return fn(action, sagaEffects); })];
+                            case 0: return [4 /*yield*/, redux_saga_effects__WEBPACK_IMPORTED_MODULE_5__["takeEvery"](ns + "/" + key, function (action) { return fn(action, redux_saga_effects__WEBPACK_IMPORTED_MODULE_5__); })];
                             case 1:
                                 _a.sent();
                                 return [2 /*return*/];
@@ -32922,12 +32948,12 @@ function initRouter(models) {
     var links = [];
     var routes = [];
     models.forEach(function (model, i) {
-        routes.push(React.createElement(react_router_dom_1.Route, { key: i, path: model.path, component: model.component }));
-        links.push(React.createElement(react_router_dom_1.Link, { className: "laiye-link", key: i, to: model.path }, model.name));
+        routes.push(react__WEBPACK_IMPORTED_MODULE_6__["createElement"](react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], { key: i, path: model.path, component: model.component }));
+        links.push(react__WEBPACK_IMPORTED_MODULE_6__["createElement"](react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], { className: "laiye-link", key: i, to: model.path }, model.name));
     });
-    return (React.createElement(react_router_dom_1.BrowserRouter, { basename: "/reactss/dist/" },
-        React.createElement("div", { className: "laiye-routes" },
-            React.createElement("nav", null, links),
+    return (react__WEBPACK_IMPORTED_MODULE_6__["createElement"](react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], { basename: "/reactss/dist/" },
+        react__WEBPACK_IMPORTED_MODULE_6__["createElement"]("div", { className: "laiye-routes" },
+            react__WEBPACK_IMPORTED_MODULE_6__["createElement"]("nav", null, links),
             routes)));
 }
 var Polymer = /** @class */ (function () {
@@ -32938,29 +32964,29 @@ var Polymer = /** @class */ (function () {
         this.models.push(model);
     };
     Polymer.prototype.start = function (el) {
-        var sagaMiddleware = redux_saga_1.default();
+        var sagaMiddleware = Object(redux_saga__WEBPACK_IMPORTED_MODULE_4__["default"])();
         var reducers = initReducers(this.models);
         // test reducers
-        var store = redux_1.createStore(reducers, redux_1.applyMiddleware(sagaMiddleware));
+        var store = Object(redux__WEBPACK_IMPORTED_MODULE_1__["createStore"])(reducers, Object(redux__WEBPACK_IMPORTED_MODULE_1__["applyMiddleware"])(sagaMiddleware));
         var sagas = initSagas(this.models);
         var router = initRouter(this.models);
         // listen actions
         sagaMiddleware.run(function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, sagaEffects.all(sagas)];
+                    case 0: return [4 /*yield*/, redux_saga_effects__WEBPACK_IMPORTED_MODULE_5__["all"](sagas)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
                 }
             });
         });
-        ReactDOM.render(React.createElement(react_redux_1.Provider, { store: store }, router), el);
+        react_dom__WEBPACK_IMPORTED_MODULE_7__["render"](react__WEBPACK_IMPORTED_MODULE_6__["createElement"](react_redux__WEBPACK_IMPORTED_MODULE_3__["Provider"], { store: store }, router), el);
     };
     return Polymer;
 }());
-exports.default = Polymer;
-__export(__webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js"));
+/* harmony default export */ __webpack_exports__["default"] = (Polymer);
+
 
 
 /***/ })
