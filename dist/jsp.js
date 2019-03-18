@@ -112,7 +112,7 @@ g = (function() {
 
 try {
 	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1, eval)("this");
+	g = g || new Function("return this")();
 } catch (e) {
 	// This works if the window reference is available
 	if (typeof window === "object") g = window;
@@ -44197,42 +44197,33 @@ function symbolObservablePonyfill(root) {
 /*!*****************************!*\
   !*** ./src/jsplumb/app.tsx ***!
   \*****************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _style_less__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.less */ "./src/jsplumb/style.less");
-/* harmony import */ var _style_less__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_less__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _config_reducers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./config/reducers */ "./src/jsplumb/config/reducers.ts");
-/* harmony import */ var _canvas_view__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./canvas.view */ "./src/jsplumb/canvas.view.tsx");
-/* harmony import */ var _controls_view__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./controls.view */ "./src/jsplumb/controls.view.tsx");
 
-
-
-
-
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+__webpack_require__(/*! ./style.less */ "./src/jsplumb/style.less");
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var reducers_1 = __webpack_require__(/*! ./config/reducers */ "./src/jsplumb/config/reducers.ts");
+var canvas_view_1 = __webpack_require__(/*! ./canvas.view */ "./src/jsplumb/canvas.view.tsx");
+var controls_view_1 = __webpack_require__(/*! ./controls.view */ "./src/jsplumb/controls.view.tsx");
 /**
  * @file react 结合 jsplumb 绘制流程图
  */
-/* harmony default export */ __webpack_exports__["default"] = ({
+exports.default = {
     init: function (el) {
-        var jsp = _config_reducers__WEBPACK_IMPORTED_MODULE_4__["default"].jsp;
+        var jsp = reducers_1.default.jsp;
         jsp.ready(function () {
-            react_dom__WEBPACK_IMPORTED_MODULE_2__["render"](react__WEBPACK_IMPORTED_MODULE_1__["createElement"](react_redux__WEBPACK_IMPORTED_MODULE_3__["Provider"], { store: _config_reducers__WEBPACK_IMPORTED_MODULE_4__["default"] },
-                react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("main", null,
-                    react__WEBPACK_IMPORTED_MODULE_1__["createElement"](_controls_view__WEBPACK_IMPORTED_MODULE_6__["default"], null),
-                    react__WEBPACK_IMPORTED_MODULE_1__["createElement"](_canvas_view__WEBPACK_IMPORTED_MODULE_5__["default"], null))), el);
+            ReactDOM.render(React.createElement(react_redux_1.Provider, { store: reducers_1.default },
+                React.createElement("main", null,
+                    React.createElement(controls_view_1.default, null),
+                    React.createElement(canvas_view_1.default, null))), el);
         });
     }
-});
+};
 
 
 /***/ }),
@@ -44241,21 +44232,12 @@ __webpack_require__.r(__webpack_exports__);
 /*!*************************************!*\
   !*** ./src/jsplumb/canvas.view.tsx ***!
   \*************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _config_reducers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./config/reducers */ "./src/jsplumb/config/reducers.ts");
-/* harmony import */ var _config_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./config/actions */ "./src/jsplumb/config/actions.ts");
-/* harmony import */ var _config_entity_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./config/entity.config */ "./src/jsplumb/config/entity.config.ts");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _config_jsplumb_config__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./config/jsplumb.config */ "./src/jsplumb/config/jsplumb.config.ts");
-/* harmony import */ var _common_minimap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./common/minimap */ "./src/jsplumb/common/minimap.tsx");
-/* harmony import */ var _common_bounce__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./common/bounce */ "./src/jsplumb/common/bounce.tsx");
-var __extends = (undefined && undefined.__extends) || (function () {
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -44268,7 +44250,7 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (undefined && undefined.__assign) || function () {
+var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
             s = arguments[i];
@@ -44279,14 +44261,15 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-
-
-
-
-
-
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var reducers_1 = __webpack_require__(/*! ./config/reducers */ "./src/jsplumb/config/reducers.ts");
+var actions = __webpack_require__(/*! ./config/actions */ "./src/jsplumb/config/actions.ts");
+var entity_config_1 = __webpack_require__(/*! ./config/entity.config */ "./src/jsplumb/config/entity.config.ts");
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var jsplumb_config_1 = __webpack_require__(/*! ./config/jsplumb.config */ "./src/jsplumb/config/jsplumb.config.ts");
+var minimap_1 = __webpack_require__(/*! ./common/minimap */ "./src/jsplumb/common/minimap.tsx");
+var bounce_1 = __webpack_require__(/*! ./common/bounce */ "./src/jsplumb/common/bounce.tsx");
 /**
  * @file 作为 provider 和 drop 容器
  */
@@ -44298,9 +44281,9 @@ var mapStateToProps = function (state) {
 };
 var mapDispatchToProps = function (dispatch) {
     return {
-        onAddEntity: function (data) { return dispatch(_config_actions__WEBPACK_IMPORTED_MODULE_2__["addEntity"](data)); },
-        onAddConnection: function (data) { return dispatch(_config_actions__WEBPACK_IMPORTED_MODULE_2__["addConnection"](data)); },
-        onDelConnection: function (data) { return dispatch(_config_actions__WEBPACK_IMPORTED_MODULE_2__["delConnection"](data)); }
+        onAddEntity: function (data) { return dispatch(actions.addEntity(data)); },
+        onAddConnection: function (data) { return dispatch(actions.addConnection(data)); },
+        onDelConnection: function (data) { return dispatch(actions.delConnection(data)); }
     };
 };
 var CanvasView = /** @class */ (function (_super) {
@@ -44317,7 +44300,7 @@ var CanvasView = /** @class */ (function (_super) {
      */
     CanvasView.prototype.componentDidMount = function () {
         var _this = this;
-        _config_reducers__WEBPACK_IMPORTED_MODULE_1__["default"].jsp.setContainer('_canvas');
+        reducers_1.default.jsp.setContainer('_canvas');
         // trick: 要在绘制之前先设置 container, 但又依赖于 react 组件生命周期触发顺序
         this.setState({ ready: true }, function () {
             _this.generateConnections();
@@ -44332,33 +44315,33 @@ var CanvasView = /** @class */ (function (_super) {
             return null;
         }
         return this.props.entitys.map(function (data) {
-            var Entity = Object(_config_entity_config__WEBPACK_IMPORTED_MODULE_3__["getEntity"])(data.type);
+            var Entity = entity_config_1.getEntity(data.type);
             // make sure id is unique
-            return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](Entity, __assign({ key: data.id }, data));
+            return React.createElement(Entity, __assign({ key: data.id }, data));
         });
     };
     /**
      * 建立实体关联, 使用 uuids， from --> to
      */
     CanvasView.prototype.generateConnections = function () {
-        var jsp = _config_reducers__WEBPACK_IMPORTED_MODULE_1__["default"].jsp;
+        var jsp = reducers_1.default.jsp;
         this.props.connections.forEach(function (data) {
-            jsp.connect(__assign({ uuids: [data.from, data.to] }, _config_jsplumb_config__WEBPACK_IMPORTED_MODULE_5__["connectConfig"]));
+            jsp.connect(__assign({ uuids: [data.from, data.to] }, jsplumb_config_1.connectConfig));
         });
     };
     /**
      * 绑定所有建立关联事件
      */
     CanvasView.prototype.bindConnections = function () {
-        var jsp = _config_reducers__WEBPACK_IMPORTED_MODULE_1__["default"].jsp;
+        var jsp = reducers_1.default.jsp;
         var props = this.props;
         var timeid;
         // 删除指定关联, 会触发 connectionDetached
-        _config_reducers__WEBPACK_IMPORTED_MODULE_1__["default"].onOverlayClick = function (overlay) {
+        reducers_1.default.onOverlayClick = function (overlay) {
             jsp.deleteConnection(overlay.component);
         };
         // 关联 mouseover
-        _config_reducers__WEBPACK_IMPORTED_MODULE_1__["default"].onConnectionOver = function (conn) {
+        reducers_1.default.onConnectionOver = function (conn) {
             clearTimeout(timeid);
             if (conn.getOverlays) {
                 var overlay = conn.getOverlays()['img-overlay'];
@@ -44366,7 +44349,7 @@ var CanvasView = /** @class */ (function (_super) {
             }
         };
         // 关联 mouseout
-        _config_reducers__WEBPACK_IMPORTED_MODULE_1__["default"].onConnectionOut = function (conn) {
+        reducers_1.default.onConnectionOut = function (conn) {
             if (conn.getOverlays) {
                 timeid = setTimeout(function () {
                     var overlay = conn.getOverlays()['img-overlay'];
@@ -44375,15 +44358,15 @@ var CanvasView = /** @class */ (function (_super) {
             }
         };
         // overlay mouseout
-        _config_reducers__WEBPACK_IMPORTED_MODULE_1__["default"].onOverlayOut = function (overlay) {
+        reducers_1.default.onOverlayOut = function (overlay) {
             timeid = setTimeout(function () {
                 overlay.setVisible(false);
             }, 100);
         };
         // 建立任意关联
         jsp.bind('connection', function (info) {
-            info.connection.bind('mouseover', _config_reducers__WEBPACK_IMPORTED_MODULE_1__["default"].onConnectionOver);
-            info.connection.bind('mouseout', _config_reducers__WEBPACK_IMPORTED_MODULE_1__["default"].onConnectionOut);
+            info.connection.bind('mouseover', reducers_1.default.onConnectionOver);
+            info.connection.bind('mouseout', reducers_1.default.onConnectionOut);
             props.onAddConnection({
                 from: info.sourceId,
                 to: info.targetId
@@ -44412,7 +44395,7 @@ var CanvasView = /** @class */ (function (_super) {
         var text = event.dataTransfer.getData('text');
         event.preventDefault();
         this.props.onAddEntity({
-            id: Object(_config_entity_config__WEBPACK_IMPORTED_MODULE_3__["getEntityId"])(),
+            id: entity_config_1.getEntityId(),
             type: "" + text,
             title: text + " \u5355\u5143",
             top: event.layerY,
@@ -44420,14 +44403,14 @@ var CanvasView = /** @class */ (function (_super) {
         });
     };
     CanvasView.prototype.render = function () {
-        return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("section", { id: "_canvasWrap", className: "visual-canvas-wrap" },
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](_common_minimap__WEBPACK_IMPORTED_MODULE_6__["default"], { scroll: "_canvasWrap" }),
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](_common_bounce__WEBPACK_IMPORTED_MODULE_7__["default"], null),
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", { id: "_canvas", className: "visual-canvas", onDrop: this.dropHandle.bind(this), onDragOver: this.dragoverHandle.bind(this) }, this.generateEntitys())));
+        return (React.createElement("section", { id: "_canvasWrap", className: "visual-canvas-wrap" },
+            React.createElement(minimap_1.default, { scroll: "_canvasWrap" }),
+            React.createElement(bounce_1.default, null),
+            React.createElement("div", { id: "_canvas", className: "visual-canvas", onDrop: this.dropHandle.bind(this), onDragOver: this.dragoverHandle.bind(this) }, this.generateEntitys())));
     };
     return CanvasView;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]));
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_4__["connect"])(mapStateToProps, mapDispatchToProps)(CanvasView));
+}(React.Component));
+exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(CanvasView);
 
 
 /***/ }),
@@ -44436,16 +44419,12 @@ var CanvasView = /** @class */ (function (_super) {
 /*!***************************************!*\
   !*** ./src/jsplumb/common/bounce.tsx ***!
   \***************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _config_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config/actions */ "./src/jsplumb/config/actions.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -44458,9 +44437,10 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var actions = __webpack_require__(/*! ../config/actions */ "./src/jsplumb/config/actions.ts");
 /**
  * @file 实体编辑效果组件
  */
@@ -44471,7 +44451,7 @@ var mapStateToProps = function (state) {
 };
 var mapDispatchToProps = function (dispatch) {
     return {
-        onCloseEditor: function () { return dispatch(_config_actions__WEBPACK_IMPORTED_MODULE_2__["closeEditorUI"]()); }
+        onCloseEditor: function () { return dispatch(actions.closeEditorUI()); }
     };
 };
 var Bounce = /** @class */ (function (_super) {
@@ -44502,13 +44482,13 @@ var Bounce = /** @class */ (function (_super) {
         return null;
     };
     Bounce.prototype.render = function () {
-        return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("section", { ref: "element", className: "visual-bounce", style: this.getStyle() },
+        return (React.createElement("section", { ref: "element", className: "visual-bounce", style: this.getStyle() },
             this.appendForm(),
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("button", { onClick: this.saveHandle.bind(this) }, "save")));
+            React.createElement("button", { onClick: this.saveHandle.bind(this) }, "save")));
     };
     return Bounce;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]));
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, mapDispatchToProps)(Bounce));
+}(React.Component));
+exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Bounce);
 
 
 /***/ }),
@@ -44517,16 +44497,12 @@ var Bounce = /** @class */ (function (_super) {
 /*!**************************************!*\
   !*** ./src/jsplumb/common/lemma.tsx ***!
   \**************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-var __extends = (undefined && undefined.__extends) || (function () {
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -44539,8 +44515,9 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var PropTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /**
  * @file 词条组件
  */
@@ -44551,17 +44528,17 @@ var Lemma = /** @class */ (function (_super) {
     }
     Lemma.prototype.render = function () {
         var props = this.props;
-        return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", { className: "lamma" },
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("strong", { className: "lamma-word" }, props.word),
+        return (React.createElement("div", { className: "lamma" },
+            React.createElement("strong", { className: "lamma-word" }, props.word),
             props.text));
     };
     Lemma.propTypes = {
-        word: prop_types__WEBPACK_IMPORTED_MODULE_1__["string"],
-        text: prop_types__WEBPACK_IMPORTED_MODULE_1__["string"]
+        word: PropTypes.string,
+        text: PropTypes.string
     };
     return Lemma;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]));
-/* harmony default export */ __webpack_exports__["default"] = (Lemma);
+}(React.Component));
+exports.default = Lemma;
 
 
 /***/ }),
@@ -44570,16 +44547,12 @@ var Lemma = /** @class */ (function (_super) {
 /*!****************************************!*\
   !*** ./src/jsplumb/common/minimap.tsx ***!
   \****************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-var __extends = (undefined && undefined.__extends) || (function () {
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -44592,8 +44565,9 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var PropTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /**
  * @file drag zone mini map
  * 计算 map 与画布的比例, 来确定移动距离
@@ -44669,13 +44643,13 @@ var Minimap = /** @class */ (function (_super) {
         mapData.top = parseInt(node.style.top);
     };
     Minimap.prototype.render = function () {
-        return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", { className: "visual-minimap", style: this.createStyle() },
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", { ref: "element", className: "visual-minimap-slider", onMouseDown: this.mouseDownHandle, onMouseUp: this.mouseUpHandle })));
+        return (React.createElement("div", { className: "visual-minimap", style: this.createStyle() },
+            React.createElement("div", { ref: "element", className: "visual-minimap-slider", onMouseDown: this.mouseDownHandle, onMouseUp: this.mouseUpHandle })));
     };
     Minimap.propTypes = {
-        top: prop_types__WEBPACK_IMPORTED_MODULE_1__["number"],
-        left: prop_types__WEBPACK_IMPORTED_MODULE_1__["number"],
-        scroll: prop_types__WEBPACK_IMPORTED_MODULE_1__["string"]
+        top: PropTypes.number,
+        left: PropTypes.number,
+        scroll: PropTypes.string
     };
     Minimap.defaultProps = {
         mapSize: 150,
@@ -44683,8 +44657,8 @@ var Minimap = /** @class */ (function (_super) {
         limit: 120
     };
     return Minimap;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]));
-/* harmony default export */ __webpack_exports__["default"] = (Minimap);
+}(React.Component));
+exports.default = Minimap;
 
 
 /***/ }),
@@ -44693,15 +44667,12 @@ var Minimap = /** @class */ (function (_super) {
 /*!***************************************!*\
   !*** ./src/jsplumb/common/option.tsx ***!
   \***************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _hoc_endpoint_hoc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../hoc/endpoint.hoc */ "./src/jsplumb/hoc/endpoint.hoc.tsx");
-var __extends = (undefined && undefined.__extends) || (function () {
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -44714,8 +44685,9 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var endpoint_hoc_1 = __webpack_require__(/*! ../hoc/endpoint.hoc */ "./src/jsplumb/hoc/endpoint.hoc.tsx");
 var Option = /** @class */ (function (_super) {
     __extends(Option, _super);
     function Option() {
@@ -44723,17 +44695,17 @@ var Option = /** @class */ (function (_super) {
     }
     Option.prototype.render = function () {
         var props = this.props;
-        return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", { className: "react-option" },
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("span", { className: "react-entity-option-icon" },
-                react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("img", { src: props.icon })),
+        return (React.createElement("div", { className: "react-option" },
+            React.createElement("span", { className: "react-entity-option-icon" },
+                React.createElement("img", { src: props.icon })),
             props.text));
     };
     Option.defaultProps = {
         icon: './imgs/option-icon.png'
     };
     return Option;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]));
-/* harmony default export */ __webpack_exports__["default"] = (Object(_hoc_endpoint_hoc__WEBPACK_IMPORTED_MODULE_1__["default"])(Option));
+}(React.Component));
+exports.default = endpoint_hoc_1.default(Option);
 
 
 /***/ }),
@@ -44742,16 +44714,12 @@ var Option = /** @class */ (function (_super) {
 /*!***************************************!*\
   !*** ./src/jsplumb/common/topbar.tsx ***!
   \***************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _config_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config/actions */ "./src/jsplumb/config/actions.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -44764,16 +44732,17 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var actions = __webpack_require__(/*! ../config/actions */ "./src/jsplumb/config/actions.ts");
 /**
  * @file 实体顶部工具栏
  */
 var mapDispatchToProps = function (dispatch) {
     return {
-        onDelEntity: function (id) { return dispatch(_config_actions__WEBPACK_IMPORTED_MODULE_2__["delEntity"](id)); },
-        onOpenEditor: function (data) { return dispatch(_config_actions__WEBPACK_IMPORTED_MODULE_2__["openEditorUI"](data)); }
+        onDelEntity: function (id) { return dispatch(actions.delEntity(id)); },
+        onOpenEditor: function (data) { return dispatch(actions.openEditorUI(data)); }
     };
 };
 var Topbar = /** @class */ (function (_super) {
@@ -44792,14 +44761,14 @@ var Topbar = /** @class */ (function (_super) {
     };
     Topbar.prototype.render = function () {
         var props = this.props;
-        return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", { className: "react-entity-topbar" },
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("span", { className: "react-entity-topbar-icon react-entity-topbar-sign" },
-                react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("img", { src: props.icon })),
+        return (React.createElement("div", { className: "react-entity-topbar" },
+            React.createElement("span", { className: "react-entity-topbar-icon react-entity-topbar-sign" },
+                React.createElement("img", { src: props.icon })),
             props.title,
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("span", { className: "react-entity-topbar-icon react-entity-topbar-edit", onClick: this.editHandle.bind(this) },
-                react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("img", { src: props.edit })),
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("span", { className: "react-entity-topbar-icon react-entity-topbar-close", onClick: this.clickHandle.bind(this) },
-                react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("img", { src: props.close }))));
+            React.createElement("span", { className: "react-entity-topbar-icon react-entity-topbar-edit", onClick: this.editHandle.bind(this) },
+                React.createElement("img", { src: props.edit })),
+            React.createElement("span", { className: "react-entity-topbar-icon react-entity-topbar-close", onClick: this.clickHandle.bind(this) },
+                React.createElement("img", { src: props.close }))));
     };
     Topbar.defaultProps = {
         id: null,
@@ -44808,8 +44777,8 @@ var Topbar = /** @class */ (function (_super) {
         close: './imgs/topbar-icon-close.png'
     };
     return Topbar;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]));
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(null, mapDispatchToProps)(Topbar));
+}(React.Component));
+exports.default = react_redux_1.connect(null, mapDispatchToProps)(Topbar);
 
 
 /***/ }),
@@ -44818,28 +44787,22 @@ var Topbar = /** @class */ (function (_super) {
 /*!***************************************!*\
   !*** ./src/jsplumb/config/actions.ts ***!
   \***************************************/
-/*! exports provided: addEntity, delEntity, addConnection, delConnection, openEditorUI, closeEditorUI */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addEntity", function() { return addEntity; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "delEntity", function() { return delEntity; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addConnection", function() { return addConnection; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "delConnection", function() { return delConnection; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "openEditorUI", function() { return openEditorUI; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "closeEditorUI", function() { return closeEditorUI; });
-/* harmony import */ var redux_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux-actions */ "./node_modules/redux-actions/es/index.js");
 
+Object.defineProperty(exports, "__esModule", { value: true });
+var redux_actions_1 = __webpack_require__(/*! redux-actions */ "./node_modules/redux-actions/es/index.js");
 /**
  * @file actions
  */
-var addEntity = Object(redux_actions__WEBPACK_IMPORTED_MODULE_0__["createAction"])('ADD_ENTITY');
-var delEntity = Object(redux_actions__WEBPACK_IMPORTED_MODULE_0__["createAction"])('DEL_ENTITY');
-var addConnection = Object(redux_actions__WEBPACK_IMPORTED_MODULE_0__["createAction"])('ADD_CONNECTION');
-var delConnection = Object(redux_actions__WEBPACK_IMPORTED_MODULE_0__["createAction"])('DEL_CONNECTION');
-var openEditorUI = Object(redux_actions__WEBPACK_IMPORTED_MODULE_0__["createAction"])('OPEN_EDITOR_UI');
-var closeEditorUI = Object(redux_actions__WEBPACK_IMPORTED_MODULE_0__["createAction"])('CLOSE_EDITOR_UI');
+exports.addEntity = redux_actions_1.createAction('ADD_ENTITY');
+exports.delEntity = redux_actions_1.createAction('DEL_ENTITY');
+exports.addConnection = redux_actions_1.createAction('ADD_CONNECTION');
+exports.delConnection = redux_actions_1.createAction('DEL_CONNECTION');
+exports.openEditorUI = redux_actions_1.createAction('OPEN_EDITOR_UI');
+exports.closeEditorUI = redux_actions_1.createAction('CLOSE_EDITOR_UI');
 
 
 /***/ }),
@@ -44848,18 +44811,14 @@ var closeEditorUI = Object(redux_actions__WEBPACK_IMPORTED_MODULE_0__["createAct
 /*!*********************************************!*\
   !*** ./src/jsplumb/config/entity.config.ts ***!
   \*********************************************/
-/*! exports provided: EntityType, getEntity, getEntityId */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EntityType", function() { return EntityType; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getEntity", function() { return getEntity; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getEntityId", function() { return getEntityId; });
-/* harmony import */ var _entity_ask_entity__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../entity/ask.entity */ "./src/jsplumb/entity/ask.entity.tsx");
-/* harmony import */ var _entity_msg_entity__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../entity/msg.entity */ "./src/jsplumb/entity/msg.entity.tsx");
 
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var ask_entity_1 = __webpack_require__(/*! ../entity/ask.entity */ "./src/jsplumb/entity/ask.entity.tsx");
+var msg_entity_1 = __webpack_require__(/*! ../entity/msg.entity */ "./src/jsplumb/entity/msg.entity.tsx");
 /**
  * @file 实体类型
  */
@@ -44870,28 +44829,30 @@ var EntityType;
     EntityType["message"] = "ENTITY-MESSAGE";
     EntityType["chat"] = "ENTITY-CHAT";
     EntityType["hidden"] = "ENTITY-HIDDEN";
-})(EntityType || (EntityType = {}));
+})(EntityType = exports.EntityType || (exports.EntityType = {}));
 function getEntity(type) {
     switch (type) {
         case 'ENTITY-TRIGGER':
-            return _entity_msg_entity__WEBPACK_IMPORTED_MODULE_1__["default"];
+            return msg_entity_1.default;
         case 'ENTITY-MESSAGE':
-            return _entity_msg_entity__WEBPACK_IMPORTED_MODULE_1__["default"];
+            return msg_entity_1.default;
         case 'ENTITY-ASK':
-            return _entity_ask_entity__WEBPACK_IMPORTED_MODULE_0__["default"];
+            return ask_entity_1.default;
         case 'ENTITY-CHAT':
-            return _entity_ask_entity__WEBPACK_IMPORTED_MODULE_0__["default"];
+            return ask_entity_1.default;
         case 'ENTITY-HIDDEN':
-            return _entity_ask_entity__WEBPACK_IMPORTED_MODULE_0__["default"];
+            return ask_entity_1.default;
         default:
-            return _entity_msg_entity__WEBPACK_IMPORTED_MODULE_1__["default"];
+            return msg_entity_1.default;
     }
 }
+exports.getEntity = getEntity;
 // TODO: 生成为画布实体唯一id
 var uid = 0;
 function getEntityId() {
     return "entity_id_" + uid++;
 }
+exports.getEntityId = getEntityId;
 
 
 /***/ }),
@@ -44900,32 +44861,26 @@ function getEntityId() {
 /*!**********************************************!*\
   !*** ./src/jsplumb/config/jsplumb.config.ts ***!
   \**********************************************/
-/*! exports provided: connectorStyle, hoverStyle, overlays, sourceConfig, targetConfig, connectConfig, initConfig */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "connectorStyle", function() { return connectorStyle; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hoverStyle", function() { return hoverStyle; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overlays", function() { return overlays; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sourceConfig", function() { return sourceConfig; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "targetConfig", function() { return targetConfig; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "connectConfig", function() { return connectConfig; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initConfig", function() { return initConfig; });
+
 /**
  * @file 画布相关配置
  */
+Object.defineProperty(exports, "__esModule", { value: true });
 // reducer 中才会实现
 var NOOP = function (overlay, originalEvent) { };
-var connectorStyle = {
+exports.connectorStyle = {
     strokeWidth: 4,
     stroke: '#687c8a'
 };
-var hoverStyle = {
+exports.hoverStyle = {
     stroke: '#1f77f3'
 };
 // bind click overlay event
-var overlays = [
+exports.overlays = [
     [
         'Custom', { create: function (component) {
                 var img = document.createElement('img');
@@ -44943,21 +44898,21 @@ var overlays = [
     ['Arrow', { location: 1, width: 8, length: 6 }]
 ];
 // 端点
-var sourceConfig = {
+exports.sourceConfig = {
     isSource: true
 };
-var targetConfig = {
+exports.targetConfig = {
     isTarget: true
 };
 // 关联
-var connectConfig = {
+exports.connectConfig = {
     events: {
         mouseover: NOOP,
         mouseout: NOOP
     }
 };
 // 初始化 jsp 实例配置
-var initConfig = {
+exports.initConfig = {
     Endpoint: 'Dot',
     EndpointStyle: {
         strokeWidth: 3,
@@ -44966,16 +44921,16 @@ var initConfig = {
         radius: 6,
         lineWidth: 2
     },
-    EndpointHoverStyle: hoverStyle,
+    EndpointHoverStyle: exports.hoverStyle,
     Connector: ['Flowchart', {
             stub: [40, 60],
             gap: 5,
             cornerRadius: 5,
             alwaysRespectStubs: true
         }],
-    PaintStyle: connectorStyle,
-    ConnectionOverlays: overlays,
-    HoverPaintStyle: hoverStyle,
+    PaintStyle: exports.connectorStyle,
+    ConnectionOverlays: exports.overlays,
+    HoverPaintStyle: exports.hoverStyle,
     MaxConnections: 1,
     ConnectionsDetachable: false
 };
@@ -44987,19 +44942,20 @@ var initConfig = {
 /*!*********************************************!*\
   !*** ./src/jsplumb/config/option.config.ts ***!
   \*********************************************/
-/*! exports provided: getOptionId */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getOptionId", function() { return getOptionId; });
+
 /**
  * @file 端点配置
  */
+Object.defineProperty(exports, "__esModule", { value: true });
 var uid = 0;
 function getOptionId() {
     return "point_id_" + uid++;
 }
+exports.getOptionId = getOptionId;
 
 
 /***/ }),
@@ -45008,16 +44964,12 @@ function getOptionId() {
 /*!****************************************!*\
   !*** ./src/jsplumb/config/reducers.ts ***!
   \****************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var jsplumb__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jsplumb */ "./node_modules/jsplumb/dist/js/jsplumb.js");
-/* harmony import */ var jsplumb__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jsplumb__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _jsplumb_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./jsplumb.config */ "./src/jsplumb/config/jsplumb.config.ts");
-var __assign = (undefined && undefined.__assign) || function () {
+
+var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
             s = arguments[i];
@@ -45028,9 +44980,10 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+var jsplumb_1 = __webpack_require__(/*! jsplumb */ "./node_modules/jsplumb/dist/js/jsplumb.js");
+var jsplumb_config_1 = __webpack_require__(/*! ./jsplumb.config */ "./src/jsplumb/config/jsplumb.config.ts");
 /**
  * @file store
  * 负责数据 state 管理
@@ -45123,30 +45076,30 @@ function uiReducer(state, action) {
             return state;
     }
 }
-var reducers = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
+var reducers = redux_1.combineReducers({
     entitys: entitysReducer,
     connections: connectionsReducer,
     ui: uiReducer
 });
 // @TODO: 优化以下事件绑定
-_jsplumb_config__WEBPACK_IMPORTED_MODULE_2__["initConfig"].ConnectionOverlays[0][1]['events'].click = function (overlay, originalEvent) {
+jsplumb_config_1.initConfig.ConnectionOverlays[0][1]['events'].click = function (overlay, originalEvent) {
     store.onOverlayClick(overlay, originalEvent);
 };
-_jsplumb_config__WEBPACK_IMPORTED_MODULE_2__["initConfig"].ConnectionOverlays[0][1]['events'].mouseout = function (overlay, originalEvent) {
+jsplumb_config_1.initConfig.ConnectionOverlays[0][1]['events'].mouseout = function (overlay, originalEvent) {
     store.onOverlayOut(overlay, originalEvent);
 };
-_jsplumb_config__WEBPACK_IMPORTED_MODULE_2__["connectConfig"].events.mouseover = function (conn, originalEvent) {
+jsplumb_config_1.connectConfig.events.mouseover = function (conn, originalEvent) {
     store.onConnectionOver(conn, originalEvent);
 };
-_jsplumb_config__WEBPACK_IMPORTED_MODULE_2__["connectConfig"].events.mouseout = function (conn, originalEvent) {
+jsplumb_config_1.connectConfig.events.mouseout = function (conn, originalEvent) {
     store.onConnectionOut(conn, originalEvent);
 };
 // trick 携带两个全局属性
-var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(reducers);
-store.jsp = jsplumb__WEBPACK_IMPORTED_MODULE_1__["jsPlumb"].getInstance(_jsplumb_config__WEBPACK_IMPORTED_MODULE_2__["initConfig"]);
+var store = redux_1.createStore(reducers);
+store.jsp = jsplumb_1.jsPlumb.getInstance(jsplumb_config_1.initConfig);
 ;
 store.containment = '_canvas';
-/* harmony default export */ __webpack_exports__["default"] = (store);
+exports.default = store;
 
 
 /***/ }),
@@ -45155,17 +45108,12 @@ store.containment = '_canvas';
 /*!***************************************!*\
   !*** ./src/jsplumb/controls.view.tsx ***!
   \***************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _config_entity_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./config/entity.config */ "./src/jsplumb/config/entity.config.ts");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _config_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./config/actions */ "./src/jsplumb/config/actions.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -45178,22 +45126,26 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
-
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var entity_config_1 = __webpack_require__(/*! ./config/entity.config */ "./src/jsplumb/config/entity.config.ts");
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var actions = __webpack_require__(/*! ./config/actions */ "./src/jsplumb/config/actions.ts");
 /**
  * @file 实体选择面板
  */
 var mapDispatchToProps = function (dispatch) {
     return {
-        onAddControl: function (data) { return dispatch(_config_actions__WEBPACK_IMPORTED_MODULE_3__["addEntity"](data)); }
+        onAddControl: function (data) { return dispatch(actions.addEntity(data)); }
     };
 };
 var ControlsView = /** @class */ (function (_super) {
     __extends(ControlsView, _super);
     function ControlsView(props) {
         var _this = _super.call(this, props) || this;
+        _this.state = {
+            index: 0
+        };
         _this.clickHandle = _this.clickHandle.bind(_this);
         return _this;
     }
@@ -45206,8 +45158,16 @@ var ControlsView = /** @class */ (function (_super) {
      * 点击添加实体, redux action
      */
     ControlsView.prototype.clickHandle = function (data) {
+        var _this = this;
         var event = data.nativeEvent;
         var type = event.target.getAttribute('data-type');
+        setTimeout(function () {
+            _this.setState({
+                index: 1
+            });
+            console.log(_this.state.index);
+        }, 0);
+        return;
         this.props.onAddControl({
             type: type,
             title: type + " \u5355\u5143",
@@ -45216,16 +45176,18 @@ var ControlsView = /** @class */ (function (_super) {
         });
     };
     ControlsView.prototype.render = function () {
-        return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("section", { className: "react-controls" },
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", { draggable: true, onDragStart: this.dragHandle, onClick: this.clickHandle, "data-type": _config_entity_config__WEBPACK_IMPORTED_MODULE_1__["EntityType"].tigger }, "\u89E6\u53D1\u5668"),
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", { draggable: true, onDragStart: this.dragHandle, onClick: this.clickHandle, "data-type": _config_entity_config__WEBPACK_IMPORTED_MODULE_1__["EntityType"].ask }, "\u95EE\u7B54\u5355\u5143"),
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", { draggable: true, onDragStart: this.dragHandle, onClick: this.clickHandle, "data-type": _config_entity_config__WEBPACK_IMPORTED_MODULE_1__["EntityType"].message }, "\u6D88\u606F\u5355\u5143"),
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", { draggable: true, onDragStart: this.dragHandle, onClick: this.clickHandle, "data-type": _config_entity_config__WEBPACK_IMPORTED_MODULE_1__["EntityType"].chat }, "\u5BF9\u8BDD\u5355\u5143"),
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", { draggable: true, onDragStart: this.dragHandle, onClick: this.clickHandle, "data-type": _config_entity_config__WEBPACK_IMPORTED_MODULE_1__["EntityType"].hidden }, "\u9690\u85CF\u5355\u5143")));
+        return (React.createElement("section", { className: "react-controls" },
+            React.createElement("div", { draggable: true, onDragStart: this.dragHandle, onClick: this.clickHandle, "data-type": entity_config_1.EntityType.tigger },
+                "\u89E6\u53D1\u5668",
+                this.state.index),
+            React.createElement("div", { draggable: true, onDragStart: this.dragHandle, onClick: this.clickHandle, "data-type": entity_config_1.EntityType.ask }, "\u95EE\u7B54\u5355\u5143"),
+            React.createElement("div", { draggable: true, onDragStart: this.dragHandle, onClick: this.clickHandle, "data-type": entity_config_1.EntityType.message }, "\u6D88\u606F\u5355\u5143"),
+            React.createElement("div", { draggable: true, onDragStart: this.dragHandle, onClick: this.clickHandle, "data-type": entity_config_1.EntityType.chat }, "\u5BF9\u8BDD\u5355\u5143"),
+            React.createElement("div", { draggable: true, onDragStart: this.dragHandle, onClick: this.clickHandle, "data-type": entity_config_1.EntityType.hidden }, "\u9690\u85CF\u5355\u5143")));
     };
     return ControlsView;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]));
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(null, mapDispatchToProps)(ControlsView));
+}(React.Component));
+exports.default = react_redux_1.connect(null, mapDispatchToProps)(ControlsView);
 
 
 /***/ }),
@@ -45234,17 +45196,12 @@ var ControlsView = /** @class */ (function (_super) {
 /*!*******************************************!*\
   !*** ./src/jsplumb/entity/ask.entity.tsx ***!
   \*******************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _hoc_drag_hoc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../hoc/drag.hoc */ "./src/jsplumb/hoc/drag.hoc.tsx");
-/* harmony import */ var _entity__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./entity */ "./src/jsplumb/entity/entity.tsx");
-/* harmony import */ var _common_topbar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../common/topbar */ "./src/jsplumb/common/topbar.tsx");
-var __extends = (undefined && undefined.__extends) || (function () {
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -45257,7 +45214,7 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (undefined && undefined.__assign) || function () {
+var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
             s = arguments[i];
@@ -45268,10 +45225,11 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-
-
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var drag_hoc_1 = __webpack_require__(/*! ../hoc/drag.hoc */ "./src/jsplumb/hoc/drag.hoc.tsx");
+var entity_1 = __webpack_require__(/*! ./entity */ "./src/jsplumb/entity/entity.tsx");
+var topbar_1 = __webpack_require__(/*! ../common/topbar */ "./src/jsplumb/common/topbar.tsx");
 /**
  * @file 问题单元
  */
@@ -45282,13 +45240,13 @@ var AskEntity = /** @class */ (function (_super) {
     }
     AskEntity.prototype.render = function () {
         var props = this.props;
-        return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("section", { className: "react-entity" },
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](_common_topbar__WEBPACK_IMPORTED_MODULE_3__["default"], __assign({}, props)),
+        return (React.createElement("section", { className: "react-entity" },
+            React.createElement(topbar_1.default, __assign({}, props)),
             this.generateOptions()));
     };
     return AskEntity;
-}(_entity__WEBPACK_IMPORTED_MODULE_2__["default"]));
-/* harmony default export */ __webpack_exports__["default"] = (Object(_hoc_drag_hoc__WEBPACK_IMPORTED_MODULE_1__["default"])(AskEntity));
+}(entity_1.default));
+exports.default = drag_hoc_1.default(AskEntity);
 
 
 /***/ }),
@@ -45297,15 +45255,12 @@ var AskEntity = /** @class */ (function (_super) {
 /*!***************************************!*\
   !*** ./src/jsplumb/entity/entity.tsx ***!
   \***************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _common_option__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/option */ "./src/jsplumb/common/option.tsx");
-var __extends = (undefined && undefined.__extends) || (function () {
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -45318,8 +45273,9 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var option_1 = __webpack_require__(/*! ../common/option */ "./src/jsplumb/common/option.tsx");
 /**
  * @file 实体公共类
  */
@@ -45331,7 +45287,7 @@ var Entity = /** @class */ (function (_super) {
     Entity.prototype.generateOptions = function () {
         var options = this.props.options;
         return options ? this.props.options.map(function (data) {
-            return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](_common_option__WEBPACK_IMPORTED_MODULE_1__["default"], { id: data.id, key: data.id, text: data.text });
+            return React.createElement(option_1.default, { id: data.id, key: data.id, text: data.text });
         })
             : null;
     };
@@ -45339,8 +45295,8 @@ var Entity = /** @class */ (function (_super) {
         return null;
     };
     return Entity;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]));
-/* harmony default export */ __webpack_exports__["default"] = (Entity);
+}(React.Component));
+exports.default = Entity;
 
 
 /***/ }),
@@ -45349,18 +45305,12 @@ var Entity = /** @class */ (function (_super) {
 /*!*******************************************!*\
   !*** ./src/jsplumb/entity/msg.entity.tsx ***!
   \*******************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _hoc_drag_hoc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../hoc/drag.hoc */ "./src/jsplumb/hoc/drag.hoc.tsx");
-/* harmony import */ var _entity__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./entity */ "./src/jsplumb/entity/entity.tsx");
-/* harmony import */ var _common_lemma__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../common/lemma */ "./src/jsplumb/common/lemma.tsx");
-/* harmony import */ var _common_topbar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/topbar */ "./src/jsplumb/common/topbar.tsx");
-var __extends = (undefined && undefined.__extends) || (function () {
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -45373,7 +45323,7 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (undefined && undefined.__assign) || function () {
+var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
             s = arguments[i];
@@ -45384,11 +45334,12 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-
-
-
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var drag_hoc_1 = __webpack_require__(/*! ../hoc/drag.hoc */ "./src/jsplumb/hoc/drag.hoc.tsx");
+var entity_1 = __webpack_require__(/*! ./entity */ "./src/jsplumb/entity/entity.tsx");
+var lemma_1 = __webpack_require__(/*! ../common/lemma */ "./src/jsplumb/common/lemma.tsx");
+var topbar_1 = __webpack_require__(/*! ../common/topbar */ "./src/jsplumb/common/topbar.tsx");
 /**
  * @file 消息对话单元
  */
@@ -45399,14 +45350,14 @@ var MsgEntity = /** @class */ (function (_super) {
     }
     MsgEntity.prototype.render = function () {
         var props = this.props;
-        return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("section", { className: "react-entity" },
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](_common_topbar__WEBPACK_IMPORTED_MODULE_4__["default"], __assign({}, props)),
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](_common_lemma__WEBPACK_IMPORTED_MODULE_3__["default"], { word: "\u5458\u5DE5\u7C7B\u578B", text: "\u4F60\u60F3\u8BF7\u4EC0\u4E48\u6837\u7684\u5047?" }),
+        return (React.createElement("section", { className: "react-entity" },
+            React.createElement(topbar_1.default, __assign({}, props)),
+            React.createElement(lemma_1.default, { word: "\u5458\u5DE5\u7C7B\u578B", text: "\u4F60\u60F3\u8BF7\u4EC0\u4E48\u6837\u7684\u5047?" }),
             this.generateOptions()));
     };
     return MsgEntity;
-}(_entity__WEBPACK_IMPORTED_MODULE_2__["default"]));
-/* harmony default export */ __webpack_exports__["default"] = (Object(_hoc_drag_hoc__WEBPACK_IMPORTED_MODULE_1__["default"])(MsgEntity));
+}(entity_1.default));
+exports.default = drag_hoc_1.default(MsgEntity);
 
 
 /***/ }),
@@ -45415,17 +45366,12 @@ var MsgEntity = /** @class */ (function (_super) {
 /*!**************************************!*\
   !*** ./src/jsplumb/hoc/drag.hoc.tsx ***!
   \**************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return makeDragComponent; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _config_reducers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config/reducers */ "./src/jsplumb/config/reducers.ts");
-/* harmony import */ var _config_jsplumb_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config/jsplumb.config */ "./src/jsplumb/config/jsplumb.config.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -45438,7 +45384,7 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (undefined && undefined.__assign) || function () {
+var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
             s = arguments[i];
@@ -45449,9 +45395,10 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var reducers_1 = __webpack_require__(/*! ../config/reducers */ "./src/jsplumb/config/reducers.ts");
+var jsplumb_config_1 = __webpack_require__(/*! ../config/jsplumb.config */ "./src/jsplumb/config/jsplumb.config.ts");
 /**
  * @file 赋予组件拖动能力
  * 要保证 endpoint svg uuid 与 组件 id 一致
@@ -45463,18 +45410,18 @@ function makeDragComponent(WrappedComponent) {
             return _super !== null && _super.apply(this, arguments) || this;
         }
         Draggable.prototype.componentDidMount = function () {
-            var jsp = _config_reducers__WEBPACK_IMPORTED_MODULE_1__["default"].jsp;
+            var jsp = reducers_1.default.jsp;
             var node = this.refs.element;
-            jsp.draggable(node, { containment: _config_reducers__WEBPACK_IMPORTED_MODULE_1__["default"].containment });
-            jsp.addEndpoint(node, { anchor: 'Left', uuid: this.props.id }, _config_jsplumb_config__WEBPACK_IMPORTED_MODULE_2__["targetConfig"]);
+            jsp.draggable(node, { containment: reducers_1.default.containment });
+            jsp.addEndpoint(node, { anchor: 'Left', uuid: this.props.id }, jsplumb_config_1.targetConfig);
         };
         Draggable.prototype.componentWillUnmount = function () {
-            var jsp = _config_reducers__WEBPACK_IMPORTED_MODULE_1__["default"].jsp;
+            var jsp = reducers_1.default.jsp;
             var node = this.refs.element;
             node && jsp.removeAllEndpoints(node);
         };
         Draggable.prototype.handleClick = function () {
-            var jsp = _config_reducers__WEBPACK_IMPORTED_MODULE_1__["default"].jsp;
+            var jsp = reducers_1.default.jsp;
             var node = this.refs.element;
             jsp.select({ target: this.props.id }).each(function (connection) {
                 connection.setPaintStyle({ stroke: "red", strokeWidth: 4, });
@@ -45486,12 +45433,13 @@ function makeDragComponent(WrappedComponent) {
         Draggable.prototype.render = function () {
             var props = this.props;
             var style = { left: props.left, top: props.top };
-            return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", { id: props.id, ref: "element", className: "react-entity-wrap", style: style, onClick: this.handleClick.bind(this) },
-                react__WEBPACK_IMPORTED_MODULE_0__["createElement"](WrappedComponent, __assign({}, props))));
+            return (React.createElement("div", { id: props.id, ref: "element", className: "react-entity-wrap", style: style, onClick: this.handleClick.bind(this) },
+                React.createElement(WrappedComponent, __assign({}, props))));
         };
         return Draggable;
-    }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]));
+    }(React.Component));
 }
+exports.default = makeDragComponent;
 
 
 /***/ }),
@@ -45500,18 +45448,12 @@ function makeDragComponent(WrappedComponent) {
 /*!******************************************!*\
   !*** ./src/jsplumb/hoc/endpoint.hoc.tsx ***!
   \******************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return makeComponentEndpoint; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _config_reducers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config/reducers */ "./src/jsplumb/config/reducers.ts");
-/* harmony import */ var _config_jsplumb_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config/jsplumb.config */ "./src/jsplumb/config/jsplumb.config.ts");
-/* harmony import */ var _config_option_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config/option.config */ "./src/jsplumb/config/option.config.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -45524,7 +45466,7 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (undefined && undefined.__assign) || function () {
+var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
             s = arguments[i];
@@ -45535,10 +45477,11 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-
-
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var reducers_1 = __webpack_require__(/*! ../config/reducers */ "./src/jsplumb/config/reducers.ts");
+var jsplumb_config_1 = __webpack_require__(/*! ../config/jsplumb.config */ "./src/jsplumb/config/jsplumb.config.ts");
+var option_config_1 = __webpack_require__(/*! ../config/option.config */ "./src/jsplumb/config/option.config.ts");
 /**
  * @file 赋予组件端点能力
  * 要保证 endpoint svg uuid 与 组件 id 一致
@@ -45551,18 +45494,18 @@ function makeComponentEndpoint(WrappedComponent) {
             return _super !== null && _super.apply(this, arguments) || this;
         }
         Endpoint.prototype.componentDidMount = function () {
-            var jsp = _config_reducers__WEBPACK_IMPORTED_MODULE_1__["default"].jsp;
+            var jsp = reducers_1.default.jsp;
             var node = this.refs.element;
             jsp.addEndpoint(node, {
                 anchor: 'Right',
                 uuid: this.id
-            }, _config_jsplumb_config__WEBPACK_IMPORTED_MODULE_2__["sourceConfig"]);
+            }, jsplumb_config_1.sourceConfig);
         };
         Endpoint.prototype.componentWillUnmount = function () {
             // 只有删除 entity 才会删除 endpoint
         };
         Endpoint.prototype.findEp = function () {
-            var jsp = _config_reducers__WEBPACK_IMPORTED_MODULE_1__["default"].jsp;
+            var jsp = reducers_1.default.jsp;
             var node = this.refs.element;
             return jsp.getEndpoints(node)[0];
         };
@@ -45576,13 +45519,14 @@ function makeComponentEndpoint(WrappedComponent) {
         };
         Endpoint.prototype.render = function () {
             var props = this.props;
-            var id = this.id = props.id || Object(_config_option_config__WEBPACK_IMPORTED_MODULE_3__["getOptionId"])();
-            return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", { id: id, ref: "element", className: "react-endpoint", onMouseOver: this.onMouseOver.bind(this), onMouseOut: this.onMouseOut.bind(this) },
-                react__WEBPACK_IMPORTED_MODULE_0__["createElement"](WrappedComponent, __assign({}, props))));
+            var id = this.id = props.id || option_config_1.getOptionId();
+            return (React.createElement("div", { id: id, ref: "element", className: "react-endpoint", onMouseOver: this.onMouseOver.bind(this), onMouseOut: this.onMouseOut.bind(this) },
+                React.createElement(WrappedComponent, __assign({}, props))));
         };
         return Endpoint;
-    }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]));
+    }(React.Component));
 }
+exports.default = makeComponentEndpoint;
 
 
 /***/ }),

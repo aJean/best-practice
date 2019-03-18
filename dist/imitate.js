@@ -112,7 +112,7 @@ g = (function() {
 
 try {
 	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1, eval)("this");
+	g = g || new Function("return this")();
 } catch (e) {
 	// This works if the window reference is available
 	if (typeof window === "object") g = window;
@@ -24201,20 +24201,12 @@ if (false) {} else {
 /*!***********************************!*\
   !*** ./src/redux-imitate/app.tsx ***!
   \***********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _provider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./provider */ "./src/redux-imitate/provider.tsx");
-/* harmony import */ var _header__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./header */ "./src/redux-imitate/header.tsx");
-/* harmony import */ var _main__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./main */ "./src/redux-imitate/main.tsx");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store */ "./src/redux-imitate/store.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -24227,29 +24219,30 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
-
-
-
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+var provider_1 = __webpack_require__(/*! ./provider */ "./src/redux-imitate/provider.tsx");
+var header_1 = __webpack_require__(/*! ./header */ "./src/redux-imitate/header.tsx");
+var main_1 = __webpack_require__(/*! ./main */ "./src/redux-imitate/main.tsx");
+var store_1 = __webpack_require__(/*! ./store */ "./src/redux-imitate/store.ts");
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
     function App() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     App.prototype.render = function () {
-        return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"](_provider__WEBPACK_IMPORTED_MODULE_2__["default"], { store: _store__WEBPACK_IMPORTED_MODULE_5__["default"] },
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](_header__WEBPACK_IMPORTED_MODULE_3__["default"], null),
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](_main__WEBPACK_IMPORTED_MODULE_4__["default"], null)));
+        return (React.createElement(provider_1.default, { store: store_1.default },
+            React.createElement(header_1.default, null),
+            React.createElement(main_1.default, null)));
     };
     return App;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]));
-/* harmony default export */ __webpack_exports__["default"] = ({
+}(React.Component));
+exports.default = {
     initImitate: function (el) {
-        react_dom__WEBPACK_IMPORTED_MODULE_1__["render"](react__WEBPACK_IMPORTED_MODULE_0__["createElement"](App, null), el);
+        ReactDOM.render(React.createElement(App, null), el);
     }
-});
+};
 
 
 /***/ }),
@@ -24258,16 +24251,12 @@ var App = /** @class */ (function (_super) {
 /*!***************************************!*\
   !*** ./src/redux-imitate/connect.tsx ***!
   \***************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-var __extends = (undefined && undefined.__extends) || (function () {
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -24280,7 +24269,7 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (undefined && undefined.__assign) || function () {
+var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
             s = arguments[i];
@@ -24291,8 +24280,9 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var PropTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /**
  * @file redux connext
  */
@@ -24320,16 +24310,16 @@ var connect = function (mapStateToProps, mapDispatchToProps) { return function (
                 this.setState(__assign({}, props, staticProps));
             };
             Wrap.prototype.render = function () {
-                return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"](WrappedComponent, __assign({}, this.state)));
+                return (React.createElement(WrappedComponent, __assign({}, this.state)));
             };
             return Wrap;
-        }(react__WEBPACK_IMPORTED_MODULE_0__["Component"])),
+        }(React.Component)),
         _a.contextTypes = {
-            store: prop_types__WEBPACK_IMPORTED_MODULE_1__["object"]
+            store: PropTypes.object
         },
         _a;
 }; };
-/* harmony default export */ __webpack_exports__["default"] = (connect);
+exports.default = connect;
 
 
 /***/ }),
@@ -24338,15 +24328,12 @@ var connect = function (mapStateToProps, mapDispatchToProps) { return function (
 /*!**************************************!*\
   !*** ./src/redux-imitate/header.tsx ***!
   \**************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _connect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./connect */ "./src/redux-imitate/connect.tsx");
-var __extends = (undefined && undefined.__extends) || (function () {
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -24359,21 +24346,22 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var connect_1 = __webpack_require__(/*! ./connect */ "./src/redux-imitate/connect.tsx");
 var Header = /** @class */ (function (_super) {
     __extends(Header, _super);
     function Header() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Header.prototype.render = function () {
-        return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", { style: { color: this.props.color } },
+        return (React.createElement("div", { style: { color: this.props.color } },
             "hello react ",
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null),
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("button", { onClick: this.props.handleClick }, "change blue")));
+            React.createElement("br", null),
+            React.createElement("button", { onClick: this.props.handleClick }, "change blue")));
     };
     return Header;
-}(react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"]));
+}(React.PureComponent));
 var mapStateToProps = function (state) {
     return {
         color: state.header.color,
@@ -24387,7 +24375,7 @@ var mapDispatchToProps = function (dispatch) {
         }
     };
 };
-/* harmony default export */ __webpack_exports__["default"] = (Object(_connect__WEBPACK_IMPORTED_MODULE_1__["default"])(mapStateToProps, mapDispatchToProps)(Header));
+exports.default = connect_1.default(mapStateToProps, mapDispatchToProps)(Header);
 
 
 /***/ }),
@@ -24396,15 +24384,12 @@ var mapDispatchToProps = function (dispatch) {
 /*!************************************!*\
   !*** ./src/redux-imitate/main.tsx ***!
   \************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _connect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./connect */ "./src/redux-imitate/connect.tsx");
-var __extends = (undefined && undefined.__extends) || (function () {
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -24417,24 +24402,25 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var connect_1 = __webpack_require__(/*! ./connect */ "./src/redux-imitate/connect.tsx");
 var Main = /** @class */ (function (_super) {
     __extends(Main, _super);
     function Main() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Main.prototype.render = function () {
-        return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", null,
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null),
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", null,
+        return (React.createElement("div", null,
+            React.createElement("br", null),
+            React.createElement("div", null,
                 "\u4E3B\u9898\u5185\u5BB9\u554A --- ",
                 this.props.text),
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("h1", null, "\u563B\u563B\u563B"),
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("button", { onClick: this.props.onSwitch.bind(this, '你瞅啥') }, "\u70B9\u6211\u6211\u5C31\u8DD1")));
+            React.createElement("h1", null, "\u563B\u563B\u563B"),
+            React.createElement("button", { onClick: this.props.onSwitch.bind(this, '你瞅啥') }, "\u70B9\u6211\u6211\u5C31\u8DD1")));
     };
     return Main;
-}(react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"]));
+}(React.PureComponent));
 var mapStateToProps = function (state) {
     return {
         text: state.content.text
@@ -24445,7 +24431,7 @@ var mapDispatchToProps = function (dispatch) {
         onSwitch: function (text) { return dispatch({ type: 'UPDATE_CONTENT_TEXT', text: text }); }
     };
 };
-/* harmony default export */ __webpack_exports__["default"] = (Object(_connect__WEBPACK_IMPORTED_MODULE_1__["default"])(mapStateToProps, mapDispatchToProps)(Main));
+exports.default = connect_1.default(mapStateToProps, mapDispatchToProps)(Main);
 
 
 /***/ }),
@@ -24454,16 +24440,12 @@ var mapDispatchToProps = function (dispatch) {
 /*!****************************************!*\
   !*** ./src/redux-imitate/provider.tsx ***!
   \****************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-var __extends = (undefined && undefined.__extends) || (function () {
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -24476,8 +24458,9 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var PropTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /**
  * @file  提取 context 注入给子组件
  */
@@ -24492,18 +24475,18 @@ var Provider = /** @class */ (function (_super) {
         };
     };
     Provider.prototype.render = function () {
-        return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", null, this.props.children));
+        return (React.createElement("div", null, this.props.children));
     };
     Provider.propTypes = {
-        store: prop_types__WEBPACK_IMPORTED_MODULE_1__["object"],
-        children: prop_types__WEBPACK_IMPORTED_MODULE_1__["any"]
+        store: PropTypes.object,
+        children: PropTypes.any
     };
     Provider.childContextTypes = {
-        store: prop_types__WEBPACK_IMPORTED_MODULE_1__["object"]
+        store: PropTypes.object
     };
     return Provider;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]));
-/* harmony default export */ __webpack_exports__["default"] = (Provider);
+}(React.Component));
+exports.default = Provider;
 
 
 /***/ }),
@@ -24512,15 +24495,15 @@ var Provider = /** @class */ (function (_super) {
 /*!************************************!*\
   !*** ./src/redux-imitate/store.ts ***!
   \************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
+
 /**
  * @file 创建 state 和 reducer
  */
-var __assign = (undefined && undefined.__assign) || function () {
+var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
             s = arguments[i];
@@ -24531,6 +24514,7 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 function createStore(state, stateChanger) {
     var listeners = [];
     var subscribe = function (listener) { return listeners.push(listener); };
@@ -24561,7 +24545,7 @@ var appState = {
         color: 'red'
     }
 };
-/* harmony default export */ __webpack_exports__["default"] = (createStore(appState, stateChanger));
+exports.default = createStore(appState, stateChanger);
 
 
 /***/ })

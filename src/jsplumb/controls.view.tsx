@@ -14,6 +14,10 @@ const mapDispatchToProps = dispatch => {
 };
 
 class ControlsView extends React.Component<any, any> {
+    state = {
+        index: 0
+    }
+
     constructor(props) {
         super(props);
         this.clickHandle = this.clickHandle.bind(this);
@@ -33,6 +37,16 @@ class ControlsView extends React.Component<any, any> {
         const event = data.nativeEvent;
         const type = event.target.getAttribute('data-type');
 
+        setTimeout(() => {
+            this.setState({
+                index: 1
+            })
+    
+            console.log(this.state.index)
+        }, 0);
+ 
+
+        return;
         this.props.onAddControl({
             type,
             title: `${type} 单元`,
@@ -43,7 +57,9 @@ class ControlsView extends React.Component<any, any> {
 
     render() {
         return (<section className="react-controls">
-            <div draggable={true} onDragStart={this.dragHandle} onClick={this.clickHandle} data-type={EntityType.tigger}>触发器</div>
+            <div draggable={true} onDragStart={this.dragHandle} onClick={this.clickHandle} data-type={EntityType.tigger}>
+                触发器{this.state.index}
+            </div>
             <div draggable={true} onDragStart={this.dragHandle} onClick={this.clickHandle} data-type={EntityType.ask}>问答单元</div>
             <div draggable={true} onDragStart={this.dragHandle} onClick={this.clickHandle} data-type={EntityType.message}>消息单元</div>
             <div draggable={true} onDragStart={this.dragHandle} onClick={this.clickHandle} data-type={EntityType.chat}>对话单元</div>
