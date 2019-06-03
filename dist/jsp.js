@@ -44286,12 +44286,33 @@ var mapDispatchToProps = function (dispatch) {
         onDelConnection: function (data) { return dispatch(actions.delConnection(data)); }
     };
 };
+var Num = /** @class */ (function (_super) {
+    __extends(Num, _super);
+    function Num() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Num.prototype.componentWillReceiveProps = function (nextProps) {
+        console.log(nextProps);
+    };
+    Num.prototype.render = function () {
+        return React.createElement("div", null,
+            this.props.value,
+            React.createElement("input", { type: "text" }));
+    };
+    return Num;
+}(React.Component));
 var CanvasView = /** @class */ (function (_super) {
     __extends(CanvasView, _super);
     function CanvasView() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.state = {
-            ready: false
+            ready: false,
+            numbers: [1, 2, 3, 5, 6]
+        };
+        _this.clickNums = function () {
+            _this.setState({
+                numbers: [1, 3, 2, 5, 6]
+            });
         };
         return _this;
     }
@@ -44406,7 +44427,10 @@ var CanvasView = /** @class */ (function (_super) {
         return (React.createElement("section", { id: "_canvasWrap", className: "visual-canvas-wrap" },
             React.createElement(minimap_1.default, { scroll: "_canvasWrap" }),
             React.createElement(bounce_1.default, null),
-            React.createElement("div", { id: "_canvas", className: "visual-canvas", onDrop: this.dropHandle.bind(this), onDragOver: this.dragoverHandle.bind(this) }, this.generateEntitys())));
+            React.createElement("div", { id: "_canvas", className: "visual-canvas", onDrop: this.dropHandle.bind(this), onDragOver: this.dragoverHandle.bind(this) }, this.generateEntitys()),
+            React.createElement("div", { className: "visual-nums" },
+                this.state.numbers.map(function (value, index) { return React.createElement(Num, { key: index, value: value }); }),
+                React.createElement("button", { onClick: this.clickNums }, "\u6539\u53D8 list"))));
     };
     return CanvasView;
 }(React.Component));

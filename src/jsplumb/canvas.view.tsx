@@ -26,9 +26,20 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
+class Num extends React.Component<any, any> {
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps)
+    }
+
+    render() {
+        return <div>{this.props.value}<input type="text" /></div>
+    }
+}
+
 class CanvasView extends React.Component<any, any> {
     state = {
-        ready: false
+        ready: false,
+        numbers: [1, 2, 3, 5, 6]
     };
 
     /**
@@ -154,13 +165,25 @@ class CanvasView extends React.Component<any, any> {
         });
     }
 
+    clickNums = () => {
+        this.setState({
+            numbers: [1, 3, 2, 5, 6]
+        })
+    }
+
     render() {
+
+
         return (<section id="_canvasWrap" className="visual-canvas-wrap">
             <Minimap scroll="_canvasWrap" />
             <Bounce />
             <div id="_canvas" className="visual-canvas" onDrop={this.dropHandle.bind(this)}
                 onDragOver={this.dragoverHandle.bind(this)}>
                     {this.generateEntitys()}
+            </div>
+            <div className="visual-nums">
+                {this.state.numbers.map((value, index) => <Num key={index} value={value} />)}
+                <button onClick={this.clickNums}>改变 list</button>
             </div>
         </section>);
     }
