@@ -23,6 +23,7 @@ console.log(a, b, c, d);
 // 把参数替换成唯一 cb
 function thunkify(fn) {
     return function (...args) {
+        // result.value(next)
         const ctx = this;
 
         return function (done) {
