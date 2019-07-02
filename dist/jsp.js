@@ -44294,6 +44294,9 @@ var Num = /** @class */ (function (_super) {
     Num.prototype.componentWillReceiveProps = function (nextProps) {
         console.log(nextProps);
     };
+    Num.prototype.componentWillUnmount = function () {
+        console.log(1);
+    };
     Num.prototype.render = function () {
         return React.createElement("div", null,
             this.props.value,

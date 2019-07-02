@@ -27,7 +27,7 @@ async function testAction() {
  * 将 action wrap 起来, 可以使用户无感知
  * 由框架负责统一的异常分发
  */
-~async function excute() {
+~function excute() {
     try {
         await testAction();
     } catch (e) {

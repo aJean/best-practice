@@ -31,6 +31,10 @@ class Num extends React.Component<any, any> {
         console.log(nextProps)
     }
 
+    componentWillUnmount() {
+        console.log(1)
+    }
+
     render() {
         return <div>{this.props.value}<input type="text" /></div>
     }
@@ -172,8 +176,6 @@ class CanvasView extends React.Component<any, any> {
     }
 
     render() {
-
-
         return (<section id="_canvasWrap" className="visual-canvas-wrap">
             <Minimap scroll="_canvasWrap" />
             <Bounce />
@@ -182,7 +184,7 @@ class CanvasView extends React.Component<any, any> {
                     {this.generateEntitys()}
             </div>
             <div className="visual-nums">
-                {this.state.numbers.map((value, index) => <Num key={index} value={value} />)}
+                {this.state.numbers.map((value, index) => <Num key={value} value={value} />)}
                 <button onClick={this.clickNums}>改变 list</button>
             </div>
         </section>);
