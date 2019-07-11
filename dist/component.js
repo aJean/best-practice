@@ -24923,7 +24923,7 @@ function MyList(props) {
     return React.createElement("fieldset", { className: "func-reducer" },
         React.createElement("legend", null, "\u6D4B\u8BD5 context"),
         React.createElement("button", { onClick: addHandle }, "add item"),
-        list.map(function (text) { return React.createElement("p", null, text); }));
+        list.map(function (text, i) { return React.createElement("p", { key: i }, text); }));
 }
 // 避免多次执行
 var MyBar = React.memo(function (props) {
