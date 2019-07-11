@@ -34,7 +34,7 @@ function MyList(props) {
   return <fieldset className="func-reducer">
     <legend>测试 context</legend>
     <button onClick={addHandle}>add item</button>
-    {list.map(text => <p>{text}</p>)}
+    {list.map((text, i) => <p key={i}>{text}</p>)}
   </fieldset>
 }
 
