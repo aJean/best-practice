@@ -28,7 +28,8 @@ module.exports = {
         redux: './src/redux/app.tsx',
         gclient: './src/graphql/app.ts',
         dva: './src/dva/app.tsx',
-        jsp: './src/jsplumb/app.tsx'
+        jsp: './src/jsplumb/app.tsx',
+        component: './src/component/app.tsx'
     },
     output: {
         filename: '[name].js',
@@ -50,7 +51,7 @@ module.exports = {
             test: /\.less$/,
             exclude: /node_modules/,
             loader: ExtractTextPlugin.extract([
-                {loader: 'css-loader', options: {minimize: true}},
+                {loader: 'css-loader'},
                 {loader: 'less-loader'}
             ])
         }]

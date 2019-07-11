@@ -3,7 +3,6 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as actions from './actions';
 import { getPost } from './request';
-import RenderProps from '../component/renderProps';
 import Container from '../component/container';
 
 /**
@@ -30,7 +29,6 @@ class List extends React.PureComponent<any, any> {
     render() {
         return (
             <div>
-                <RenderProps render={data => data.show ? <button>click me!</button> : null}></RenderProps>
                 <Container list={this.props.list} />
                 <h1>{this.props.user}翻你的排</h1>
                 <button onClick={this.props.onAddList}>添加 item</button>
