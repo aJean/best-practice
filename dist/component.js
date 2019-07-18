@@ -24830,28 +24830,16 @@ var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/in
 var usestate_1 = __webpack_require__(/*! ./usestate */ "./src/component/usestate.tsx");
 var usereducer_1 = __webpack_require__(/*! ./usereducer */ "./src/component/usereducer.tsx");
 /**
- * @file context 管理
+ * @file react hooks demo
  */
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
     function App() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.state = {
-            content: 'function component'
-        };
-        _this.clickHandle = function (event) {
-            var text = 'function component';
-            _this.setState({
-                content: text + ' 112358'
-            });
-        };
-        return _this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     App.prototype.render = function () {
         return React.createElement("main", null,
-            React.createElement("button", { onClick: this.clickHandle }, "\u6539\u53D8 function component"),
             React.createElement(usestate_1.default, null),
-            React.createElement(usestate_1.Fc, { content: this.state.content }),
             React.createElement(usereducer_1.default, null));
     };
     return App;
@@ -24963,32 +24951,40 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /**
  * @file useMemo 减少 expensive function call
+ *       useCallback 防止 function 生成多次
  */
 function MyInput(props) {
-    var _a = __read(React.useState('nba'), 2), name = _a[0], setName = _a[1];
+    var _a = __read(React.useState('first'), 2), name = _a[0], setName = _a[1];
     var _b = __read(React.useState(0), 2), count = _b[0], setCount = _b[1];
     var nameHandle = function (event) {
         setName(event.target.value);
     };
+    // 避免 count 变化导致 makName 执行，返回的是缓存值
+    // 性能优化点：这里匿名 fun 每次都会创建，但如果 name 不变，则不会执行
     var makeName = React.useMemo(function () {
-        console.log('name change');
+        console.log('parent name change');
         return name + '-bibibi';
     }, [name]);
-    var countHandle = function (event) {
-        setCount(event.timeStamp);
-    };
+    // 避免每次都生成新的 fun，导致 Inner 的 memo 失效
+    var countHandle = React.useCallback(function (event) {
+        setCount(count + 1);
+    }, [name]);
+    var childFun = function () { };
     return React.createElement("fieldset", { className: "func-state" },
         React.createElement("legend", null, "\u6D4B\u8BD5 useState"),
         React.createElement("p", null,
             React.createElement("input", { type: "text", onChange: nameHandle }),
+            " ",
             React.createElement("span", null, makeName)),
         React.createElement("p", null,
             React.createElement("button", { onClick: countHandle }, "change count"),
-            React.createElement("span", null, count)));
+            React.createElement("span", null, count)),
+        React.createElement(exports.Inner, { cb: childFun }));
 }
 exports.default = MyInput;
-exports.Fc = React.memo(function (props) {
-    console.log('function change');
+// props 不变，不会执行多次
+exports.Inner = React.memo(function (props) {
+    console.log('child name change');
     return React.createElement("div", { className: "footer" },
         React.createElement("h2", null, props.content));
 });
