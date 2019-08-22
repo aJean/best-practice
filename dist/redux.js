@@ -67423,15 +67423,22 @@ var Container = /** @class */ (function (_super) {
     __extends(Container, _super);
     function Container() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.state = {};
+        _this.state = { color: 'blue' };
+        _this.clickHandle = function () {
+            _this.setState({ color: 'red' });
+        };
         return _this;
     }
-    Container.getDerivedStateFromProps = function (props) {
+    /**
+     * 处理 props → state
+     */
+    Container.getDerivedStateFromProps = function (props, state) {
         return null;
     };
     Container.prototype.render = function () {
-        return React.createElement(provider_1.default, null,
-            React.createElement(consumer_1.default, null));
+        return (React.createElement(provider_1.default, null,
+            React.createElement(consumer_1.default, null),
+            React.createElement("div", { style: { paddingBottom: 10 }, onClick: this.clickHandle }, this.state.color)));
     };
     return Container;
 }(React.Component));

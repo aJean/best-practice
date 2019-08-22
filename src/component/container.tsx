@@ -7,13 +7,25 @@ import Consumer from './consumer';
  */
 
 export default class Container extends React.Component<any, any> {
-    state = {};
+  state = { color: 'blue' };
 
-    static getDerivedStateFromProps(props) {
-        return null;
-    }
+  /**
+   * 处理 props → state
+   */
+  static getDerivedStateFromProps(props, state) {
+    return null;
+  }
 
-    render() {
-        return <Provider><Consumer /></Provider>;
-    }
+  clickHandle = () => {
+    this.setState({ color: 'red' });
+  };
+
+  render() {
+    return (
+      <Provider>
+        <Consumer />
+        <div style={{paddingBottom: 10}} onClick={this.clickHandle}>{this.state.color}</div>
+      </Provider>
+    );
+  }
 }
