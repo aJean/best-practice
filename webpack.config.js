@@ -24,16 +24,17 @@ module.exports = {
         minimize: false
     },
     entry: {
-        imitate: './src/redux-imitate/app.tsx',
+        'redux-imitate': './src/redux-imitate/app.tsx',
         redux: './src/redux/app.tsx',
         gclient: './src/graphql/app.ts',
         dva: './src/dva/app.tsx',
         jsp: './src/jsplumb/app.tsx',
-        component: './src/component/app.tsx'
+        component: './src/component/app.tsx',
+        'mobx-imitate': './src/mobx-imitate/app.ts'
     },
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'dist/assets'),
         library: 'r',
         libraryTarget: 'umd',
         libraryExport: 'default',
