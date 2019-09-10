@@ -1,5 +1,6 @@
 /**
- * @file mobx 实现
+ * @file simple mobx 实现
+ * TODO: forceUpdate，proxy
  */
 
 const dependMap: {[key: string]: Array<Function>} = {};
