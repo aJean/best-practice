@@ -1,5 +1,9 @@
 import { observable, autoRun } from "./lib";
 
+/**
+ * @file test mobx
+ */
+
 class Store {
   @observable()
   list = ['hello'];
