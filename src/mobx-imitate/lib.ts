@@ -26,7 +26,7 @@ const dependManager = {
 
   trigger(key) {
     const binds = this.findKey(key);
-    
+
     if (binds) {
       binds.forEach(handle => {
         handle();
