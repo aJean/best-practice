@@ -24862,6 +24862,19 @@ exports.default = {
 
 "use strict";
 
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __read = (this && this.__read) || function (o, n) {
     var m = typeof Symbol === "function" && o[Symbol.iterator];
     if (!m) return o;
@@ -24896,11 +24909,27 @@ function MyReducer(state, action) {
             return state;
     }
 }
+// 吃瓜组件, 使用 createContext 会影响所有子节点
+var Chigua = /** @class */ (function (_super) {
+    __extends(Chigua, _super);
+    function Chigua() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Chigua.prototype.shouldComponentUpdate = function () {
+        return false;
+    };
+    Chigua.prototype.render = function () {
+        console.log('extra-chigua');
+        return (React.createElement("div", { className: "func-gua", style: { marginTop: 20 } }, "\u6211\u662F\u65E0\u72B6\u6001\u7684"));
+    };
+    return Chigua;
+}(React.Component));
 function MyProvider() {
     var _a = __read(React.useReducer(MyReducer, ['first', 'second']), 2), list = _a[0], dispatch = _a[1];
-    return React.createElement(MyContext.Provider, { value: { list: list, dispatch: dispatch } },
+    return (React.createElement(MyContext.Provider, { value: { list: list, dispatch: dispatch } },
+        React.createElement(Chigua, null),
         React.createElement(MyBar, null),
-        React.createElement(MyList, null));
+        React.createElement(MyList, null)));
 }
 exports.default = MyProvider;
 function MyList(props) {
@@ -24908,10 +24937,10 @@ function MyList(props) {
     function addHandle() {
         dispatch({ type: 'add' });
     }
-    return React.createElement("fieldset", { className: "func-reducer" },
+    return (React.createElement("fieldset", { className: "func-reducer" },
         React.createElement("legend", null, "\u6D4B\u8BD5 context"),
         React.createElement("button", { onClick: addHandle }, "add item"),
-        list.map(function (text, i) { return React.createElement("p", { key: i }, text); }));
+        list.map(function (text, i) { return (React.createElement("p", { key: i }, text)); })));
 }
 // 避免多次执行
 var MyBar = React.memo(function (props) {

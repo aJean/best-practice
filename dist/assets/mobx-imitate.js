@@ -116,6 +116,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var lib_1 = __webpack_require__(/*! ./lib */ "./src/mobx-imitate/lib.ts");
+/**
+ * @file test mobx
+ */
 var Store = /** @class */ (function () {
     function Store() {
         this.list = ['hello'];
@@ -153,7 +156,8 @@ exports.default = {
 "use strict";
 
 /**
- * @file mobx 实现
+ * @file simple mobx 实现
+ * TODO: forceUpdate, proxy, isObjectShallowModified
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var dependMap = {};
