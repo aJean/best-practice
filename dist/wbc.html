@@ -8,6 +8,10 @@
 </head>
 <body>
   <script src="assets/wbc.js"></script>
-  <my-test data="123"></my-test>
+  <my-test id="c1" data="123"></my-test>
+  <script>
+    const node = document.querySelector('#c1');
+    node.setAttribute('data', {name: 'wbc'});
+  </script>
 </body>
 </html>

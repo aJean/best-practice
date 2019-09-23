@@ -29,7 +29,7 @@ module.exports = {
         // gclient: './src/graphql/app.ts',
         // dva: './src/dva/app.tsx',
         // jsp: './src/jsplumb/app.tsx',
-        // component: './src/component/app.tsx',
+        component: './src/component/app.tsx',
         // 'mobx-imitate': './src/mobx-imitate/app.ts',
         'wbc': './src/component/webcomponent.ts'
     },
