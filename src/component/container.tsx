@@ -21,10 +21,16 @@ export default class Container extends React.Component<any, any> {
   };
 
   render() {
+    const list = this.props.list;
+
     return (
       <Provider>
         <Consumer />
         <div style={{paddingBottom: 10}} onClick={this.clickHandle}>{this.state.color}</div>
+        <fieldset>
+          <legend>item list</legend>
+          {list ? list.map((item, i) => <p key={i}>{item}</p>) : null}
+        </fieldset>
       </Provider>
     );
   }

@@ -15,7 +15,6 @@ function* fetchData(action) {
 }
 
 function* fetchUser(action) {
-    console.log(action);
     try {
         const data = yield call(get, action.payload);
         yield put(actions.fetchUserSucced(data));
@@ -23,7 +22,6 @@ function* fetchUser(action) {
         yield put(actions.fetchUserFailed(error));
     }
 }
-
 
 function* fetchDb(action) {
     try {
@@ -50,8 +48,8 @@ function get(data) {
     return data.url ? Promise.resolve(Date.now() + 'redux') : Promise.resolve('ajean');
 }
 
-function query() {
-    return fetch('http://test.baidu.com:4000/test').then(r => r.json());
+function query(data) {
+    return fetch('http://test.jd.com:4000/test').then(r => r.json());
 }
 
 

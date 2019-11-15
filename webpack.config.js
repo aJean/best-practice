@@ -25,7 +25,7 @@ module.exports = {
     },
     entry: {
         // 'redux-imitate': './src/redux-imitate/app.tsx',
-        // redux: './src/redux/app.tsx',
+        redux: './src/redux/app.tsx',
         // gclient: './src/graphql/app.ts',
         // dva: './src/dva/app.tsx',
         // jsp: './src/jsplumb/app.tsx',

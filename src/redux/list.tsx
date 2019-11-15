@@ -1,8 +1,7 @@
 import { compose, withApollo } from 'react-apollo';
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector, useDispatch } from 'react-redux';
 import * as actions from './actions';
-import { getPost } from './request';
 import Container from '../component/container';
 
 /**
@@ -17,8 +16,18 @@ const mapDispatchToProps = dispatch => {
     return {
         onAddList: () => dispatch(actions.fetchData({url: true})),
         onAddUser: () => dispatch(actions.fetchUser({user: true})),
-        onAddDb: () => dispatch(actions.fetchDb({}))
+        onAddDb: () => dispatch(actions.fetchDb({server: false}))
     };
+};
+
+// hooks + redux
+const Btnf = props => {
+    const dispatch = useDispatch();
+    const clickHandle = function() {
+        dispatch(actions.fetchData({url: true}));
+    }
+ 
+    return <button onClick={clickHandle}>测试 hook item</button>
 };
 
 class List extends React.PureComponent<any, any> {
@@ -31,7 +40,7 @@ class List extends React.PureComponent<any, any> {
             <div>
                 <Container list={this.props.list} />
                 <h1>{this.props.user}翻你的排</h1>
-                <button onClick={this.props.onAddList}>添加 item</button>
+                <Btnf />
                 <button onClick={this.props.onAddUser}>添加 user</button>
                 <button onClick={this.props.onAddDb}>测试 db</button>
             </div>
