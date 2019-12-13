@@ -25625,6 +25625,22 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
@@ -25634,6 +25650,16 @@ var webcomponent_1 = __webpack_require__(/*! ./webcomponent */ "./src/component/
 /**
  * @file react hooks demo
  */
+function Counter() {
+    var _a = __read(React.useState(0), 2), count = _a[0], setCount = _a[1];
+    React.useEffect(function () {
+        var id = setInterval(function () {
+            setCount(count + 1);
+        }, 1000);
+        return function () { return clearInterval(id); };
+    }, [count]);
+    return React.createElement("h1", null, count);
+}
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
     function App() {
@@ -25645,8 +25671,9 @@ var App = /** @class */ (function (_super) {
             React.createElement(usereducer_1.default, null),
             React.createElement("fieldset", null,
                 React.createElement("legend", { style: { color: 'red' } }, "web component test"),
-                React.createElement(webcomponent_1.default, { id: "c1", data: { name: 'wbc' } },
-                    React.createElement("h2", null, "state")))));
+                React.createElement(webcomponent_1.default, { id: 'c1', data: { name: 'wbc' } },
+                    React.createElement("h2", null, "state")),
+                React.createElement(Counter, null))));
     };
     return App;
 }(React.Component));
