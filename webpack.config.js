@@ -24,17 +24,19 @@ module.exports = {
         minimize: false
     },
     entry: {
-        // 'redux-imitate': './src/redux-imitate/app.tsx',
-        redux: './src/redux/app.tsx',
+        // redux: './src/redux/app.tsx',
         // gclient: './src/graphql/app.ts',
         // dva: './src/dva/app.tsx',
         // jsp: './src/jsplumb/app.tsx',
-        component: './src/component/app.tsx',
+        // component: './src/component/app.tsx',
+        // 'wbc': './src/component/webcomponent.ts',
         // 'mobx-imitate': './src/mobx-imitate/app.ts',
-        'wbc': './src/component/webcomponent.ts'
+        // 'redux-imitate': './src/redux-imitate/app.tsx',
+        'router': './src/router/index.tsx'
     },
     output: {
         filename: '[name].js',
+        chunkFilename: '[name].chunk.js',
         path: path.resolve(__dirname, 'dist/assets'),
         library: 'r',
         libraryTarget: 'umd',

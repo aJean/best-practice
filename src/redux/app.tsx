@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types'
 import * as ReactDOM from 'react-dom';
 import { Provider } from "react-redux";
-import ApolloClient from "apollo-boost";
+import ApolloClient from 'apollo-boost';
 import store from './reducer';
 import ErrorCapture from './error';
 import List from './list';

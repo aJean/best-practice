@@ -1,21 +1,21 @@
 {
-  "name": "reactss",
+  "name": "react-best-practice",
   "version": "1.0.0",
-  "description": "react examples",
+  "description": "react best practice",
   "main": "index.js",
   "scripts": {
     "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aJean/reactss.git"
+    "url": "git+https://github.com/aJean/react-best-practice.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/aJean/reactss/issues"
+    "url": "https://github.com/aJean/react-best-practice/issues"
   },
-  "homepage": "https://github.com/aJean/reactss#readme",
+  "homepage": "https://github.com/aJean/react-best-practice#readme",
   "dependencies": {
     "@types/es6-shim": "^0.31.37",
     "@types/express": "^4.16.0",
@@ -24,7 +24,7 @@
     "@types/react-redux": "^7.1.5",
     "@types/vis": "^4.21.8",
     "@webcomponents/webcomponentsjs": "^2.3.0",
-    "apollo-boost": "^0.1.22",
+    "apollo-boost": "^0.1.28",
     "apollo-client": "^2.4.7",
     "apollo-server-express": "^2.2.2",
     "dva": "^2.4.1",
