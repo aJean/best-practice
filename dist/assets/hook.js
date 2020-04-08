@@ -25607,12 +25607,19 @@ if (false) {} else {
 /*!*******************************!*\
   !*** ./src/component/app.tsx ***!
   \*******************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-var __extends = (this && this.__extends) || (function () {
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _usestate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./usestate */ "./src/component/usestate.tsx");
+/* harmony import */ var _usereducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./usereducer */ "./src/component/usereducer.tsx");
+/* harmony import */ var _webcomponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./webcomponent */ "./src/component/webcomponent.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -25625,7 +25632,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __read = (this && this.__read) || function (o, n) {
+var __read = (undefined && undefined.__read) || function (o, n) {
     var m = typeof Symbol === "function" && o[Symbol.iterator];
     if (!m) return o;
     var i = m.call(o), r, ar = [], e;
@@ -25641,24 +25648,28 @@ var __read = (this && this.__read) || function (o, n) {
     }
     return ar;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-var usestate_1 = __webpack_require__(/*! ./usestate */ "./src/component/usestate.tsx");
-var usereducer_1 = __webpack_require__(/*! ./usereducer */ "./src/component/usereducer.tsx");
-var webcomponent_1 = __webpack_require__(/*! ./webcomponent */ "./src/component/webcomponent.ts");
+
+
+
+
+
 /**
  * @file react hooks demo
  */
 function Counter() {
-    var _a = __read(React.useState(0), 2), count = _a[0], setCount = _a[1];
-    React.useEffect(function () {
+    var _a = __read(react__WEBPACK_IMPORTED_MODULE_0__["useState"](0), 2), count = _a[0], setCount = _a[1];
+    // ref 可以通过引用的属性值来打破 capture 规则
+    var myRef = react__WEBPACK_IMPORTED_MODULE_0__["useRef"](count);
+    // 捕获上一次的 state 与 props、变量，就是函数闭包的效果
+    react__WEBPACK_IMPORTED_MODULE_0__["useEffect"](function () {
         var id = setInterval(function () {
+            // count 一直是 0
             setCount(count + 1);
+            // 可以使用 setCount(c => c + 1)
         }, 1000);
         return function () { return clearInterval(id); };
-    }, [count]);
-    return React.createElement("h1", null, count);
+    }, []);
+    return react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("h1", null, count);
 }
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
@@ -25666,22 +25677,22 @@ var App = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     App.prototype.render = function () {
-        return (React.createElement("main", null,
-            React.createElement(usestate_1.default, null),
-            React.createElement(usereducer_1.default, null),
-            React.createElement("fieldset", null,
-                React.createElement("legend", { style: { color: 'red' } }, "web component test"),
-                React.createElement(webcomponent_1.default, { id: 'c1', data: { name: 'wbc' } },
-                    React.createElement("h2", null, "state")),
-                React.createElement(Counter, null))));
+        return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("main", null,
+            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](_usestate__WEBPACK_IMPORTED_MODULE_2__["default"], null),
+            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](_usereducer__WEBPACK_IMPORTED_MODULE_3__["default"], null),
+            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("fieldset", null,
+                react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("legend", { style: { color: 'red' } }, "web component test"),
+                react__WEBPACK_IMPORTED_MODULE_0__["createElement"](_webcomponent__WEBPACK_IMPORTED_MODULE_4__["default"], { id: 'c1', data: { name: 'wbc' } },
+                    react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("h2", null, "state")),
+                react__WEBPACK_IMPORTED_MODULE_0__["createElement"](Counter, null))));
     };
     return App;
-}(React.Component));
-exports.default = {
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]));
+/* harmony default export */ __webpack_exports__["default"] = ({
     init: function (el) {
-        ReactDOM.render(React.createElement(App, null), el);
+        react_dom__WEBPACK_IMPORTED_MODULE_1__["render"](react__WEBPACK_IMPORTED_MODULE_0__["createElement"](App, null), el);
     }
-};
+});
 
 
 /***/ }),
@@ -25690,22 +25701,23 @@ exports.default = {
 /*!****************************************!*\
   !*** ./src/component/transformWbc.tsx ***!
   \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return transformElement; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 function transformElement(TagName) {
     return function (props) {
         var setProperties = function (instance) {
             instance.setProperty('data', { name: 'qy' });
         };
-        return React.createElement(TagName, { ref: setProperties }, props.children);
+        return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](TagName, { ref: setProperties }, props.children);
     };
 }
-exports.default = transformElement;
 
 
 /***/ }),
@@ -25714,12 +25726,15 @@ exports.default = transformElement;
 /*!**************************************!*\
   !*** ./src/component/usereducer.tsx ***!
   \**************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-var __extends = (this && this.__extends) || (function () {
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return MyProvider; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -25732,7 +25747,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __read = (this && this.__read) || function (o, n) {
+var __read = (undefined && undefined.__read) || function (o, n) {
     var m = typeof Symbol === "function" && o[Symbol.iterator];
     if (!m) return o;
     var i = m.call(o), r, ar = [], e;
@@ -25748,16 +25763,15 @@ var __read = (this && this.__read) || function (o, n) {
     }
     return ar;
 };
-var __spread = (this && this.__spread) || function () {
+var __spread = (undefined && undefined.__spread) || function () {
     for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
     return ar;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
 /**
  * @file redux
  */
-var MyContext = React.createContext({ list: null, dispatch: null });
+var MyContext = react__WEBPACK_IMPORTED_MODULE_0__["createContext"]({ list: null, dispatch: null });
 function MyReducer(state, action) {
     switch (action.type) {
         case 'add':
@@ -25777,32 +25791,31 @@ var Chigua = /** @class */ (function (_super) {
     };
     Chigua.prototype.render = function () {
         console.log('extra-chigua');
-        return (React.createElement("div", { className: "func-gua", style: { marginTop: 20 } }, "\u6211\u662F\u65E0\u72B6\u6001\u7684"));
+        return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", { className: "func-gua", style: { marginTop: 20 } }, "\u6211\u662F\u65E0\u72B6\u6001\u7684"));
     };
     return Chigua;
-}(React.Component));
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]));
 function MyProvider() {
-    var _a = __read(React.useReducer(MyReducer, ['first', 'second']), 2), list = _a[0], dispatch = _a[1];
-    return (React.createElement(MyContext.Provider, { value: { list: list, dispatch: dispatch } },
-        React.createElement(Chigua, null),
-        React.createElement(MyBar, null),
-        React.createElement(MyList, null)));
+    var _a = __read(react__WEBPACK_IMPORTED_MODULE_0__["useReducer"](MyReducer, ['first', 'second']), 2), list = _a[0], dispatch = _a[1];
+    return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"](MyContext.Provider, { value: { list: list, dispatch: dispatch } },
+        react__WEBPACK_IMPORTED_MODULE_0__["createElement"](Chigua, null),
+        react__WEBPACK_IMPORTED_MODULE_0__["createElement"](MyBar, null),
+        react__WEBPACK_IMPORTED_MODULE_0__["createElement"](MyList, null)));
 }
-exports.default = MyProvider;
 function MyList(props) {
-    var _a = React.useContext(MyContext), list = _a.list, dispatch = _a.dispatch;
+    var _a = react__WEBPACK_IMPORTED_MODULE_0__["useContext"](MyContext), list = _a.list, dispatch = _a.dispatch;
     function addHandle() {
         dispatch({ type: 'add' });
     }
-    return (React.createElement("fieldset", { className: "func-reducer" },
-        React.createElement("legend", null, "\u6D4B\u8BD5 context"),
-        React.createElement("button", { onClick: addHandle }, "add item"),
-        list.map(function (text, i) { return (React.createElement("p", { key: i }, text)); })));
+    return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("fieldset", { className: "func-reducer" },
+        react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("legend", null, "\u6D4B\u8BD5 context"),
+        react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("button", { onClick: addHandle }, "add item"),
+        list.map(function (text, i) { return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("p", { key: i }, text)); })));
 }
 // 避免多次执行
-var MyBar = React.memo(function (props) {
+var MyBar = react__WEBPACK_IMPORTED_MODULE_0__["memo"](function (props) {
     console.log('bar !!!');
-    return React.createElement("div", { className: "func-bar" }, "context child bar");
+    return react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", { className: "func-bar" }, "context child bar");
 });
 
 
@@ -25812,12 +25825,16 @@ var MyBar = React.memo(function (props) {
 /*!************************************!*\
   !*** ./src/component/usestate.tsx ***!
   \************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default, Inner */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-var __read = (this && this.__read) || function (o, n) {
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return MyInput; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Inner", function() { return Inner; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+var __read = (undefined && undefined.__read) || function (o, n) {
     var m = typeof Symbol === "function" && o[Symbol.iterator];
     if (!m) return o;
     var i = m.call(o), r, ar = [], e;
@@ -25833,46 +25850,44 @@ var __read = (this && this.__read) || function (o, n) {
     }
     return ar;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
 /**
  * @file useMemo 减少 expensive function call
  *       useCallback 防止 function 生成多次
  */
 function MyInput(props) {
-    var _a = __read(React.useState('first'), 2), name = _a[0], setName = _a[1];
-    var _b = __read(React.useState(0), 2), count = _b[0], setCount = _b[1];
+    var _a = __read(react__WEBPACK_IMPORTED_MODULE_0__["useState"]('first'), 2), name = _a[0], setName = _a[1];
+    var _b = __read(react__WEBPACK_IMPORTED_MODULE_0__["useState"](0), 2), count = _b[0], setCount = _b[1];
     var nameHandle = function (event) {
         setName(event.target.value);
     };
     // 避免 count 变化导致 makName 执行，返回的是缓存值
     // 性能优化点：这里匿名 fun 每次都会创建，但如果 name 不变，则不会执行
-    var makeName = React.useMemo(function () {
+    var makeName = react__WEBPACK_IMPORTED_MODULE_0__["useMemo"](function () {
         console.log('parent name change');
         return name + '-bibibi';
     }, [name]);
     // 避免每次都生成新的 fun，导致 Inner 的 memo 失效
-    var countHandle = React.useCallback(function (event) {
+    var countHandle = react__WEBPACK_IMPORTED_MODULE_0__["useCallback"](function (event) {
         setCount(count + 1);
     }, [name]);
     var childFun = function () { };
-    return React.createElement("fieldset", { className: "func-state" },
-        React.createElement("legend", null, "\u6D4B\u8BD5 useState"),
-        React.createElement("p", null,
-            React.createElement("input", { type: "text", onChange: nameHandle }),
+    return react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("fieldset", { className: "func-state" },
+        react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("legend", null, "\u6D4B\u8BD5 useState"),
+        react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("p", null,
+            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("input", { type: "text", onChange: nameHandle }),
             " ",
-            React.createElement("span", null, makeName)),
-        React.createElement("p", null,
-            React.createElement("button", { onClick: countHandle }, "change count"),
-            React.createElement("span", null, count)),
-        React.createElement(exports.Inner, { cb: childFun }));
+            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("span", null, makeName)),
+        react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("p", null,
+            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("button", { onClick: countHandle }, "change count"),
+            react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("span", null, count)),
+        react__WEBPACK_IMPORTED_MODULE_0__["createElement"](Inner, { cb: childFun }));
 }
-exports.default = MyInput;
 // props 不变，不会执行多次
-exports.Inner = React.memo(function (props) {
+var Inner = react__WEBPACK_IMPORTED_MODULE_0__["memo"](function (props) {
     console.log('child name change');
-    return React.createElement("div", { className: "footer" },
-        React.createElement("h2", null, props.content));
+    return react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", { className: "footer" },
+        react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("h2", null, props.content));
 });
 
 
@@ -25882,12 +25897,17 @@ exports.Inner = React.memo(function (props) {
 /*!***************************************!*\
   !*** ./src/component/webcomponent.ts ***!
   \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-var __extends = (this && this.__extends) || (function () {
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webcomponents_webcomponentsjs_webcomponents_bundle__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @webcomponents/webcomponentsjs/webcomponents-bundle */ "./node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js");
+/* harmony import */ var _webcomponents_webcomponentsjs_webcomponents_bundle__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_webcomponents_webcomponentsjs_webcomponents_bundle__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _webcomponents_webcomponentsjs_custom_elements_es5_adapter_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @webcomponents/webcomponentsjs/custom-elements-es5-adapter.js */ "./node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js");
+/* harmony import */ var _webcomponents_webcomponentsjs_custom_elements_es5_adapter_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_webcomponents_webcomponentsjs_custom_elements_es5_adapter_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _transformWbc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./transformWbc */ "./src/component/transformWbc.tsx");
+var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -25900,10 +25920,9 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-Object.defineProperty(exports, "__esModule", { value: true });
-__webpack_require__(/*! @webcomponents/webcomponentsjs/webcomponents-bundle */ "./node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js");
-__webpack_require__(/*! @webcomponents/webcomponentsjs/custom-elements-es5-adapter.js */ "./node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js");
-var transformWbc_1 = __webpack_require__(/*! ./transformWbc */ "./src/component/transformWbc.tsx");
+
+
+
 function $(domStr) {
     var node = document.createElement('div');
     node.innerHTML = domStr;
@@ -25965,7 +25984,7 @@ var MyTest = /** @class */ (function (_super) {
     return MyTest;
 }(HTMLElement));
 customElements.define('my-test', MyTest);
-exports.default = transformWbc_1.default('my-test');
+/* harmony default export */ __webpack_exports__["default"] = (Object(_transformWbc__WEBPACK_IMPORTED_MODULE_2__["default"])('my-test'));
 
 
 /***/ })

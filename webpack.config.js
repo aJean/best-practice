@@ -28,11 +28,11 @@ module.exports = {
         // gclient: './src/graphql/app.ts',
         // dva: './src/dva/app.tsx',
         // jsp: './src/jsplumb/app.tsx',
-        // component: './src/component/app.tsx',
+        hook: './src/component/app.tsx',
         // 'wbc': './src/component/webcomponent.ts',
         // 'mobx-imitate': './src/mobx-imitate/app.ts',
         // 'redux-imitate': './src/redux-imitate/app.tsx',
-        'router': './src/router/index.tsx'
+        // 'router': './src/router/index.tsx'
     },
     output: {
         filename: '[name].js',
