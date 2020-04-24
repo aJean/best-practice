@@ -10,8 +10,9 @@ import '../../styles/dep.less';
 
 /**
  * @file react redux saga 最佳实践
- *       项目依赖管理
- *       使开发者更关注业务
+ *       项目依赖管理 使开发者更关注业务
+ *       redux-saga 处理副作用 action，redux 处理同步 action
+ *       没有封装 component 还是需要自己 connect
  */
 
 type Model = {
