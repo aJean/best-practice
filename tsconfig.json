@@ -1,22 +1,22 @@
 {
-    "compilerOptions": {
-        "outDir": "./dist/",
-        "noImplicitAny": false,
-        "module": "esnext",
-        "target": "es5",
-        "allowJs": true,
-        "jsx": "react",
-        "downlevelIteration": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "lib": [
-            "dom",
-            "es2015",
-            "esnext.asynciterable"
-        ]
-    },
-
-    "exclude": [
-        "node_modules"
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "noImplicitAny": false,
+    "module": "esnext",
+    "target": "es5",
+    "jsx": "react",
+    "importHelpers": true,
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "downlevelIteration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "lib": [
+      "DOM",
+      "ESNext",
+      "ESNext.AsyncIterable"
     ]
   }
+}
