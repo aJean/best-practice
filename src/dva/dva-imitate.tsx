@@ -16,14 +16,14 @@ import '../../styles/dep.less';
  */
 
 type Model = {
-    ns: string;
-    path: string;
-    name: string;
-    data?: Object;
-    reducers?: Object;
-    effects?: Object;
-    component: any;
-}
+  ns: string;
+  path: string;
+  name: string;
+  data?: Object;
+  reducers?: Object;
+  effects?: Object;
+  component: any;
+};
 
 const version = require('../../package.json').version;
 const defaultReducer = (state: any, action: Object) => state;
@@ -32,14 +32,14 @@ const defaultReducer = (state: any, action: Object) => state;
  * @param {string} key 对应 combineReducers 的 key
  */
 const createReducer = (key, init, reducers = {}) => (state = init, action) => {
-    try {
-        const type = action.type.replace(`${key}/`, '');
-        const reducer = reducers[key][type];
-    
-        return reducer(state, action);
-    } catch(e) {
-        return state;
-    }
+  try {
+    const type = action.type.replace(`${key}/`, '');
+    const reducer = reducers[key][type];
+
+    return reducer(state, action);
+  } catch (e) {
+    return state;
+  }
 };
 
 /**
@@ -47,22 +47,22 @@ const createReducer = (key, init, reducers = {}) => (state = init, action) => {
  * @example dispatch({type: `${key}/add`, ...})
  */
 function initReducers(models: Array<Model>) {
-    const mapTo = {};
-    let isEmpty = true;
+  const mapTo = {};
+  let isEmpty = true;
 
-    models.forEach(model => {
-        if (!model.data) {
-            return;
-        }
+  models.forEach((model) => {
+    if (!model.data) {
+      return;
+    }
 
-        const data = model.data;
-        const keys = Object.keys(data);
-        isEmpty = false;
+    const data = model.data;
+    const keys = Object.keys(data);
+    isEmpty = false;
 
-        keys.forEach(key => mapTo[key] = createReducer(key, data[key], model.reducers));
-    });
+    keys.forEach((key) => (mapTo[key] = createReducer(key, data[key], model.reducers)));
+  });
 
-    return isEmpty ? defaultReducer : combineReducers(mapTo);
+  return isEmpty ? defaultReducer : combineReducers(mapTo);
 }
 
 /**
@@ -70,111 +70,123 @@ function initReducers(models: Array<Model>) {
  * @example dispatch({type: `${ns}/add`, ...})
  */
 function initSagas(models: Array<Model>) {
-    const sagas = [];
-    
-    models.forEach(model => {
-        const ns = model.ns;
-        const effects = model.effects;
+  const sagas = [];
 
-        if (effects) {
-            Object.keys(effects).forEach(key => {
-                const saga = action => effects[key](action, sagaEffects);
-                sagas.push(function* () {
-                    yield sagaEffects.takeEvery(`${ns}/${key}`, saga);
-                }());
-            });
-        }
-    });
+  models.forEach((model) => {
+    const ns = model.ns;
+    const effects = model.effects;
 
-    return sagas;
+    if (effects) {
+      Object.keys(effects).forEach((key) => {
+        const saga = (action) => effects[key](action, sagaEffects);
+        sagas.push(
+          (function* () {
+            yield sagaEffects.takeEvery(`${ns}/${key}`, saga);
+          })()
+        );
+      });
+    }
+  });
+
+  return sagas;
 }
 
 /**
  * 组装路由
  */
 function initRouter(models, baseUrl) {
-    const links = [];
-    const routes = [];
+  const links = [];
+  const routes = [];
 
-    models.forEach((model, i) => {
-        routes.push(<Route key={'r_' + i} path={model.path} component={model.component} />);
-        links.push(<Link key={'l_' + i} to={model.path} className="aiu-link">{model.name}</Link>);
-    });
+  models.forEach((model, i) => {
+    routes.push(<Route key={'r_' + i} path={model.path} component={model.component} />);
+    links.push(
+      <Link key={'l_' + i} to={model.path} className='aiu-link'>
+        {model.name}
+      </Link>
+    );
+  });
 
-    return (<Router basename={baseUrl}>
-        <main className="aiu-routes">
-            <nav>{links}</nav>
-            {routes}
-        </main>
-    </Router>);
+  return (
+    <Router basename={baseUrl}>
+      <main className='aiu-routes'>
+        <nav>{links}</nav>
+        {routes}
+      </main>
+    </Router>
+  );
 }
 
 /**
  * 组装根节点
  */
 function initRoot(models) {
-    return (<main>
-        {models.map((model, i) => <model.component key={'m_' + i} />)}
-    </main>);
+  return (
+    <main>
+      {models.map((model, i) => (
+        <model.component key={'m_' + i} />
+      ))}
+    </main>
+  );
 }
 
 function checkModelProps(model) {
-    const requires = ['ns', 'component', 'path', 'name'];
-    const lacks = requires.filter(key => !model.hasOwnProperty(key));
+  const requires = ['ns', 'component', 'path', 'name'];
+  const lacks = requires.filter((key) => !model.hasOwnProperty(key));
 
-    if (lacks.length) {
-        invariant('miss required properties : ' + lacks.join(','));
-        return false;
-    }
+  if (lacks.length) {
+    invariant('miss required properties : ' + lacks.join(','));
+    return false;
+  }
 
-    return true;
+  return true;
 }
 
 interface DepOpts {
-    useRouter?: boolean,
-    baseRouter?: string
+  useRouter?: boolean;
+  baseRouter?: string;
 }
 
 export default class Dep {
-    models = [];
+  models = [];
 
-    frozen = false;
+  frozen = false;
 
-    opts = {
-        useRouter: true,
-        baseUrl: ''
-    };
+  opts = {
+    useRouter: true,
+    baseUrl: ''
+  };
 
-    constructor(opts?: DepOpts) {
-        if (opts) {
-            this.opts = Object.assign(this.opts, opts);
-        }
+  constructor(opts?: DepOpts) {
+    if (opts) {
+      this.opts = Object.assign(this.opts, opts);
+    }
+  }
+
+  add(model: Model) {
+    checkModelProps(model) ? this.models.push(model) : (this.frozen = true);
+  }
+
+  start(el: HTMLElement) {
+    if (this.frozen) {
+      return invariant('model is invalid');
     }
 
-    add(model: Model) {
-        checkModelProps(model) ? this.models.push(model) : (this.frozen = true);
-    }
+    const models = this.models;
+    const opts = this.opts;
+    const sagaMiddleware = createSagaMiddleware();
+    const reducers = initReducers(models);
 
-    start(el: HTMLElement) {
-        if (this.frozen) {
-            return invariant('model is invalid')
-        }
+    // pick-up reducers
+    const store = createStore(reducers, applyMiddleware(sagaMiddleware));
+    const sagas = initSagas(models);
+    // generator root
+    const root = opts.useRouter ? initRouter(models, opts.baseUrl) : initRoot(models);
+    // listen actions
+    sagaMiddleware.run(function* () {
+      yield sagaEffects.all(sagas);
+    });
 
-        const models = this.models;
-        const opts = this.opts;
-        const sagaMiddleware = createSagaMiddleware();
-        const reducers = initReducers(models);
-
-        // pick-up reducers
-        const store = createStore(reducers, applyMiddleware(sagaMiddleware));
-        const sagas = initSagas(models);
-        // generator root
-        const root = opts.useRouter ? initRouter(models, opts.baseUrl) : initRoot(models);
-        // listen actions
-        sagaMiddleware.run(function *() {
-            yield sagaEffects.all(sagas);
-        });
-
-        ReactDOM.render(<Provider store={store}>{root}</Provider>, el);
-    }
+    ReactDOM.render(<Provider store={store}>{root}</Provider>, el);
+  }
 }

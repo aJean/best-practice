@@ -26,8 +26,8 @@ module.exports = {
     entry: {
         // redux: './src/redux/app.tsx',
         // gclient: './src/graphql/app.ts',
-        // dva: './src/dva/app.tsx',
-        // jsp: './src/jsplumb/app.tsx',
+        dva: './src/dva/app.tsx',
+        jsp: './src/jsplumb/dva.tsx',
         hook: './src/component/app.tsx',
         // 'wbc': './src/component/webcomponent.ts',
         // 'mobx-imitate': './src/mobx-imitate/app.ts',
