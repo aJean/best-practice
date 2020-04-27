@@ -1,11 +1,12 @@
 import dva, { connect } from 'dva';
 import * as React from 'react';
+import createHistory from 'history/createBrowserHistory';
 
 /**
  * @file 封装 router, redux, saga 工程细节
  */
 
-const app = dva();
+const app = dva({ history: createHistory() });
 
 app.model({
   namespace: 'count',
@@ -29,7 +30,7 @@ const CountApp = ({ count, dispatch }) => {
   return (
     <div>
       <div>Highest Record: {count.record}</div>
-      <div>{count.current}</div>
+      <div>Current Record: {count.current}</div>
       <div>
         <button
           onClick={() => {
@@ -44,9 +45,4 @@ const CountApp = ({ count, dispatch }) => {
 const HomePage = connect(mapStateToProps)(CountApp);
 
 app.router(() => <HomePage />);
-
-export default {
-  init(el) {
-    app.start(el);
-  }
-};
+app.start('#app');

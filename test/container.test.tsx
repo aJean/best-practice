@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Container from '../src/component/container';
-import * as Adapter from 'enzyme-adapter-react-16';
 import { configure, shallow } from 'enzyme';
+const Adapter = require("enzyme-adapter-react-16");
 
 /**
  * @file Stateless 渲染结果测试
