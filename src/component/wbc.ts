@@ -1,11 +1,13 @@
 import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import '@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js';
-import transform from './transformWbc';
+import transform from './wbc-transform';
 
 /**
  * @file 可以通过联动的方式设置 data
  *       1. attr -> property 通过 setAttribute 触发
- *       2. 直接调用 setProperty 方法
+ *       2. 直接调用 setAttribute 方法
+ * 
+ * slots 如何与 react jsx 打通
  */
 
 declare global {
@@ -39,22 +41,24 @@ class MyTest extends HTMLElement {
   constructor() {
     super();
 
-    const wrapper = $('<div class="test-wrapper"></div>');
+    const wrapper = $(
+      '<fieldset><legend style="color:red;">web component test</legend><div class="wrapper"></div></fieldset>'
+    );
     const shadow = this.attachShadow({ mode: 'open' });
-
-    wrapper.innerHTML = `<style>${styles}</style><label>改变</label><input type="text" /><div><slot></slot></div>`;
     shadow.appendChild(wrapper);
+
+    this.update(`<style>${styles}</style><label>改变</label><input type="text" /><slots></slots>`);
   }
 
   data: any;
 
   connectedCallback() {
     const that = this;
-    this.input.addEventListener('input', function(e) {
+    this.input.addEventListener('input', function (e) {
       that.setAttribute('value', this.value);
     });
 
-    console.log(this.data)
+    console.log(this.data);
   }
 
   attributeChangedCallback(name, value, newValue) {
@@ -62,15 +66,23 @@ class MyTest extends HTMLElement {
       this.shadowRoot.querySelector('label').innerHTML = newValue;
     }
 
-    console.log(this.data)
+    console.log(this.data);
   }
 
   get node() {
-    return this.shadowRoot.querySelector('.test-wrapper');
+    return this.shadowRoot.querySelector('.wrapper');
   }
 
   get input() {
     return this.shadowRoot.querySelector('input');
+  }
+
+  get slots() {
+    return this.shadowRoot.querySelector('slots');
+  }
+
+  update(domStr) {
+    this.node.innerHTML = domStr;
   }
 
   /**
@@ -78,7 +90,7 @@ class MyTest extends HTMLElement {
    * @param name
    * @param value
    */
-  setProperty(name, value) {
+  setAttribute(name, value) {
     console.log(name, value);
   }
 }

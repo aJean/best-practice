@@ -159,7 +159,7 @@
 /*!*******************************!*\
   !*** ./src/component/app.tsx ***!
   \*******************************/
-/*! exports provided: default */
+/*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -171,7 +171,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _usestate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./usestate */ "./src/component/usestate.tsx");
 /* harmony import */ var _usereducer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./usereducer */ "./src/component/usereducer.tsx");
-/* harmony import */ var _webcomponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./webcomponent */ "./src/component/webcomponent.ts");
+/* harmony import */ var _wbc__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./wbc */ "./src/component/wbc.ts");
 
 
 
@@ -184,7 +184,7 @@ __webpack_require__.r(__webpack_exports__);
 function Counter() {
     var _a = tslib__WEBPACK_IMPORTED_MODULE_0__["__read"](react__WEBPACK_IMPORTED_MODULE_1__["useState"](0), 2), count = _a[0], setCount = _a[1];
     // ref 可以通过引用的属性值来打破 capture 规则
-    var myRef = react__WEBPACK_IMPORTED_MODULE_1__["useRef"](count);
+    // const myRef = React.useRef(count);
     // 捕获上一次的 state 与 props、变量，就是函数闭包的效果
     react__WEBPACK_IMPORTED_MODULE_1__["useEffect"](function () {
         var id = setInterval(function () {
@@ -193,7 +193,12 @@ function Counter() {
             // 可以使用 setCount(c => c + 1)
         }, 1000);
         return function () { return clearInterval(id); };
+        // 传入 [] 让这个 useEffect 只执行一次
     }, []);
+    // 这个会执行两次，第 2 次就是 count = 1 的时候
+    react__WEBPACK_IMPORTED_MODULE_1__["useEffect"](function () {
+        console.log(222);
+    }, [count]);
     return react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("h1", null, count);
 }
 var App = /** @class */ (function (_super) {
@@ -205,44 +210,13 @@ var App = /** @class */ (function (_super) {
         return (react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("main", null,
             react__WEBPACK_IMPORTED_MODULE_1__["createElement"](_usestate__WEBPACK_IMPORTED_MODULE_3__["default"], null),
             react__WEBPACK_IMPORTED_MODULE_1__["createElement"](_usereducer__WEBPACK_IMPORTED_MODULE_4__["default"], null),
-            react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("fieldset", null,
-                react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("legend", { style: { color: 'red' } }, "web component test"),
-                react__WEBPACK_IMPORTED_MODULE_1__["createElement"](_webcomponent__WEBPACK_IMPORTED_MODULE_5__["default"], { id: 'c1', data: { name: 'wbc' } },
-                    react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("h2", null, "state")),
+            react__WEBPACK_IMPORTED_MODULE_1__["createElement"](_wbc__WEBPACK_IMPORTED_MODULE_5__["default"], { id: 'c1', data: { name: 'wbc' }, slots: react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("button", null, "hahah") },
+                react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("h2", null, "state"),
                 react__WEBPACK_IMPORTED_MODULE_1__["createElement"](Counter, null))));
     };
     return App;
 }(react__WEBPACK_IMPORTED_MODULE_1__["Component"]));
-/* harmony default export */ __webpack_exports__["default"] = ({
-    init: function (el) {
-        react_dom__WEBPACK_IMPORTED_MODULE_2__["render"](react__WEBPACK_IMPORTED_MODULE_1__["createElement"](App, null), el);
-    }
-});
-
-
-/***/ }),
-
-/***/ "./src/component/transformWbc.tsx":
-/*!****************************************!*\
-  !*** ./src/component/transformWbc.tsx ***!
-  \****************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return transformElement; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-function transformElement(TagName) {
-    return function (props) {
-        var setProperties = function (instance) {
-            instance.setProperty('data', { name: 'qy' });
-        };
-        return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](TagName, { ref: setProperties }, props.children);
-    };
-}
+react_dom__WEBPACK_IMPORTED_MODULE_2__["render"](react__WEBPACK_IMPORTED_MODULE_1__["createElement"](App, null), document.querySelector('#app'));
 
 
 /***/ }),
@@ -373,10 +347,43 @@ var Inner = react__WEBPACK_IMPORTED_MODULE_1__["memo"](function (props) {
 
 /***/ }),
 
-/***/ "./src/component/webcomponent.ts":
-/*!***************************************!*\
-  !*** ./src/component/webcomponent.ts ***!
-  \***************************************/
+/***/ "./src/component/wbc-transform.tsx":
+/*!*****************************************!*\
+  !*** ./src/component/wbc-transform.tsx ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return transformElement; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * @file react 需要对 webcomponent 传入属性做处理
+ */
+function transformElement(TagName) {
+    return function (props) {
+        var fix = function (instance) {
+            instance.setAttribute('data', props.data);
+            // 直接渲染到内部的 slots 上
+            react_dom__WEBPACK_IMPORTED_MODULE_1__["render"](props.slots, instance.slots);
+        };
+        return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](TagName, { ref: fix }, props.children);
+    };
+}
+
+
+/***/ }),
+
+/***/ "./src/component/wbc.ts":
+/*!******************************!*\
+  !*** ./src/component/wbc.ts ***!
+  \******************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -387,7 +394,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webcomponents_webcomponentsjs_webcomponents_bundle__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_webcomponents_webcomponentsjs_webcomponents_bundle__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _webcomponents_webcomponentsjs_custom_elements_es5_adapter_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @webcomponents/webcomponentsjs/custom-elements-es5-adapter.js */ "./node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js");
 /* harmony import */ var _webcomponents_webcomponentsjs_custom_elements_es5_adapter_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_webcomponents_webcomponentsjs_custom_elements_es5_adapter_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _transformWbc__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./transformWbc */ "./src/component/transformWbc.tsx");
+/* harmony import */ var _wbc_transform__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./wbc-transform */ "./src/component/wbc-transform.tsx");
 
 
 
@@ -402,10 +409,10 @@ var MyTest = /** @class */ (function (_super) {
     tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"](MyTest, _super);
     function MyTest() {
         var _this = _super.call(this) || this;
-        var wrapper = $('<div class="test-wrapper"></div>');
+        var wrapper = $('<fieldset><legend style="color:red;">web component test</legend><div class="wrapper"></div></fieldset>');
         var shadow = _this.attachShadow({ mode: 'open' });
-        wrapper.innerHTML = "<style>" + styles + "</style><label>\u6539\u53D8</label><input type=\"text\" /><div><slot></slot></div>";
         shadow.appendChild(wrapper);
+        _this.update("<style>" + styles + "</style><label>\u6539\u53D8</label><input type=\"text\" /><slots></slots>");
         return _this;
     }
     Object.defineProperty(MyTest, "observedAttributes", {
@@ -430,7 +437,7 @@ var MyTest = /** @class */ (function (_super) {
     };
     Object.defineProperty(MyTest.prototype, "node", {
         get: function () {
-            return this.shadowRoot.querySelector('.test-wrapper');
+            return this.shadowRoot.querySelector('.wrapper');
         },
         enumerable: true,
         configurable: true
@@ -442,18 +449,28 @@ var MyTest = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(MyTest.prototype, "slots", {
+        get: function () {
+            return this.shadowRoot.querySelector('slots');
+        },
+        enumerable: true,
+        configurable: true
+    });
+    MyTest.prototype.update = function (domStr) {
+        this.node.innerHTML = domStr;
+    };
     /**
      * 设置对象属性
      * @param name
      * @param value
      */
-    MyTest.prototype.setProperty = function (name, value) {
+    MyTest.prototype.setAttribute = function (name, value) {
         console.log(name, value);
     };
     return MyTest;
 }(HTMLElement));
 customElements.define('my-test', MyTest);
-/* harmony default export */ __webpack_exports__["default"] = (Object(_transformWbc__WEBPACK_IMPORTED_MODULE_3__["default"])('my-test'));
+/* harmony default export */ __webpack_exports__["default"] = (Object(_wbc_transform__WEBPACK_IMPORTED_MODULE_3__["default"])('my-test'));
 
 
 /***/ }),
