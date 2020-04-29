@@ -87,6 +87,6 @@ config.stats({
 
 config.resolve.extensions.merge(['.mjs', '.js', '.json', '.ts', '.tsx']);
 
-config.plugins.get('progress')
+config.plugins.delete('progress')
 
 module.exports = config.toConfig();
