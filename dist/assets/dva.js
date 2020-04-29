@@ -148,7 +148,7 @@
 /******/
 /******/
 /******/ 	// add entry module to deferred list
-/******/ 	deferredModules.push(["./src/dva/dva.tsx","vendor"]);
+/******/ 	deferredModules.push([0,"vendor"]);
 /******/ 	// run deferred modules when ready
 /******/ 	return checkDeferredModules();
 /******/ })
@@ -217,6 +217,18 @@ app.start('#app');
 /***/ }),
 
 /***/ 0:
+/*!*******************************!*\
+  !*** multi ./src/dva/dva.tsx ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! ./src/dva/dva.tsx */"./src/dva/dva.tsx");
+
+
+/***/ }),
+
+/***/ 1:
 /*!******************************!*\
   !*** min-document (ignored) ***!
   \******************************/

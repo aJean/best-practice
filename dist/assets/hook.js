@@ -148,7 +148,7 @@
 /******/
 /******/
 /******/ 	// add entry module to deferred list
-/******/ 	deferredModules.push(["./src/component/app.tsx","vendor"]);
+/******/ 	deferredModules.push([3,"vendor"]);
 /******/ 	// run deferred modules when ready
 /******/ 	return checkDeferredModules();
 /******/ })
@@ -454,6 +454,18 @@ var MyTest = /** @class */ (function (_super) {
 }(HTMLElement));
 customElements.define('my-test', MyTest);
 /* harmony default export */ __webpack_exports__["default"] = (Object(_transformWbc__WEBPACK_IMPORTED_MODULE_3__["default"])('my-test'));
+
+
+/***/ }),
+
+/***/ 3:
+/*!*************************************!*\
+  !*** multi ./src/component/app.tsx ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! ./src/component/app.tsx */"./src/component/app.tsx");
 
 
 /***/ })

@@ -148,7 +148,7 @@
 /******/
 /******/
 /******/ 	// add entry module to deferred list
-/******/ 	deferredModules.push(["./src/jsplumb/app.tsx","vendor"]);
+/******/ 	deferredModules.push([2,"vendor"]);
 /******/ 	// run deferred modules when ready
 /******/ 	return checkDeferredModules();
 /******/ })
@@ -1398,9 +1398,24 @@ function makeComponentEndpoint(WrappedComponent) {
   !*** ./src/jsplumb/style.less ***!
   \********************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
+// Module
+exports.push([module.i, "body {\n  position: relative;\n  margin: 0;\n  padding: 0;\n  font-size: 12px;\n  zoom: 100%;\n}\n.react-controls {\n  position: absolute;\n  top: 20px;\n  left: 10px;\n}\n.react-controls div {\n  width: 80px;\n  height: 50px;\n  border: 1px solid #f73475;\n  margin-bottom: 20px;\n  line-height: 50px;\n  text-align: center;\n  background: #65a9e0;\n}\n.visual-nums {\n  position: absolute;\n  top: 800px;\n  left: 200px;\n  padding: 20px;\n  border: 1px solid #1f77f3;\n  z-index: 100;\n}\n.visual-nums input {\n  margin-left: 20px;\n  margin-top: 20px;\n}\n.visual-canvas-wrap {\n  position: relative;\n  height: 100vh;\n  margin-left: 100px;\n  overflow: auto;\n}\n.visual-canvas-wrap .visual-canvas {\n  position: relative;\n  width: 200vh;\n  height: 100vh;\n  background: #e1e1e1;\n  -webkit-user-select: none;\n}\n.react-entity-wrap {\n  position: absolute;\n  width: 256px;\n  border-radius: 4px;\n  background-color: #ffffff;\n  box-shadow: 0 4px 8px 0 rgba(66, 91, 109, 0.4);\n  overflow: hidden;\n}\n.react-entity {\n  position: relative;\n}\n.lamma {\n  padding: 10px 0 10px 30px;\n  font-size: 14px;\n  font-weight: bold;\n}\n.lamma .lamma-word {\n  margin-right: 3px;\n  color: #1f77f3;\n}\n.react-entity-topbar {\n  position: relative;\n  height: 48px;\n  padding-left: 40px;\n  line-height: 48px;\n  font-size: 14px;\n}\n.react-entity-topbar .react-entity-topbar-icon {\n  display: flex;\n  position: absolute;\n  top: 15px;\n  width: 16px;\n  height: 16px;\n  font-size: 0;\n  overflow: hidden;\n}\n.react-entity-topbar .react-entity-topbar-icon:hover {\n  cursor: pointer;\n}\n.react-entity-topbar .react-entity-topbar-icon.react-entity-topbar-sign {\n  left: 10px;\n}\n.react-entity-topbar .react-entity-topbar-icon.react-entity-topbar-edit {\n  right: 40px;\n}\n.react-entity-topbar .react-entity-topbar-icon.react-entity-topbar-close {\n  right: 10px;\n}\n.react-entity-topbar .react-entity-topbar-icon img {\n  width: 100%;\n  height: 100%;\n}\n.react-option {\n  position: relative;\n  margin: 0;\n  height: 32px;\n  padding-left: 60px;\n  line-height: 32px;\n  font-weight: bold;\n}\n.react-option .react-entity-option-icon {\n  display: flex;\n  position: absolute;\n  top: 8px;\n  left: 30px;\n  width: 16px;\n  height: 16px;\n  font-size: 0;\n  overflow: hidden;\n}\n.react-option .react-entity-option-icon img {\n  width: 100%;\n  height: 100%;\n}\n.react-option .react-option-light {\n  color: #1f77f3;\n}\n.visual-minimap {\n  position: fixed;\n  top: 20px;\n  right: 20px;\n  border: 1px solid #000;\n  background: rgba(85, 195, 238, 0.6);\n  z-index: 999;\n}\n.visual-minimap .visual-minimap-slider {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 30px;\n  height: 30px;\n  background: #999;\n  cursor: pointer;\n}\n.visual-bounce {\n  display: none;\n  position: fixed;\n  width: 200px;\n  height: 100vh;\n  top: 0;\n  right: 0;\n  transition: transform 500ms ease-out;\n  transform: translate3d(200px, 0, 0);\n  background: #000;\n  z-index: 999;\n}\n", ""]);
+
+
+/***/ }),
+
+/***/ 2:
+/*!***********************************!*\
+  !*** multi ./src/jsplumb/app.tsx ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! ./src/jsplumb/app.tsx */"./src/jsplumb/app.tsx");
+
 
 /***/ })
 

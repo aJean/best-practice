@@ -10797,7 +10797,7 @@ module.exports = function flatten(list, depth) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var topLevel = typeof global !== 'undefined' ? global :
     typeof window !== 'undefined' ? window : {}
-var minDoc = __webpack_require__(/*! min-document */ 0);
+var minDoc = __webpack_require__(/*! min-document */ 1);
 
 var doccy;
 
