@@ -6,8 +6,10 @@ import * as ReactDom from 'react-dom';
  */
 
 export default function transformElement(TagName: any) {
-  return function(props) {
-    const fix = instance => {
+  return function (props) {
+    // 常规属性需要做一下判断比如 className htmlFor dangerouslySetInnerHTML
+
+    const fix = (instance) => {
       instance.setAttribute('data', props.data);
       // 直接渲染到内部的 slots 上
       ReactDom.render(props.slots, instance.slots);
