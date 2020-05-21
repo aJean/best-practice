@@ -368,6 +368,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 function transformElement(TagName) {
     return function (props) {
+        // 常规属性需要做一下判断比如 className htmlFor dangerouslySetInnerHTML
         var fix = function (instance) {
             instance.setAttribute('data', props.data);
             // 直接渲染到内部的 slots 上

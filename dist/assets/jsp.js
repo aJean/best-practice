@@ -1202,10 +1202,7 @@ var Entity = /** @class */ (function (_super) {
     }
     Entity.prototype.generateOptions = function () {
         var options = this.props.options;
-        return options ? this.props.options.map(function (data) {
-            return react__WEBPACK_IMPORTED_MODULE_1__["createElement"](_common_option__WEBPACK_IMPORTED_MODULE_2__["default"], { id: data.id, key: data.id, text: data.text });
-        })
-            : null;
+        return options ? this.props.options.map(function (data) { return react__WEBPACK_IMPORTED_MODULE_1__["createElement"](_common_option__WEBPACK_IMPORTED_MODULE_2__["default"], { id: data.id, key: data.id, text: data.text }); }) : null;
     };
     Entity.prototype.render = function () {
         return null;
@@ -1213,6 +1210,13 @@ var Entity = /** @class */ (function (_super) {
     return Entity;
 }(react__WEBPACK_IMPORTED_MODULE_1__["Component"]));
 /* harmony default export */ __webpack_exports__["default"] = (Entity);
+function getUser() {
+    return;
+}
+function testUser() {
+    return getUser();
+}
+testUser().result.name;
 
 
 /***/ }),

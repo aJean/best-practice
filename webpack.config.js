@@ -32,6 +32,7 @@ config.optimization.minimize(false).splitChunks({
 config.entry('dva').add('./src/dva/dva.tsx');
 config.entry('jsp').add('./src/jsplumb/app.tsx');
 config.entry('hook').add('./src/component/app.tsx');
+config.entry('observable').add('./src/observable/app.tsx');
 // config.entry('redux').add('./src/redux/app.tsx');
 // config.entry('gclient').add('./src/graphql/app.ts');
 // config.entry('wbc').add('./src/component/webcomponent.ts');
@@ -76,6 +77,9 @@ config.plugin('html2')
   
 config.plugin('html3') 
   .use(HtmlWebpackPlugin, [{ filename: '../page/hook.html', template: 'template/page.html', chunks: ['hook'] }]);
+
+config.plugin('html4') 
+  .use(HtmlWebpackPlugin, [{ filename: '../page/observable.html', template: 'template/page.html', chunks: ['observable'] }]);
 
 config.plugin('progress').use(WebpackBar);
 
