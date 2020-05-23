@@ -5,7 +5,7 @@
 const Config = require('webpack-chain');
 const webpack = require('webpack');
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackBar = require('webpackbar');
 
@@ -23,16 +23,17 @@ config.optimization.minimize(false).splitChunks({
       test: /[\\/]node_modules[\\/]/,
       name: 'vendor',
       priority: 2,
-      minChunks: 1
-    }
-  }
+      minChunks: 1,
+    },
+  },
 });
 
 // entries
-config.entry('dva').add('./src/dva/dva.tsx');
-config.entry('jsp').add('./src/jsplumb/app.tsx');
-config.entry('hook').add('./src/component/app.tsx');
-config.entry('observable').add('./src/observable/app.tsx');
+// config.entry('dva').add('./src/dva/dva.tsx');
+// config.entry('jsp').add('./src/jsplumb/app.tsx');
+// config.entry('hook').add('./src/component/app.tsx');
+// config.entry('observable').add('./src/observable/app.tsx');
+config.entry('visual').add('./src/visual/app.tsx');
 // config.entry('redux').add('./src/redux/app.tsx');
 // config.entry('gclient').add('./src/graphql/app.ts');
 // config.entry('wbc').add('./src/component/webcomponent.ts');
@@ -57,36 +58,52 @@ config.module
   .use('ts-loader')
   .loader('ts-loader');
 
-const extract = ExtractTextPlugin.extract([{ loader: 'css-loader' }, { loader: 'less-loader' }]);
 const less = config.module
   .rule('less')
   .test(/\.less$/)
   .exclude.add(/dist|node_modules/)
   .end();
-extract.forEach(obj => less.use(obj.loader).loader(obj.loader, obj.options));
+
+less.use('miniExtract').loader(MiniCssExtractPlugin.loader).end();
+less.use('cssLoader').loader('css-loader').options({
+  modules: true,
+  sourceMap: false
+}).end();
+less.use('lessLoader').loader('less-loader').end();
 
 // plugins
-config.plugin('extractLess').use(ExtractTextPlugin, [{ filename: '[name].css' }]);
+config.plugin('miniLess').use(MiniCssExtractPlugin, [{ filename: '[name].css' }]);
+
+// config
+//   .plugin('html1')
+//   .use(HtmlWebpackPlugin, [{ filename: '../page/dva.html', template: 'template/page.html', chunks: ['dva'] }]);
+
+// config
+//   .plugin('html2')
+//   .use(HtmlWebpackPlugin, [{ filename: '../page/jsp.html', template: 'template/page.html', chunks: ['jsp'] }]);
+
+// config
+//   .plugin('html3')
+//   .use(HtmlWebpackPlugin, [{ filename: '../page/hook.html', template: 'template/page.html', chunks: ['hook'] }]);
+
+// config
+//   .plugin('html4')
+//   .use(HtmlWebpackPlugin, [
+//     { filename: '../page/observable.html', template: 'template/page.html', chunks: ['observable'] },
+//   ]);
 
 config
-  .plugin('html1')
-  .use(HtmlWebpackPlugin, [{ filename: '../page/dva.html', template: 'template/page.html', chunks: ['dva'] }]);
-
-config.plugin('html2')
-  .use(HtmlWebpackPlugin, [{ filename: '../page/jsp.html', template: 'template/page.html', chunks: ['jsp'] }]);
-  
-config.plugin('html3') 
-  .use(HtmlWebpackPlugin, [{ filename: '../page/hook.html', template: 'template/page.html', chunks: ['hook'] }]);
-
-config.plugin('html4') 
-  .use(HtmlWebpackPlugin, [{ filename: '../page/observable.html', template: 'template/page.html', chunks: ['observable'] }]);
+  .plugin('html5')
+  .use(HtmlWebpackPlugin, [
+    { filename: '../page/visual.html', template: 'template/page.html', chunks: ['visual'] },
+  ]);
 
 config.plugin('progress').use(WebpackBar);
 
 config.stats({
   assets: true,
   modules: false,
-  timings: true
+  timings: true,
 });
 
 config.resolve.extensions.merge(['.mjs', '.js', '.json', '.ts', '.tsx']);

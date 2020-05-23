@@ -18,5 +18,8 @@
       "ESNext",
       "ESNext.AsyncIterable"
     ]
-  }
+  },
+  "include": [
+    "./typings/externals.d.ts", "./src"
+  ]
 }
