@@ -5,7 +5,9 @@ import Controls, { ControlItem } from './visual-controls';
 import { DndVerticalLayout } from './visual-layout';
 import { dndInstall, getDndFactory } from './visual-dnd';
 import Preview from './visual-preview';
+import Editor from './visual-editor';
 import styles from './style.less';
+import 'antd/dist/antd.min.css';
 
 /**
  * @file 招生活动可视化
@@ -19,13 +21,14 @@ const Visual: FC<any> = () => {
     <DndProvider backend={Backend}>
       <div className={styles.visualMain}>
         <div className={styles.visualControls}>
-          <h3>控件选择</h3>
+          <h3>select control</h3>
           {controlList.map((data, i) => (
             <ControlItem key={i} {...data} />
           ))}
         </div>
         <DndVerticalLayout getDndFactory={getDndFactory} />
         <Preview />
+        <Editor />
       </div>
     </DndProvider>
   );

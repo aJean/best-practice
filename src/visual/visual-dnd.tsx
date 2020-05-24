@@ -51,7 +51,6 @@ export const dndEnable = () => {
         connectDragSource(
           <div className={className} style={this.getStyle()}>
             <div className={styles.visualDndItemName}>{props.name}</div>
-            <span className={styles.iconEditor} />
             <span className={styles.iconAshbin} onClick={this.onDust} />
           </div>,
         ),

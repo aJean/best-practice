@@ -5,7 +5,7 @@
 const Config = require('webpack-chain');
 const webpack = require('webpack');
 const path = require('path');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackBar = require('webpackbar');
 
@@ -65,14 +65,25 @@ const less = config.module
   .end();
 
 less.use('miniExtract').loader(MiniCssExtractPlugin.loader).end();
-less.use('cssLoader').loader('css-loader').options({
-  modules: true,
-  sourceMap: false
-}).end();
+less
+  .use('cssLoader')
+  .loader('css-loader')
+  .options({
+    modules: true,
+    sourceMap: false,
+  })
+  .end();
 less.use('lessLoader').loader('less-loader').end();
 
 // plugins
 config.plugin('miniLess').use(MiniCssExtractPlugin, [{ filename: '[name].css' }]);
+
+const css = config.module
+  .rule('css')
+  .test(/\.css$/);
+
+css.use('miniExtract').loader(MiniCssExtractPlugin.loader).end();
+css.use('cssLoader').loader('css-loader').end();
 
 // config
 //   .plugin('html1')
@@ -94,9 +105,7 @@ config.plugin('miniLess').use(MiniCssExtractPlugin, [{ filename: '[name].css' }]
 
 config
   .plugin('html5')
-  .use(HtmlWebpackPlugin, [
-    { filename: '../page/visual.html', template: 'template/page.html', chunks: ['visual'] },
-  ]);
+  .use(HtmlWebpackPlugin, [{ filename: '../page/visual.html', template: 'template/page.html', chunks: ['visual'] }]);
 
 config.plugin('progress').use(WebpackBar);
 
