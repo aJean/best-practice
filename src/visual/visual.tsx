@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { DndProvider } from 'react-dnd';
 import Backend from 'react-dnd-html5-backend';
-import Controls, { ControlItem } from './visual-controls';
+import CONTROL_LIST, { ControlItem } from './controls';
 import { DndVerticalLayout } from './visual-layout';
 import { dndInstall, getDndFactory } from './visual-dnd';
 import Preview from './visual-preview';
@@ -15,7 +15,7 @@ import 'antd/dist/antd.min.css';
  */
 
 const Visual: FC<any> = () => {
-  const controlList = dndInstall(Controls);
+  const controlList = dndInstall(CONTROL_LIST);
 
   return (
     <DndProvider backend={Backend}>

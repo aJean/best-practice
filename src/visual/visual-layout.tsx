@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { DropTarget, ConnectDropTarget } from 'react-dnd';
+import { VisualModelState } from '@/models/visual';
 import styles from './style.less';
 
 /**
@@ -16,8 +17,8 @@ type IProps = {
   dispatch: Function;
 };
 
-function mapStateToProps(state) {
-  return { items: state.visual.items };
+function mapStateToProps({ visual }: { visual: VisualModelState }) {
+  return { items: visual.items };
 }
 
 class VerticalLayout extends React.Component<IProps, any> {
@@ -98,11 +99,19 @@ class VerticalLayout extends React.Component<IProps, any> {
 
     return connectDropTarget!(
       <div className={styles.visualLayout} onDragLeave={this.undo}>
-        {items.map((data) => {
+        {items.map(data => {
           const DndItem = getDndFactory(data.factory);
-          return <DndItem key={data.id} {...data} add={this.add} remove={this.remove} finish={this.finish} />;
+          return (
+            <DndItem
+              key={data.id}
+              {...data}
+              add={this.add}
+              remove={this.remove}
+              finish={this.finish}
+            />
+          );
         })}
-      </div>
+      </div>,
     );
   }
 }
@@ -127,7 +136,7 @@ export const arrayFind = (array: any, id: number | string) => {
 export const setUid = (array: Array<any>) => {
   let uid = 1;
 
-  array.forEach((data) => (data.id = uid++));
+  array.forEach(data => (data.id = uid++));
   setUid['uid'] = uid;
 };
 
@@ -164,7 +173,7 @@ let WrapLayout = DropTarget(
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver(),
     canDrop: monitor.canDrop(),
-  })
+  }),
 )(VerticalLayout);
 
 WrapLayout = connect(mapStateToProps)(WrapLayout) as React.ComponentClass<IProps, any>;

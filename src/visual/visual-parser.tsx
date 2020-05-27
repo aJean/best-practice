@@ -5,19 +5,20 @@ import { getRenderFactory } from './visual-dnd';
  * @file 解析器
  */
 
-export const toJson = (ast, data?) => {
-  return ast.map((exp) => {
+export const toJson = (ast: any, data?: any) => {
+  return ast.map((exp: any) => {
     const Tag = getRenderFactory(exp.factory);
-    const props = exp.props || {};
+    const props = Object.assign({}, Tag.defaultProps, exp.props);
 
+    exp.props = props;
     return { id: exp.id, Tag, props };
   });
 };
 
-export const toJsx = (ast, data?) => {
-  return ast.map((exp) => {
+export const toJsx = (ast: any, data?: any) => {
+  return ast.map((exp: any) => {
     const Tag = getRenderFactory(exp.factory);
-    const props = exp.props || {};
+    const props = Object.assign({}, exp.props);
 
     return <Tag key={exp.id} {...props} />;
   });
