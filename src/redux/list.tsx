@@ -2,7 +2,7 @@ import { compose, withApollo } from 'react-apollo';
 import * as React from 'react';
 import { connect, useDispatch } from 'react-redux';
 import * as actions from './actions';
-import Container from '../component/container';
+import Container from '../hooks/container';
 
 /**
  * @file withApollo 有没有必要，是否应该自己获取 client

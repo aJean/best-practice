@@ -6,7 +6,7 @@ import ApolloClient from 'apollo-boost';
 import store from './reducer';
 import ErrorCapture from './error';
 import List from './list';
-import Container from '../component/container';
+import Container from '../hooks/container';
 
 const client = new ApolloClient({ uri: "http://test.baidu.com:4000/graphql" });
 

@@ -31,12 +31,12 @@ config.optimization.minimize(false).splitChunks({
 // entries
 // config.entry('dva').add('./src/dva/dva.tsx');
 // config.entry('jsp').add('./src/jsplumb/app.tsx');
-// config.entry('hook').add('./src/component/app.tsx');
+// config.entry('hook').add('./src/hooks/app.tsx');
 // config.entry('observable').add('./src/observable/app.tsx');
 config.entry('visual').add('./src/visual/app.tsx');
 // config.entry('redux').add('./src/redux/app.tsx');
 // config.entry('gclient').add('./src/graphql/app.ts');
-// config.entry('wbc').add('./src/component/webcomponent.ts');
+// config.entry('wbc').add('./src/hooks/webcomponent.ts');
 // config.entry('mobx-imitate').add('./src/mobx-imitate/app.ts');
 // config.entry('redux-imitate').add('./src/redux-imitate/app.tsx');
 // config.entry('router').add('./src/router/index.tsx');
