@@ -4,7 +4,8 @@
   "description": "react best practice",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "webpack -w"
   },
   "repository": {
     "type": "git",
