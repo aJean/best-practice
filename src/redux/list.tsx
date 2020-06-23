@@ -1,5 +1,5 @@
+import React from 'react';
 import { compose, withApollo } from 'react-apollo';
-import * as React from 'react';
 import { connect, useDispatch } from 'react-redux';
 import * as actions from './actions';
 import Container from '../hooks/container';

@@ -33,8 +33,7 @@ config.optimization.minimize(false).splitChunks({
 // config.entry('jsp').add('./src/jsplumb/app.tsx');
 // config.entry('hook').add('./src/hooks/app.tsx');
 // config.entry('observable').add('./src/observable/app.tsx');
-config.entry('visual').add('./src/visual/app.tsx');
-// config.entry('redux').add('./src/redux/app.tsx');
+config.entry('redux').add('./src/redux/app.tsx');
 // config.entry('gclient').add('./src/graphql/app.ts');
 // config.entry('wbc').add('./src/hooks/webcomponent.ts');
 // config.entry('mobx-imitate').add('./src/mobx-imitate/app.ts');
@@ -105,7 +104,7 @@ css.use('cssLoader').loader('css-loader').end();
 
 config
   .plugin('html5')
-  .use(HtmlWebpackPlugin, [{ filename: '../page/visual.html', template: 'template/page.html', chunks: ['visual'] }]);
+  .use(HtmlWebpackPlugin, [{ filename: '../page/redux.html', template: 'template/page.html', chunks: ['redux'] }]);
 
 config.plugin('progress').use(WebpackBar);
 
