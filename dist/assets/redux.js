@@ -320,7 +320,7 @@ var Provider = /** @class */ (function (_super) {
 /*!******************************!*\
   !*** ./src/redux/actions.ts ***!
   \******************************/
-/*! exports provided: fetchData, fetchDataSucced, fetchDataFailed, fetchUser, fetchUserSucced, fetchUserFailed, fetchDb, fetchDbSucced, fetchUDbFailed */
+/*! exports provided: fetchData, fetchDataSucced, fetchDataFailed, fetchUser, fetchUserSucced, fetchUserFailed, fetchDb, fetchDbSucced, fetchUDbFailed, testStudy */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -334,6 +334,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchDb", function() { return fetchDb; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchDbSucced", function() { return fetchDbSucced; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUDbFailed", function() { return fetchUDbFailed; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "testStudy", function() { return testStudy; });
 /* harmony import */ var redux_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux-actions */ "./node_modules/redux-actions/es/index.js");
 
 /**
@@ -348,6 +349,7 @@ var fetchUserFailed = Object(redux_actions__WEBPACK_IMPORTED_MODULE_0__["createA
 var fetchDb = Object(redux_actions__WEBPACK_IMPORTED_MODULE_0__["createAction"])('FETCH_DB');
 var fetchDbSucced = Object(redux_actions__WEBPACK_IMPORTED_MODULE_0__["createAction"])('FETCH_DB_SUCCEEDED');
 var fetchUDbFailed = Object(redux_actions__WEBPACK_IMPORTED_MODULE_0__["createAction"])('FETCH_DB_FAILED');
+var testStudy = Object(redux_actions__WEBPACK_IMPORTED_MODULE_0__["createAction"])('TEST_STUDY');
 
 
 /***/ }),
@@ -431,18 +433,16 @@ var App = /** @class */ (function (_super) {
         };
         return _this;
     }
-    App.prototype.componentDidMount = function () {
-        console.log(this.refs.pure);
-    };
     App.prototype.getChildContext = function () {
         return { client: client };
     };
     App.prototype.render = function () {
         var girls = this.state.girls;
+        console.log('app render');
         return (react__WEBPACK_IMPORTED_MODULE_1__["createElement"](react_redux__WEBPACK_IMPORTED_MODULE_4__["Provider"], { store: _reducer__WEBPACK_IMPORTED_MODULE_6__["default"] },
             react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("div", null,
                 react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("h2", { onClick: this.checkHandle },
-                    react__WEBPACK_IMPORTED_MODULE_1__["createElement"](_pure__WEBPACK_IMPORTED_MODULE_9__["default"], { data: girls, ref: 'pure' })),
+                    react__WEBPACK_IMPORTED_MODULE_1__["createElement"](_pure__WEBPACK_IMPORTED_MODULE_9__["default"], { data: girls })),
                 react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("div", { id: 'edit', style: { height: 40, border: '1px solid blue', outline: 'none' }, contentEditable: true, dangerouslySetInnerHTML: { __html: '1111122222' } }),
                 react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("button", { style: { marginTop: 20, marginBottom: 20 }, onClick: this.addHandle }, "wrap"),
                 react__WEBPACK_IMPORTED_MODULE_1__["createElement"]("button", { style: { marginTop: 20, marginBottom: 20 }, onClick: this.delHandle }, "del"),
@@ -527,13 +527,14 @@ __webpack_require__.r(__webpack_exports__);
  * @file withApollo 有没有必要，是否应该自己获取 client
  */
 var mapStateToProps = function (state) {
-    return { list: state.list, user: state.user };
+    return { list: state.list, user: state.user, study: state.study };
 };
 var mapDispatchToProps = function (dispatch) {
     return {
         onAddList: function () { return dispatch(_actions__WEBPACK_IMPORTED_MODULE_4__["fetchData"]({ url: true })); },
         onAddUser: function () { return dispatch(_actions__WEBPACK_IMPORTED_MODULE_4__["fetchUser"]({ user: true })); },
-        onAddDb: function () { return dispatch(_actions__WEBPACK_IMPORTED_MODULE_4__["fetchDb"]({ server: false })); }
+        onAddDb: function () { return dispatch(_actions__WEBPACK_IMPORTED_MODULE_4__["fetchDb"]({ server: false })); },
+        onTestStudy: function (data) { return dispatch(_actions__WEBPACK_IMPORTED_MODULE_4__["testStudy"](data)); }
     };
 };
 // hooks + redux
@@ -550,14 +551,18 @@ var List = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     List.prototype.componentDidMount = function () {
-        // getPost(this.props.client, 1).then(res => console.log(res));
+        var onTestStudy = this.props.onTestStudy;
+        // 同不执行的 setState 是合并
+        onTestStudy({ topic: 1 });
+        onTestStudy({ user: 'qy' });
     };
     List.prototype.render = function () {
+        var _a = this.props, user = _a.user, study = _a.study;
         return (react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null,
             react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_hooks_container__WEBPACK_IMPORTED_MODULE_5__["default"], { list: this.props.list }),
             react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", null,
-                this.props.user,
-                "\u7FFB\u4F60\u7684\u6392"),
+                user,
+                JSON.stringify(study)),
             react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(Btnf, null),
             react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", { onClick: this.props.onAddUser }, "\u6DFB\u52A0 user"),
             react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", { onClick: this.props.onAddDb }, "\u6D4B\u8BD5 db")));
@@ -592,7 +597,7 @@ var PureComponent = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     PureComponent.prototype.render = function () {
-        console.log('change');
+        // console.log('child render')
         return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, "\u6709\u6CA1\u6709\u6211\u90FD\u65E0\u6240\u8C13");
     };
     return PureComponent;
@@ -611,9 +616,11 @@ var PureComponent = /** @class */ (function (_super) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var redux_saga__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-saga */ "./node_modules/redux-saga/dist/redux-saga-core-npm-proxy.esm.js");
-/* harmony import */ var _sagas__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./sagas */ "./src/redux/sagas.ts");
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var redux_saga__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux-saga */ "./node_modules/redux-saga/dist/redux-saga-core-npm-proxy.esm.js");
+/* harmony import */ var _sagas__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./sagas */ "./src/redux/sagas.ts");
+
 
 
 
@@ -652,15 +659,25 @@ function userReducer(state, action) {
             return state;
     }
 }
-var sagaMiddleware = Object(redux_saga__WEBPACK_IMPORTED_MODULE_1__["default"])();
-var reducers = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
+function studyReducer(state, action) {
+    if (state === void 0) { state = {}; }
+    switch (action.type) {
+        case 'TEST_STUDY':
+            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, action.payload);
+        default:
+            return state;
+    }
+}
+var sagaMiddleware = Object(redux_saga__WEBPACK_IMPORTED_MODULE_2__["default"])();
+var reducers = Object(redux__WEBPACK_IMPORTED_MODULE_1__["combineReducers"])({
     list: listReducer,
     type: typeReducer,
-    user: userReducer
+    user: userReducer,
+    study: studyReducer
 });
-var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(reducers, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(sagaMiddleware));
+var store = Object(redux__WEBPACK_IMPORTED_MODULE_1__["createStore"])(reducers, Object(redux__WEBPACK_IMPORTED_MODULE_1__["applyMiddleware"])(sagaMiddleware));
 // listen action
-sagaMiddleware.run(_sagas__WEBPACK_IMPORTED_MODULE_2__["default"]);
+sagaMiddleware.run(_sagas__WEBPACK_IMPORTED_MODULE_3__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (store);
 
 

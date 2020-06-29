@@ -23,10 +23,6 @@ class App extends React.Component {
     girls: []
   };
 
-  componentDidMount() {
-    console.log(this.refs.pure);
-  }
-
   getChildContext() {
     return { client };
   }
@@ -75,12 +71,13 @@ class App extends React.Component {
 
   render() {
     const { girls } = this.state;
+    console.log('app render')
 
     return (
       <Provider store={store}>
         <div>
           <h2 onClick={this.checkHandle}>
-            <Pure data={girls} ref='pure' />
+            <Pure data={girls} />
           </h2>
           <div
             id='edit'

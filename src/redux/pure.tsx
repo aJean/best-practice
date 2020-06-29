@@ -6,7 +6,7 @@ import React from 'react';
 
 export default class PureComponent extends React.PureComponent<any> {
   render() {
-    console.log('change')
+    // console.log('child render')
     return <div>有没有我都无所谓</div>;
   }
 }

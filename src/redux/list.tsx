@@ -9,14 +9,15 @@ import Container from '../hooks/container';
  */
 
 const mapStateToProps = (state) => {
-  return { list: state.list, user: state.user };
+  return { list: state.list, user: state.user, study: state.study };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onAddList: () => dispatch(actions.fetchData({ url: true })),
     onAddUser: () => dispatch(actions.fetchUser({ user: true })),
-    onAddDb: () => dispatch(actions.fetchDb({ server: false }))
+    onAddDb: () => dispatch(actions.fetchDb({ server: false })),
+    onTestStudy: (data) => dispatch(actions.testStudy(data))
   };
 };
 
@@ -32,14 +33,22 @@ const Btnf = (props) => {
 
 class List extends React.PureComponent<any, any> {
   componentDidMount() {
-    // getPost(this.props.client, 1).then(res => console.log(res));
+    const { onTestStudy } = this.props;
+
+    // 同不执行的 setState 是合并
+    onTestStudy({ topic: 1 });
+    onTestStudy({ user: 'qy' });
   }
 
   render() {
+    const { user, study } = this.props;
     return (
       <div>
         <Container list={this.props.list} />
-        <h1>{this.props.user}翻你的排</h1>
+        <h1>
+          {user}
+          {JSON.stringify(study)}
+        </h1>
         <Btnf />
         <button onClick={this.props.onAddUser}>添加 user</button>
         <button onClick={this.props.onAddDb}>测试 db</button>

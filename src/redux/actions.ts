@@ -21,3 +21,5 @@ export const fetchDb = createAction('FETCH_DB');
 export const fetchDbSucced = createAction('FETCH_DB_SUCCEEDED');
 
 export const fetchUDbFailed = createAction('FETCH_DB_FAILED');
+
+export const testStudy = createAction('TEST_STUDY');
