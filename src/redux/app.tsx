@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import * as PropTypes from 'prop-types';
-import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import ApolloClient from 'apollo-boost';
 import store from './reducer';
@@ -71,7 +71,13 @@ class App extends React.Component {
 
   render() {
     const { girls } = this.state;
-    console.log('app render')
+    // react element
+    console.log(React.createElement(ErrorCapture))
+
+    setTimeout(() => {
+      // react instance
+      console.log(this.refs.instanceEc)
+    }, 100)
 
     return (
       <Provider store={store}>
@@ -91,7 +97,7 @@ class App extends React.Component {
           <button style={{ marginTop: 20, marginBottom: 20 }} onClick={this.delHandle}>
             del
           </button>
-          <ErrorCapture>
+          <ErrorCapture ref="instanceEc">
             <List />
           </ErrorCapture>
         </div>
