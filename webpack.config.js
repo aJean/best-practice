@@ -23,9 +23,9 @@ config.optimization.minimize(false).splitChunks({
       test: /[\\/]node_modules[\\/]/,
       name: 'vendor',
       priority: 2,
-      minChunks: 1,
-    },
-  },
+      minChunks: 1
+    }
+  }
 });
 
 // entries
@@ -39,6 +39,7 @@ config.entry('redux').add('./src/redux/app.tsx');
 // config.entry('mobx-imitate').add('./src/mobx-imitate/app.ts');
 // config.entry('redux-imitate').add('./src/redux-imitate/app.tsx');
 // config.entry('router').add('./src/router/index.tsx');
+config.entry('screen').add('./src/screen/app.tsx');
 
 config.output.filename('[name].js').chunkFilename('[name].js').path(path.resolve(__dirname, 'dist/assets'));
 
@@ -69,7 +70,7 @@ less
   .loader('css-loader')
   .options({
     modules: true,
-    sourceMap: false,
+    sourceMap: false
   })
   .end();
 less.use('lessLoader').loader('less-loader').end();
@@ -77,9 +78,7 @@ less.use('lessLoader').loader('less-loader').end();
 // plugins
 config.plugin('miniLess').use(MiniCssExtractPlugin, [{ filename: '[name].css' }]);
 
-const css = config.module
-  .rule('css')
-  .test(/\.css$/);
+const css = config.module.rule('css').test(/\.css$/);
 
 css.use('miniExtract').loader(MiniCssExtractPlugin.loader).end();
 css.use('cssLoader').loader('css-loader').end();
@@ -106,12 +105,16 @@ config
   .plugin('html5')
   .use(HtmlWebpackPlugin, [{ filename: '../page/redux.html', template: 'template/page.html', chunks: ['redux'] }]);
 
+config
+  .plugin('html5')
+  .use(HtmlWebpackPlugin, [{ filename: '../page/screen.html', template: 'template/page.html', chunks: ['screen'] }]);
+
 config.plugin('progress').use(WebpackBar);
 
 config.stats({
   assets: true,
   modules: false,
-  timings: true,
+  timings: true
 });
 
 config.resolve.extensions.merge(['.mjs', '.js', '.json', '.ts', '.tsx']);

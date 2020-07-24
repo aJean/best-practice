@@ -35,6 +35,7 @@
     "graphql": "^14.0.2",
     "graphql-tag": "^2.10.0",
     "graphql-tools": "^4.0.3",
+    "html-screen-capture-js": "^1.0.47",
     "invariant": "^2.2.4",
     "jsplumb": "^2.8.0",
     "mongodb": "^3.5.2",
