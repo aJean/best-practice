@@ -73,6 +73,8 @@ class App extends React.Component {
     const { girls } = this.state;
     // react element
     console.log(React.createElement(ErrorCapture))
+    console.log(React.createElement('div'))
+    console.log(React.createElement(() => <div></div>))
 
     setTimeout(() => {
       // react instance

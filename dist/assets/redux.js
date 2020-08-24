@@ -441,6 +441,8 @@ var App = /** @class */ (function (_super) {
         var girls = this.state.girls;
         // react element
         console.log(react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_error_catch__WEBPACK_IMPORTED_MODULE_7__["default"]));
+        console.log(react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement('div'));
+        console.log(react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(function () { return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null); }));
         setTimeout(function () {
             // react instance
             console.log(_this.refs.instanceEc);
