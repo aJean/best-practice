@@ -1,0 +1,84 @@
+@import '/client/static/css/var.less';
+.searchbox {
+    height: 45px;
+    width: 100%;
+    background: #f4f4f5;
+    position: relative;
+    .searchbox-wrap {
+        display: block;
+        height: 39px;
+        border: 1px solid #dadada;
+        background-color: rgba(255,255,255,.9);
+        margin-right: 55px;
+        margin-left: 5px;
+        padding: 0 0 0 58px;
+    }
+    .searchthumb {
+        position: absolute;
+        left: 8px;
+        top: 3px;
+        height: 33px;
+        width:53px;
+        border: 1px solid #c9c9c9;
+        overflow: hidden;
+        .searchthumb-bg {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 33px;
+            height: 33px;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: auto 33px;
+        }
+        .searchthmub-close {
+            position: absolute;
+            display: inline-block;
+            width: 20px;
+            height: 33px;
+            right: 0;
+            top: 0;
+            font-size: 10px;
+            text-align: center;
+            line-height: 33px;
+            color: #999;
+        }
+    }
+    .searchbox-input {
+        .borderBox();
+        width: 100%;
+        height: 100%;
+        padding: 0 37px 0 2px;
+        border: none;
+        outline: 0;
+        -webkit-appearance: none;
+        .no-highlight();
+        vertical-align: top;
+        z-index: 0;
+    }
+    .searchbox-btn {
+        position: absolute;
+        top:0;
+        right: 5px;
+        width: 50px!important;
+        height: 41px;
+        padding: 0;
+        border: 1px solid #dadada;
+        border-left: 0;
+        border-radius: 0;
+        background: #fff;
+        color: #282828;
+        outline: 0;
+        -webkit-appearance: none;
+        z-index: 0;
+    }
+    .searchbox-clear {
+        position: absolute;
+        display: none;
+        top: 1px;
+        right: 56px;
+        width: 30px;
+        height: 39px;
+        z-index: 2;
+    }
+}

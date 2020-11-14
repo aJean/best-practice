@@ -1,0 +1,79 @@
+@import '/client/static/css/var.less';
+.shituvideo {
+    .shituvideo-body {
+        display: block;
+        padding: 15px;
+        overflow: hidden;
+    }
+    .shituvideo-img {
+        position: relative;
+        float: left;
+        img {
+            vertical-align: middle;
+        }
+        .shituvideo-total {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            height: 20px;
+            line-height: 20px;
+            font-size: @small-font;
+            background: rgba(0,0,0,.4);
+            color: #fff;
+            text-align: center;
+            em {
+                color: #ffea00;
+            }
+        }
+    }
+    .shituvideo-info {
+        position: relative;
+        height: 128px;
+        margin-left: 105px;
+        p {
+            margin-bottom: 4px;
+        }
+        .title {
+            .varLine(1);
+            font-size: 17px;
+            span {
+                display: inline-block;
+                padding: 1px 4px 2px;
+                margin: 2px 0 0 8px;
+                background: #3d8efb;
+                color: #fff;
+                line-height: 16px;
+                font-size: 11px;
+                border-radius: 2px;
+                vertical-align: top;
+            }
+        }
+        .des {
+            .varLine(1);
+            span {
+                margin: 0 10px;
+            }
+        }
+        .actor {
+            .varLine(1);
+        }
+        .from {
+            color: #979797;
+        }
+        .shituvideo-play {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 66px;
+            height: 27px;
+            padding: 0 0 0 20px;
+            border-radius: 2px;
+            border: 1px solid #e74151;
+            line-height: 27px;
+            background: url("/client/static/img/shituvideo-play.png") 8px center no-repeat;
+            background-size: 8px auto;
+            color: #e74151;
+        }
+    }
+}

@@ -1,0 +1,67 @@
+@import '/client/static/css/var.less';
+.appcamera {
+    position: absolute;
+    top: 2px;
+    right: 60px;
+    overflow: hidden;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    background: transparent;
+    .appcamera-ico {
+        position: relative;
+        width: 30px;
+        height: 39px;
+        text-align: center;
+        line-height: 39px;
+        font-size: 24px;
+        color: #999;
+    }
+    &:active .appcamera-ico {
+        opacity: 0.5;
+    }
+    .appcamera-file {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 30px;
+        height: 33px;
+        overflow: hidden;
+    }
+    .appcamera-invisible {
+        position: absolute!important;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+}
+
+// 上传遮罩层
+.cameramask {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hiden;
+    background: rgba(0, 0, 0, .8);
+    text-align: center;
+    color: #fff;
+    z-index: 999;
+    .cameramask-close {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        right: 15px;
+        top: 15px;
+        color: #fff;
+        text-align: center;
+        line-height: 24px;
+    }
+    .cameramask-process {
+        margin-top: 50%;
+    }
+    .cameramask-num {
+        margin-bottom: 20px;
+        font-size: 36px;
+    }
+}

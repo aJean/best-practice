@@ -1,0 +1,32 @@
+{
+  "name": "wiseshitu-client",
+  "version": "1.0.0",
+  "description": "client",
+  "repository": "ssh://qiaoyue@icode.baidu.com:8235/baidu/image-fe/wiseshitu",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "qiaoyue",
+  "license": "ISC",
+  "dependencies": {
+    "@types/react": "^15.0.21",
+    "@types/react-dom": "^0.14.23",
+    "@types/react-redux": "^4.4.38",
+    "@types/react-router": "^4.0.4",
+    "@types/react-router-dom": "^4.0.4",
+    "@types/redux": "^3.6.0",
+    "@types/redux-actions": "^1.2.4",
+    "@types/zepto": "^1.0.28",
+    "axios": "^0.16.1",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-redux": "^5.0.4",
+    "react-router": "^4.1.1",
+    "react-router-dom": "^4.1.1",
+    "redux": "^3.6.0",
+    "redux-actions": "^2.0.2",
+    "redux-promise": "^0.5.3",
+    "redux-thunk": "^2.2.0"
+  }
+}

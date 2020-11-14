@@ -1,0 +1,37 @@
+@import '/client/static/css/var.less';
+.shituimglayout {
+    overflow: hidden;
+    .shituimglayout-tab {
+        display: none;
+        position: relative;
+        margin: 0 15px;
+        font-size: 0;
+        span {
+            display: inline-block;
+            width: 50%;
+            height: 41px;
+            border-bottom: 1px solid #e0e0e0;
+            line-height: 41px;
+            font-size: 15px;
+            text-align: center;
+        }
+        span.active {
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 2px solid #e74151;
+        }
+        em {
+            position: absolute;
+            top: 14px;
+            left: 50%;
+            height: 13px;
+            width: 1px;
+            background: #d6d6d6;
+        }
+    }
+    .shituimglayout-loading {
+        height: 100px;
+        background: url(/client/static/img/waterLayout-load.gif) no-repeat center center;
+        background-size: 36px 20px;
+    }
+}

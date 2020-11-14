@@ -1,0 +1,116 @@
+@import '/client/static/css/var.less';
+.shituinfo {
+    border-bottom: 1px solid #d9d9da;
+    box-shadow: 0 1px 0 #eaeaeb;
+    background: #fff;
+    .shituinfo-main {
+        .flexBox();
+        -webkit-box-align: center;
+        padding: 10px 15px;
+    }
+    .shituinfo-img {
+        .flexCenter();
+        position: relative;
+        width: 105px;
+        height: 105px;
+        overflow: hidden;
+        background: #dfdfdf;
+        img {
+            max-height: 105px;
+            max-width: 105px;
+        }
+        span {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            color: #fff;
+            background: rgba(0,0,0,.8);
+        }
+    }
+
+    .shituinfo-info {
+        -webkit-box-flex: 1;
+        padding-left: 10px;
+    }
+
+    .shituinfo-link {
+        display: block;
+        max-height: 60px;
+        margin-bottom: 5px;
+        span {
+            max-height: 40px;
+            .varLine(1);
+        }
+        em {
+            color: #444;
+
+            .img-icon {
+                color: #999;
+                font-size: 12px;
+            }
+        }
+    }
+    .shituinfo-guess {
+        position: relative;;
+        height: 35px;
+        margin-top: 15px;
+        a {
+            display: inline-block;
+            height: 25px;
+            padding: 0 12px;
+            border-radius: 25px;
+            line-height: 25px;
+            color: #fff;
+            background: #ef4151;
+        }
+    }
+    .shituinfo-tip {
+        .flexBox();
+        line-height: 35px;
+        span {
+            display: inline-block;
+            width: 65px;
+            height: 26px;
+            border: 1px solid #cccccc;
+            border-radius: 3px;
+            margin:0 6px 0 0;
+            line-height: 26px;
+            text-align: center;
+        }
+    }
+    .shituinfo-logo {
+        .varLine(1);
+        a {
+            color: #e74151;
+        }
+    }
+    .shituinfo-bz {
+        float: left;
+        width: 67px;
+        height: 40px;
+        line-height: 40px;
+        background: url(/client/static/img/shituinfo-bz.png) no-repeat left center;
+        background-size: 67px;
+        font-size: @small-font;
+        color: #fff;
+        text-indent: 10px;
+    }
+    .shituinfo-noresult {
+        top: 25px;
+        bottom: auto;
+        border: 0;
+    }
+    .shitucard-same {
+        position: relative;
+        border: none;
+        margin: 0;
+        background-position: right 19px;
+        span {
+            margin: 4px 0 0 0;
+        }
+    }
+}

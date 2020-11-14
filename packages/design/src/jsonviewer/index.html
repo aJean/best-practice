@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>JSON View</title>
+    <style>
+      body {
+        font-family: Roboto, 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+        margin: 0;
+        font-size: 1rem;
+        -webkit-font-smoothing: antialiased;
+      }
+      .html-console {
+        padding: 20px;
+      }
+      .json-key {
+        color: #363536;
+        font-weight: bold;
+      }
+      .json-null {
+        color: #f1592a;
+        font-weight: bold;
+      }
+      .json-string {
+        color: #3ab54a;
+        font-weight: bold;
+      }
+      .json-number {
+        color: #25aae2;
+        font-weight: bold;
+      }
+      .json-boolean {
+        color: #f98280;
+        font-weight: bold;
+      }
+      .json-error {
+        color: #fa3232;
+        font-weight: bold;
+      }
+      .json-expand,
+      .json-collapse {
+        font-style: normal;
+        font-weight: 700;
+        color: rgb(35, 137, 233);
+        cursor: pointer;
+      }
+
+      .json-collapse {
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      (function() {
+        const toString = Object.prototype.toString;
+
+        function isPlainObject(value) {
+          if (!value || typeof value !== 'object' || {}.toString.call(value) != '[object Object]') {
+            return false;
+          }
+          var proto = Object.getPrototypeOf(value);
+          if (proto === null) {
+            return true;
+          }
+          var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
+          return (
+            typeof Ctor == 'function' &&
+            Ctor instanceof Ctor &&
+            Function.prototype.toString.call(Ctor) === Function.prototype.toString.call(Object)
+          );
+        }
+
+        function indent(count) {
+          // return new Array(count + 1).join('&nbsp;&nbsp;&nbsp;&nbsp;');
+          return `<span style="margin-left:${count * 20}px"></span>`;
+        }
+
+        function format(data, indentCount) {
+          let html = '';
+
+          switch (toString.call(data)) {
+            case '[object Null]':
+              0;
+              html = '<span class="json-null">null</span>';
+              break;
+            case '[object Boolean]':
+              html = `<span class="json-boolean">${data}</span>`;
+              break;
+            case '[object Number]':
+              html = `<span class="json-number">${data}</span>`;
+              break;
+            case '[object String]':
+              html = `<span class="json-string">"${data}"</span>`;
+              break;
+            case '[object Array]':
+              html = formatArray(data, indentCount);
+              break;
+            case '[object Object]':
+              html = formatObject(data, indentCount);
+              break;
+          }
+          return html;
+        }
+
+        function formatArray(array, count) {
+          const result = array.map(function(data) {
+            return indent(count) + format(data, count + 1);
+          });
+
+          return `<span>
+            [ <i class="json-collapse" onclick="collapse(this)" data-type="array" data-length="${array.length}">-</i>
+            <br/>${result.join(',<br/>')}<br/>${indent(count - 1)}]
+          </span>`;
+        }
+
+        function formatObject(object, count) {
+          const keys = Object.keys(object);
+          const result = keys.map(function(key) {
+            return `${indent(count)}<span class="json-key">"${key}"</span>: ${format(object[key], count + 1)}`;
+          });
+
+          return `<span>
+        { <i class="json-collapse" onclick="collapse(this)" data-type="object" data-length="${keys.length}">-</i>
+          <br/>${result.join(',<br/>')}<br/>${indent(count - 1)}
+        }
+      </span>`;
+        }
+
+        const htmlConsole = (function() {
+          const div = document.createElement('div');
+          div.className = 'html-console';
+          document.body.append(div);
+
+          return function(code) {
+            div.innerHTML = code;
+          };
+        })();
+
+        window.showJson = function(data) {
+          try {
+            const temp = isPlainObject(data) ? data : JSON.parse(data);
+            const view = format(temp, 1);
+
+            htmlConsole(view);
+          } catch (e) {
+            htmlConsole(`<span class="json-error">传入数据的格式错误</span>`);
+          }
+        };
+
+        window.collapse = function(node) {
+          const parent = node.parentNode;
+          const type = node.getAttribute('data-type');
+          const len = node.getAttribute('data-length');
+
+          parent.setAttribute('data-inner', parent.innerHTML);
+
+          if (type === 'array') {
+            parent.innerHTML = `[ <i class="json-expand" onclick="expand(this)" data-type="array">${len}</i> ... ]`;
+          } else {
+            parent.innerHTML = `{ <i class="json-expand" onclick="expand(this)" data-type="object">${len}</i> ... }`;
+          }
+        };
+
+        window.expand = function(node) {
+          const parent = node.parentNode;
+          parent.innerHTML = parent.getAttribute('data-inner');
+        };
+      })();
+
+      showJson({ success: true, name: 'qiaoyue', children: { name: 'qiaoyue2', list: [22, 15] } });
+    </script>
+    <script src="console.js"></script>
+  </body>
+</html>

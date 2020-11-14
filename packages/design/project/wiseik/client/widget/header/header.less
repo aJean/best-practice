@@ -1,0 +1,45 @@
+@import '/client/static/css/var.less';
+.shituheader {
+    .shituheader-home {
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        left: 15px;
+        top: 12px;
+        font-size: 24px;
+        text-align: center;
+        line-height: 25px;
+        color: #333;
+    }
+}
+// 上传遮罩层
+.cameramask {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hiden;
+    background: rgba(0, 0, 0, .8);
+    text-align: center;
+    color: #fff;
+    z-index: 999;
+    .cameramask-close {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        right: 15px;
+        top: 15px;
+        color: #fff;
+        text-align: center;
+        line-height: 24px;
+    }
+    .cameramask-process {
+        margin-top: 50%;
+    }
+    .cameramask-num {
+        margin-bottom: 20px;
+        font-size: 36px;
+    }
+}

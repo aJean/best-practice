@@ -1,0 +1,47 @@
+{
+  "name": "design",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "@types/chai": "^4.1.6",
+    "chai": "^4.2.0",
+    "css-loader": "^4.2.2",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "inversify": "^5.0.1",
+    "reflect-metadata": "^0.1.13",
+    "less": "^3.9.0",
+    "less-loader": "^4.0.5",
+    "snabbdom": "^0.7.0",
+    "snabbdom-jsx": "^0.4.2",
+    "style-loader": "^0.18.2",
+    "webpack": "^4.28.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.4",
+    "@babel/plugin-proposal-decorators": "^7.10.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
+    "@babel/preset-typescript": "^7.10.4",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-parameter-decorator": "^1.0.16",
+    "babel-plugin-transform-class-properties": "^6.24.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aJean/design.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aJean/design/issues"
+  },
+  "homepage": "https://github.com/aJean/design#readme"
+}

@@ -1,0 +1,109 @@
+@import '/client/static/css/var.less';
+
+.shitusource {
+    ul {
+        li {
+            position: relative;
+            padding: 15px 15px 0;
+        }
+    }
+    .shitusource-img {
+        .flexCenter();
+        position: absolute;
+        left: 15px;
+        top: 15px;
+        width: 90px;
+        height: 90px;
+        background: #dfdfdf;
+        img {
+            display: inline-block;
+            max-width: 100%;
+            max-height: 100%;
+            vertical-align: middle;
+        }
+    }
+    .shitusource-link {
+        display: block;
+        width: 100%;
+        height: 105px;
+        border-bottom: 1px solid #e0e0e0;
+        overflow: hidden;
+    }
+    .shitusource-qsearch strong {
+        color: #e74151;
+    }
+    .shitusource-info {
+        position: relative;
+        margin-left: 100px;
+        overflow: hidden;
+        strong {
+            font-weight: 400;
+        }
+        h4 {
+            .varLine(2);
+        }
+        p {
+            margin-top: 6px;
+            .singleLine();
+        }
+        .shitusource-site {
+            color: #919191;
+            font-size: @small-font;
+            em {
+                position: absolute;
+                right: 0;
+            }
+        }
+        .shitusource-zx {
+            display: inline-block;
+            padding: 1px 4px 2px;
+            border-radius: 2px;
+            margin: 2px 0 0 5px;
+            background: #3d8efb;
+            color: #fff;
+            font-size: 11px;
+            line-height: 16px;
+            vertical-align: top;
+        }
+    }
+
+    .shitusource-setTitle {
+        .flexBox();
+        a {
+            .flexBox();
+            span {
+                .varLine();
+                font-size: 17px;
+            }
+            em {
+                display: inline-block;
+                margin: 2px 0 0 5px;
+                padding: 1px 4px 2px;
+                border-radius: 2px;
+                background: #3d8efb;
+                color: #fff;
+                font-size: 11px;
+                line-height: 16px;
+                vertical-align: top;
+            }
+        }
+    }
+    .shitusource-setList {
+        display: none;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #e0e0e0;
+        margin: 8px 0 0 -5px;
+        a {
+            .flexNum(1);
+            width: 0;
+            margin-left: 5px;
+            overflow: hidden;
+        }
+    }
+    .shitusource-more {
+        display: block;
+        padding: 0 15px;
+        line-height: 40px;
+        text-align: right;
+    }
+}
